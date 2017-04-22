@@ -1,2 +1,39 @@
-\section{Kihívás-válasz szolgáltatások}
+\section{Képfeldolgozó megoldások kihívás-válasz implementálására}
+\subsection{Alapok}
+A kihívás - válasz megoldások célja a felhasználó-hitelesítés és -azonosítás valósidejűségének ellenőrzése, nélküle a természetes és virtuális személy összehasonlítása után ( amennyiben a két képen található arc megfelelő valószínűséggel azonos emberhez tartozik ) , az authentikációt elfogadottnak vesszük.
+Gondoljunk bele ennek a megoldásnak a sebezhetőségeibe. A legegyszerűbb feltörése a rendszernek, ha az elektronikus személyi igazolvánnyal történő azonosítás után a kamera elé helyezzük az igazolványt, képpel kamerának nézve. A használt képfeldolgozó szoftver nagy valószínűséggel fel fogja ismerni a képet, és magas százalékos valószínűséget fog dobni az összetartozóságra. Ennek a verziónak a sebezhetőségén kiívánunk javítani kihívás - válasz megoldás implementálásával.
+\subsection{Kihívás - válasz első gondolatok}
+Ennek a szakdolgozatnak célja nem különböző képfeldolgozó eszközök létrehozása, ami alapján ezeket a kihívásokat értékelni tudjuk. Leginkább publikusan elérhető third party lehetőségeket felkutatása volt a cél, amelyek önállóan tudnak feldolgozni képet vagy videót, majd bizonyos felismert tulajdonságokkal visszatérni a rendszerhez. Ezután ezeket a válaszokat feldolgozva eldönthető, hogy a bejelentkezést engedjük vagy megtagadjuk.
+Alapvetően két típust különböztetünk meg elérhetőség szempontjából
+\begin{itemize}
+\item online
+\item offline
+\end{itemize}
+Egy másik fajta osztályozás pedig működés szempontjából lehetséges
+\begin{itemize}
+\item implementálja a kihívás - válasz protokollt, így video-streamből egy igen/nem választ, esetleg egy százalékos valószínűséget ad
+\item képfeldolgozó könyvtár / api, ami kép-et vár kérésben, válaszban pedig a ennek valamilyen felismert tulajdonságaival tér vissza. Ezután nekünk kell eldönteni hogy elfogadjuk-e az adott kihívásra érkezett választ
+\end{itemize}
+
+Az első komoly nehézség rögtön adja magát : amennyiben online megoldást választunk, az komoly adatforalommal, és emiatt késleltetéssel járhat, pedig egy authentikációnál a gyorsaság nem elhanyagolható. Másik gyorsasági tényező az adott könyvtár/API képfeldolgozási sebessége különböző méretű/sebességű képek esetén. Ezt a feldolgozási időt drasztikusan csökkenteni lehet a képek méretének (és ezzel minőségének csökkentésével), de ez esetben komoly kérdés marad a képfeldolgozás minősége. Másik megoldás lehet a képek szürkeárnyalatossá alakítása, ezzel a képfeldolgozás sikeressége lehetséges hogy kevésbé fog csökkenni mint egy sima tömörítésnél, de a méretet csökkentheti.
+\\A képek mérete és ezzel a felhasznált sávszélesség, illetve sebesség két helyen számít. Először amikor a felhasználó eszköze (jelen esetben android okostelefon) rögzíti a videót, kiválaszt belőle valamennyi képkockát, majd továbbítja az azonosítást végző szervernek. Ezután pedig amikor ez a szerver továbbküldi egy third party alkalmazásnak. Jól látható, hogy a legkevesebb adatforgalommal az jár, ha már a felhasználó telefonján transzformációkat (tömörítés, szürkeárnyalatossá konvertálás) hajtunk végre. Ezzel a megközelítéssel a probléma viszont a felhasználói eszközök sokszínűsége: Különböző erősségű telefonok különböző gyorsasággal tudják ezeket az alapvetően költséges műveleteket végrehajtani, szélsőséges esetben el is fogyhat a telefon alól a memória, ami az alkalmazás leállásához is vezethet.
+\\Kézenfekvőnek látszódhat a költséges műveletek szerver oldalra való átcsoportosítása, hiszen ott a teljesítményt sokal hatékonyabban tudjuk maximalizálni, monitorozni, végső esetben pedig több erőforrást adni. Ám ez esetben pedig egy erős minőségű kamerával készített pár másodperces videó komoly adatforgalommal járna, ami mobilnet esetében kifejezetten kerülendő.
+Ezeket a kérdéseket mindenképp körül kell járni a tesztelés szakaszában, és a legoptimálisabbat megtalálni.
+\\Összegezve  a fenti gondolatokat a következőket érdemes feljegyezni:
+
+\begin{center}
+	\begin{tabular}{|p{2cm}|p{3cm} |p{3cm} | p{3cm}|p{3cm}|}
+   	\hline
+	\textbf{Kép transzformációk helye} & \textbf{Sebesség} & \textbf{Adatforgalom} & \textbf{Képfeldolgozás minősége} &\textbf{ Hibalehetőségek} \\ \hline
+	Nincs transzformáció & Adatforgalom sebessége & Legnagyobb & Legjobb & Kevés \\ \hline
+	Felhasználó eszközén & Felhasználó eszközének minőségétől függ, plusz kétszeresen csökkentett adatforgalom sebessége & Legalacsonyabb & Képfeldolgozó szolgáltatás minőségétől függ & Ha gyenge a felhasználó eszköze, az alkalmazás nagyon lelassulhat, esetleg le is állhat \\ \hline
+	Alkalmazás-szerveren & Egyszeresen csökkentett adatforgalom sebessége, plusz a szerver transzformációinak sebessége & Felhasználó szempontjából legnagyobb & Képfeldolgozó szolgáltatás minőségétől függ & Kevés\\ \hline
+	\end{tabular}
+\end{center}
+
+A szakdolgozat keretein belül a második esetet, tehát a felhazsnáló eszközén történő transzformációt valósítottuk meg. A tesztelés feladata lesz a megfelelő paraméterek beállítása a képtömörítéshez, hogy a minimalizáljuk azt az adatmennyiséget illetve sebességet ami az adott képfeldolgozó eszköz megbízható működéséhez még szükséges.
+
+\subsection{Képfeldolgozó eszközök}
+Több online illetve offline képfeldolgozási lehetőséget vizsgáltunk meg, ezeknek egy része számunkra jelenleg nem használható, vagy használata nem fér bele a szakdolgozat kereteibe. A jelenlegi kihívás - válasz megoldásunk arc jobbra illetve balra fordulását keresi, így elsősorban erre kihegyezve jegyeztük fel a talált lehetőségeket, de a jövőbeni fejlesztéseket szem előtt tartva más kihívás - válasz megoldásokra való használhatóságot is figyeltünk.
+
 \newpage
