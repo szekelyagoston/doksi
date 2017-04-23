@@ -60,7 +60,7 @@ Az eredmények: \\
  \end{minipage}
 \end{figure}
 
-Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb minőségromlás esetén. A feltöltendő képeket az eredeti ~500kb-ról ~40kb-ra csökkentettem, a minőségromlás szemmel látható. Hasonlítsuk össze az erre a két képre adott eredményt (3.ábra, és 4.ábra)
+Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb minőségromlás esetén. A feltöltendő képeket az eredeti ~500kb-ról ~40kb-ra csökkentettem, a minőségromlás szemmel látható. Hasonlítsuk össze az erre a két képre adott eredményt (3.ábra, 4.ábra)
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
     \includegraphics[scale=0.3]{img/cloud_vision_left_compressed}
@@ -83,9 +83,73 @@ A mesterséges intelligencia témakörében a legtöbb embernek először az IBM
 \item felimseri az arcokat, és visszadja a pozíciókat, életkort tippel (minimum és maximum értékkel), illetve a felismert arc nemét állapítja meg.
 \end{itemize}
 
-A dokumentációban\cite{WATSON_DETECT} mélyebbre ásva sem lehet találni semmi olyan visszadaott értéket, ami az arcelforduláshoz segítséget adna, így megállapítható hogy nem lesz segítségünkre ez az API.
+A dokumentációban\cite{WATSON_DETECT} mélyebbre ásva sem lehet találni semmi olyan visszaadott értéket, ami az arcelforduláshoz segítséget adna, így megállapítható hogy nem lesz segítségünkre ez az API.
 
 Arcösszehasonlítás szempontból is érdemes lehet megvizsgálni a Collections BETA\cite{WATSON_COLLECTIONS} verzióban lévő API-ját. A működési mechanizmus nagyon hasonló más collections típusú arcösszehasonlítást tartalmazó szolgáltatásokhoz. Először hozzáadjuk a képet egy általunk választott gyűjteményhez, majd egy már feltöltött képhez hasonlóakat tudunk keresni egy adott gyűjteményben. Ez a megoldás akár segíthet is arcösszehasonlításban, de ez esetben minden regisztráció után a képet egy új gyűjteményben kéne elhelyezni, majd ebben a gyűjteményben keresni később, ám nem erre lett elsősorban létrehozva ez a service. Az alapötlet az, hogy metadata adatokat lehet csatolni a feltöltött képekhez (pl.: név), így például egy visszatérő felhasználót név szerint tudnánk már szólítani. Ráerőltethető valamilyen szinten az összehasonlítás is, de elsősorban olyan szolgáltatást kéne keresni, ami két képről dönti el hogy egyeznek-e, és a képeket se kelljen tárolni harmadik félnél. Ezek alapján az IBM Watson ezen megoldását elvethetjük.
 
+\subsubsection{Google Mobile Vision}
+A Google Mobile Vision\cite{GMV} egy offline, iOS illetve Android eszközökön futó arcfelismerő szolgáltatás. Óriási előny hogy offline, viszont hátrány hogy nem portolható át szerveroldalra, így önmagában nem használható a mi céljainkra. Érdemes ugyan megfontolni azt, hogy jelenlegi működés alapján egy több másodperc hosszú videoból kiválasztunk N darab képkockát, és azt továbbítjuk a szervernek. Ha pontosan tudnánk, hogy a felhasználó mikortól, meddig mozdította a fejét, akkor a felküldendő képkockák mennyiségét csökkenteni lehetne, illetve későbbi precízebb felismerést (pl.: pislogásfelismeréshez egy nagyon kicsi intervallumban sok kép szükséges a gesztikuálció gyorsaságából adódóan) is segíthetünk, ha tudjuk hogy a hosszabb intervallumban hol található pontosan a számunkra érdekes részlet.
+\\Problémát okozhat viszont ebben az esetben a telefonok minősége, és így a feldolgozás gyorsasága. Meg kell találni azt a határt, ahol már nem érdemes előfeldolgozni a képeket, mert több időbe telne, mint feldolgozás nélkül küldeni válogatás nélkül.
+\begin{figure}[h]
+  \includegraphics[scale=0.5]{img/gmv}
+    \caption{A Google Moblie Vision által felismert elfordulási szögek (X tengely egyelőre inaktív)  \cite{GMV_ANGLES}}
+\end{figure}
+
+\subsubsection{Microsoft Project Oxford}
+A Microsoft fejlesztése első ránézésre is biztatónak tűnik, többek között példakódot is publikáltak C\# nyelven, ami egy videóról folyamatosan jelzi hogy a megjelenő arcok merrefele néznek, illetve arc összehaonlítást is biztosít számunkra. Összegezzük mit tud az a szolgáltatás:
+\begin{itemize}
+\item arcfelismerő modulja visszaadja a felismert arcokat, és egy téglalapot illeszt rájuk.
+\item visszadja többek között a szemek, pupillák, orr pozícióját.
+\item életkort és nemet tippel.
+\item visszaadja a fej pozícióit (elfordulás). Ami nekünk itt fontos, az a "yaw" tulajdonság értéke. Ez adja meg hogy merre fordul a felismert arc.
+\item a felsmerhető érzelmekre ad egy százalékos valószínűséget (megleptés, harag, stb.)
+\item arcösszehasonlító modulja pedig két arcról megállapítja, hogy mekkora valószínűséggel tartoznak ugyanahhoz a fizikai személyhez
+\end{itemize}
+\begin{figure}[h]
+\centering
+  \includegraphics[scale=2]{img/roll_yaw_pitch}
+    \caption{A Microsoft által használt fogalmak a fej elfordulására \cite{roll_yaw_pitch}}
+\end{figure}
+
+Ezek alapján megállapítható, hogy a Microsoft Face API-ja minden fontos tulajdonságot biztosít számunkra, már csak azt kell megnézni, milyen minőségűek ezek a válaszok, mennire megbízható ez a szolgáltatás. Vizsgáljuk meg a Google Cloud Vision-nél használt képekkel a feldolgozás minőségét különböző minőségű képek esetén.
+
+\begin{figure}[h]
+ \begin{minipage}{.5\textwidth} 
+    \includegraphics[scale=0.3]{img/mpo_left}
+    \caption{Balra néző kép, 21.8 fokos \newline elfordulás}
+ \end{minipage}
+ \begin{minipage}{.5\textwidth} 
+     \includegraphics[scale=0.3]{img/mpo_very_left}
+     \caption{Balra néző kép, 15 fokos elfordulás}
+ \end{minipage}
+\end{figure}
+
+Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb minőségromlás esetén. A feltöltendő képeket az eredeti ~500kb-ról ~40kb-ra csökkentettem, a minőségromlás szemmel látható. Hasonlítsuk össze az erre a két képre adott eredményt (3.ábra, 4.ábra)
+\begin{figure}[h]
+ \begin{minipage}{.5\textwidth} 
+    \includegraphics[scale=0.3]{img/mpo_left_compressed}
+    \caption{Balra néző tömörített kép, 21.8 fokos elfordulás}
+ \end{minipage}
+ \begin{minipage}{.5\textwidth} 
+     \includegraphics[scale=0.3]{img/mpo_very_left_compressed}
+     \caption{Balra néző tömörített kép, 19.5 fokos elfordulás}
+ \end{minipage}
+\end{figure}
+
+Jól látható, hogy ez az API nem képes olyan széles elfordulás-tartományban dolgozni mint a már vizsgált Google Cloud Vision. Amennyiben mindkét szem nem látszódik, az orr illesztése rossz helyre kerül és láthatóan az alapján próbálja a másik szemet illeszteni, ami teljesen hibás elfordulás eredményeket ad. Amennyiben kisebb elfordulás elegendő a kihívás-válasz implementációjához úgy amíg a keresett elfordulás még bőven a megbízhatóan felismert elfordulástartományon belül van, nem fog problémát okozni a nagy elfordulás esetén mutatott pontatlanság. Mivel ennek a szolgáltatásnak létezik arcösszehasonlító megoldása, mindenképp érdemes azt is megvizsgálni, hogy mindkét modul azonos szolgáltatáshoz tartozzon.
+
+\begin{figure}[h]
+ \begin{minipage}{.5\textwidth} 
+    \includegraphics[scale=0.3]{img/mpo_compare}
+    \caption{Közepes mértékű elfordulás}
+ \end{minipage}
+ \begin{minipage}{.5\textwidth} 
+     \includegraphics[scale=0.3]{img/mpo_compare_failed}
+     \caption{Nagy mértékű elfordulás esetén nem megbízható}
+ \end{minipage}
+\end{figure}
+
+Jól látható, hogy az elfordulás mértéke drasztikusan befolyásolja az összehasonlítás megbízhatóságát. Ez még nem feltétlen probléma. A kihívás-válasz lefutása alapján nagy valószínűséggel lesz olyan képkockánk is, amikor a felhasználó a kamerába néz, így érdemes lenne nem csak maximum elfordulást keresni, hanem egy minimumot is egy bizonyos küszöbszám alatt. Ennek segítségével tudnánk mindenképpen olyan képet küldeni összehasonlításra az igazolványképpel, ami kamerába néz, megkönnyítve a képfeldolgozó szolgáltatás dolgát.
+A Microsoft Face API-t megvizsgálva megállapítható, hogy minden számunkra szükséges funkcióval rendelkezik, azokat kellő körültekintéssel használva megbízható eredményeket kapunk. Ezért ezt érdemes beépíteni a szakdolgozat keretein belül.
 
 \newpage
