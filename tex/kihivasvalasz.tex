@@ -73,7 +73,7 @@ Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb 
 \end{figure}
 
 Jól látható, hogy jelentős méretcsökkentésre a feldolgozás megbízhatósága 95\%-ról 93\%-ra változott abban az esetben amikor a célszemély csak egyik szeme látszódik, a visszadaott tulajdonságok pedig nagyvonalakban megyegyeznek. 
-Az eredmények láttán megállapítható, hogy a Google Cloud Vision széles skálán érzékeli az elfordulást, még akkor is, amikor a célszemély egyik szeme látszódik csak, és tömörítésre sem érzékeny.
+Az eredmények láttán megállapítható, hogy a Google Cloud Vision széles skálán érzékeli az elfordulást, még akkor is, amikor a célszemély egyik szeme látszódik csak (ugyan ilyenkor az arc tulajdonságainak illesztése nem pontos, de az elfordulás mértéke nagyvonalakban megfelel), és tömörítésre sem érzékeny.
 \\A probléma, hogy önmagában ez az API kevés lenne az elvárt működés implemetálására, mivel arcösszehaonlítást nem tartalmaz. Így ha mégis a használat mellett döntünk, az összehasonlító modult egy másik eszközzel kell megoldani.
 
 \subsubsection{IBM Watson}
@@ -152,7 +152,7 @@ Utolsó online megoldásként a Face++ szolgáltatását vizsgáltuk meg, amit t
 \subsubsection{Egyéb vizsgált lehetőségek}
 
 \begin{itemize}
-\item mesterséges intelligencia függvénytárak (Dlib, opencv) offline saját megoldásra jó opciónak tűnnek, ám ezek megismerése és használata hosszabb időt igényel minthogy beleférjen a szakdolgozat keretébe. Bemutató videók alapján akár szemmozgás, pislogás felismerésére is használható, hosszútávon mindenképpen megfontolandó ennek használata/beépítése
+\item mesterséges intelligencia függvénytárak (Dlib, opencv) offline saját megoldásra jó opciónak tűnnek, ám ezek megismerése és használata hosszabb időt igényel minthogy beleférjen a szakdolgozat keretébe. Bemutató videók alapján akár szemmozgás, pislogás felismerésére is használható, hosszútávon mindenképpen megfontolandó ennek használata/beépítése.
 \item BioID regisztráióhoz kötött, de ingyenes. Minimum két kép feltöltésével jelenlét ellenőrzést kínál hangsúlyozva, hogy jelenleg könnyen kijátszható a rendszer. Kihívás - válasz kritérium csatolható a kéréshez, ilyenkor ennek is meg kell felelni (arcelfordítás, akár egymás után többször is). Ez a működés szerinti csoportosításnak az a fele, amelyik saját maga implementálja a kihívást.
 \item Lambda Labs Face Recognition API egyik számunkra szükséges modulhoz sem nyújt segítséget.
 \item FaceR szintén nem nyújt segítséget számunkra.
@@ -160,4 +160,18 @@ Utolsó online megoldásként a Face++ szolgáltatását vizsgáltuk meg, amit t
 
 \subsection{Választott megoldások}
 Összegezve a különböző szolgáltatásokról gyűjtött adatokat a következő összefoglalást készíthetjük:
+\begin{center}
+	\begin{tabular}{|p{3cm}|p{2cm} |p{2cm} | p{3cm}|p{3cm}|}
+   	\hline
+	\textbf{Szolgáltatás neve} & \textbf{Online / Offline} & \textbf{Szükséges modulok megléte} & \textbf{Képfeldolgozás minősége} &\textbf{ Összehasonlítás minősége} \\ \hline
+	Google Cloud Vision & Online & Arc elfordulás & Széles skálán érzékeli az elfordulást tömörítés esetén is & Nincsen \\ \hline
+	IBM Watson & Online & Egyik se & Nincsen & Nincsen \\ \hline
+	Microsoft Project Oxford & Online & Mindkettő & Közepes mértékű elfordulásig tömörítés esetén is megfelelő & Közepes mértékű elfordulásig tömörítés esetén is megfelelő\\ \hline
+	Face++ & Online & Mindkettő & Tesztelni kell, nincsen online felülete & Tesztelni kell, nincsen online felülete \\ \hline
+	Google Mobile Vision & Offline (csak iOS és Android) & Arc elfordulás & Tesztelni kell, nincsen online felülete & Nincsen \\ \hline
+	\end{tabular}
+\end{center}
+
+Ezek alapján a Microsoft Project Oxford és a Face++ beépítése illetve tesztelése mellett döntöttünk a szakdolgozat keretein belül.
+
 \newpage
