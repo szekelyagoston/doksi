@@ -34,6 +34,58 @@ Ezeket a kérdéseket mindenképp körül kell járni a tesztelés szakaszában,
 A szakdolgozat keretein belül a második esetet, tehát a felhazsnáló eszközén történő transzformációt valósítottuk meg. A tesztelés feladata lesz a megfelelő paraméterek beállítása a képtömörítéshez, hogy a minimalizáljuk azt az adatmennyiséget illetve sebességet ami az adott képfeldolgozó eszköz megbízható működéséhez még szükséges.
 
 \subsection{Képfeldolgozó eszközök}
-Több online illetve offline képfeldolgozási lehetőséget vizsgáltunk meg, ezeknek egy része számunkra jelenleg nem használható, vagy használata nem fér bele a szakdolgozat kereteibe. A jelenlegi kihívás - válasz megoldásunk arc jobbra illetve balra fordulását keresi, így elsősorban erre kihegyezve jegyeztük fel a talált lehetőségeket, de a jövőbeni fejlesztéseket szem előtt tartva más kihívás - válasz megoldásokra való használhatóságot is figyeltünk.
+Több online illetve offline képfeldolgozási lehetőséget vizsgáltunk meg, ezeknek egy része számunkra jelenleg nem használható, vagy használata nem fér bele a szakdolgozat kereteibe. A jelenlegi kihívás - válasz megoldásunk arc jobbra illetve balra fordulását keresi, illetve a két arc összetartozóságát állapítja meg, így elsősorban erre kihegyezve jegyeztük fel a talált lehetőségeket, de a jövőbeni fejlesztéseket szem előtt tartva más kihívás - válasz megoldásokra való használhatóságot is figyeltünk.
+\subsubsection{Google Cloud Vision}
+A Google Cloud Vision API \cite{GoogleCloudVision} A Google Cloud Platform Machine Learning moduljában található többek között a Cloud Speech API, és Cloud Translation API -val. Külön érdekes lehet számunkra hosszútávon a Cloud Video Itelligence API, ami jelenleg Private Beta státuszban van.
+\\A számunkra érdekes Vision API egy képről az alábbi tulajdonságokat képes megállapítani:
+\begin{itemize}
+\item Különböző tárgyakat, élőlényeket, objektumokat ismer fel a képen és pozicionál
+\item Tartalom moderálásra használható, szűrhet felnőtt, hamisított, erőszakos tartalomra vagy orvosi részleteket tartalmazó részekre (amik szintén rossz hatással lehetnek arra fel nem készült személyek számára)
+\item Hasonló képeket keres az interneten, így például egy arcról eldönthet, hogy melyik celebre hasonlít a legjobban
+\item Visszadja a felismert képeket minden tulajdonságukkal (szemöldök, száj pozíciók, stb.), illetve a felismert érzelmeket
+\end{itemize}
+
+Az utolsó pontot tudjuk mi ez esetben kihasználni, mégpedig a visszadaott arc pozícióját, ami a Roll, Tilt, Pan hármasból a Pan.
+\\Nagyon fontos a különböző API-k vizsgálatakor, hogy mekkora elfordulásig ismerik fel az arcokat a képen. Első tesztnek 3 képet használtam, egy kamera felé nézőt, egy picit elfordítottat és egy nagyon elfordítottat (ebben az esetben csak 1 szem látszódik).
+Az eredmények: \\
+
+\begin{figure}[h]
+ \begin{minipage}{.5\textwidth} 
+    \includegraphics[scale=0.3]{img/cloud_vision_left}
+    \caption{Balra néző kép, 25 fokos elfordulás}
+ \end{minipage}
+ \begin{minipage}{.5\textwidth} 
+     \includegraphics[scale=0.3]{img/cloud_vision_very_left}
+     \caption{Balra néző kép, 52 fokos elfordulás}
+ \end{minipage}
+\end{figure}
+
+Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb minőségromlás esetén. A feltöltendő képeket az eredeti ~500kb-ról ~40kb-ra csökkentettem, a minőségromlás szemmel látható. Hasonlítsuk össze az erre a két képre adott eredményt (3.ábra, és 4.ábra)
+\begin{figure}[h]
+ \begin{minipage}{.5\textwidth} 
+    \includegraphics[scale=0.3]{img/cloud_vision_left_compressed}
+    \caption{Balra néző tömörített kép, 25 fokos elfordulás}
+ \end{minipage}
+ \begin{minipage}{.5\textwidth} 
+     \includegraphics[scale=0.3]{img/cloud_vision_very_left_compressed}
+     \caption{Balra néző tömörített kép, 51 fokos elfordulás}
+ \end{minipage}
+\end{figure}
+
+Jól látható, hogy jelentős méretcsökkentésre a feldolgozás megbízhatósága 95\%-ról 93\%-ra változott abban az esetben amikor a célszemély csak egyik szeme látszódik, a visszadaott tulajdonságok pedig nagyvonalakban megyegyeznek. 
+Az eredmények láttán megállapítható, hogy a Google Cloud Vision széles skálán érzékeli az elfordulást, még akkor is, amikor a célszemély egyik szeme látszódik csak, és tömörítésre sem érzékeny.
+\\A probléma, hogy önmagában ez az API kevés lenne az elvárt működés implemetálására, mivel arcösszehaonlítást nem tartalmaz. Így ha mégis a használat mellett döntünk, az összehasonlító modult egy másik eszközzel kell megoldani.
+
+\subsubsection{IBM Watson}
+A mesterséges intelligencia témakörében a legtöbb embernek először az IBM Watson ugrik be, úgyhogy érdemes lehet megnézni, hogy a képfeldolgozó modulja (Visual Recognition \cite{IBMWatson}) mit tud adni nekünk a mi témakörünkben. 
+\begin{itemize}
+\item megbízhatósági pontszámmal csoportokba sorolja a képeket, ami csoportosításokra használható (pl.: Person, female, bridesmaid)
+\item felimseri az arcokat, és visszadja a pozíciókat, életkort tippel (minimum és maximum értékkel), illetve a felismert arc nemét állapítja meg.
+\end{itemize}
+
+A dokumentációban\cite{WATSON_DETECT} mélyebbre ásva sem lehet találni semmi olyan visszadaott értéket, ami az arcelforduláshoz segítséget adna, így megállapítható hogy nem lesz segítségünkre ez az API.
+
+Arcösszehasonlítás szempontból is érdemes lehet megvizsgálni a Collections BETA\cite{WATSON_COLLECTIONS} verzióban lévő API-ját. A működési mechanizmus nagyon hasonló más collections típusú arcösszehasonlítást tartalmazó szolgáltatásokhoz. Először hozzáadjuk a képet egy általunk választott gyűjteményhez, majd egy már feltöltött képhez hasonlóakat tudunk keresni egy adott gyűjteményben. Ez a megoldás akár segíthet is arcösszehasonlításban, de ez esetben minden regisztráció után a képet egy új gyűjteményben kéne elhelyezni, majd ebben a gyűjteményben keresni később, ám nem erre lett elsősorban létrehozva ez a service. Az alapötlet az, hogy metadata adatokat lehet csatolni a feltöltött képekhez (pl.: név), így például egy visszatérő felhasználót név szerint tudnánk már szólítani. Ráerőltethető valamilyen szinten az összehasonlítás is, de elsősorban olyan szolgáltatást kéne keresni, ami két képről dönti el hogy egyeznek-e, és a képeket se kelljen tárolni harmadik félnél. Ezek alapján az IBM Watson ezen megoldását elvethetjük.
+
 
 \newpage
