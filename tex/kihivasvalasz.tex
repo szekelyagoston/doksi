@@ -97,14 +97,7 @@ A Google Mobile Vision\cite{GMV} egy offline, iOS illetve Android eszközökön 
 
 \subsubsection{Microsoft Project Oxford}
 A Microsoft fejlesztése első ránézésre is biztatónak tűnik, többek között példakódot is publikáltak C\# nyelven, ami egy videóról folyamatosan jelzi hogy a megjelenő arcok merrefele néznek, illetve arc összehaonlítást is biztosít számunkra. Összegezzük mit tud az a szolgáltatás:
-\begin{itemize}
-\item arcfelismerő modulja visszaadja a felismert arcokat, és egy téglalapot illeszt rájuk.
-\item visszadja többek között a szemek, pupillák, orr pozícióját.
-\item életkort és nemet tippel.
-\item visszaadja a fej pozícióit (elfordulás). Ami nekünk itt fontos, az a "yaw" tulajdonság értéke. Ez adja meg hogy merre fordul a felismert arc.
-\item a felsmerhető érzelmekre ad egy százalékos valószínűséget (megleptés, harag, stb.)
-\item arcösszehasonlító modulja pedig két arcról megállapítja, hogy mekkora valószínűséggel tartoznak ugyanahhoz a fizikai személyhez
-\end{itemize}
+
 \begin{figure}[h]
 \centering
   \includegraphics[scale=2]{img/roll_yaw_pitch}
@@ -152,4 +145,19 @@ Jól látható, hogy ez az API nem képes olyan széles elfordulás-tartományba
 Jól látható, hogy az elfordulás mértéke drasztikusan befolyásolja az összehasonlítás megbízhatóságát. Ez még nem feltétlen probléma. A kihívás-válasz lefutása alapján nagy valószínűséggel lesz olyan képkockánk is, amikor a felhasználó a kamerába néz, így érdemes lenne nem csak maximum elfordulást keresni, hanem egy minimumot is egy bizonyos küszöbszám alatt. Ennek segítségével tudnánk mindenképpen olyan képet küldeni összehasonlításra az igazolványképpel, ami kamerába néz, megkönnyítve a képfeldolgozó szolgáltatás dolgát.
 A Microsoft Face API-t megvizsgálva megállapítható, hogy minden számunkra szükséges funkcióval rendelkezik, azokat kellő körültekintéssel használva megbízható eredményeket kapunk. Ezért ezt érdemes beépíteni a szakdolgozat keretein belül.
 
+\subsubsection{Face++}
+Utolsó online megoldásként a Face++ szolgáltatását vizsgáltuk meg, amit többek között a Lenovo is használ saját célra. Mindenképpen pozitívum, hogy nincsen használati limit az ingyenes csomagban sem, viszont nem enged párhuzamos képfeldolgozást. 83 különböző tulajdonságot ad vissza egy felismert arcról, többek között a számunkra fontos "yaw\_angle"-t is \cite{FACEPP}. Ezen kívül a szokásos életkor, nem, különöző testrészek pozíciójat az arcon és még sok egyebet ismer fel számunkra.
+\\Összehasonlításra szintén használható, a Microsofthoz hasonló módon két képet vár (vagy egy előre felismert képnek az azonosítóját), amire három különböző százalékos értéket kapunk vissza \cite{FACEPP_COMPARE}. Ezek a százalékos értékek különböző hibaszázalék mellett mutatják annak a valószínűségét hogy a két kép ugyanahhoz a fizikai személyhez tartozik. Ez különösen akkor lehet hasznos, ha különböző érzékenységű adatokat akarunk védeni a szoftverünkkel, és így magas érzékenységű adathoz alacsonyabb hibahatárt várunk. Egy negyedik százalékos érték maga a végeleges valószínűség, nekünk egyelőre elég lesz azzal foglalkozni. Érdemes lehet főleg a limitmentessége és mindkét használható modulja miatt beépíteni a szakdolgozat keretében ezt a szolgáltatást is. 
+
+\subsubsection{Egyéb vizsgált lehetőségek}
+
+\begin{itemize}
+\item mesterséges intelligencia függvénytárak (Dlib, opencv) offline saját megoldásra jó opciónak tűnnek, ám ezek megismerése és használata hosszabb időt igényel minthogy beleférjen a szakdolgozat keretébe. Bemutató videók alapján akár szemmozgás, pislogás felismerésére is használható, hosszútávon mindenképpen megfontolandó ennek használata/beépítése
+\item BioID regisztráióhoz kötött, de ingyenes. Minimum két kép feltöltésével jelenlét ellenőrzést kínál hangsúlyozva, hogy jelenleg könnyen kijátszható a rendszer. Kihívás - válasz kritérium csatolható a kéréshez, ilyenkor ennek is meg kell felelni (arcelfordítás, akár egymás után többször is). Ez a működés szerinti csoportosításnak az a fele, amelyik saját maga implementálja a kihívást.
+\item Lambda Labs Face Recognition API egyik számunkra szükséges modulhoz sem nyújt segítséget.
+\item FaceR szintén nem nyújt segítséget számunkra.
+\end{itemize}
+
+\subsection{Választott megoldások}
+Összegezve a különböző szolgáltatásokról gyűjtött adatokat a következő összefoglalást készíthetjük:
 \newpage
