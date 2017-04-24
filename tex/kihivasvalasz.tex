@@ -51,10 +51,12 @@ Az eredmények: \\
 
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
+\centering
     \includegraphics[scale=0.3]{img/cloud_vision_left}
     \caption{Balra néző kép, 25 fokos elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
+\centering
      \includegraphics[scale=0.3]{img/cloud_vision_very_left}
      \caption{Balra néző kép, 52 fokos elfordulás}
  \end{minipage}
@@ -63,10 +65,12 @@ Az eredmények: \\
 Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb minőségromlás esetén. A feltöltendő képeket az eredeti ~500kb-ról ~40kb-ra csökkentettem, a minőségromlás szemmel látható. Hasonlítsuk össze az erre a két képre adott eredményt (3.ábra, 4.ábra)
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
+\centering
     \includegraphics[scale=0.3]{img/cloud_vision_left_compressed}
     \caption{Balra néző tömörített kép, 25 fokos elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
+\centering
      \includegraphics[scale=0.3]{img/cloud_vision_very_left_compressed}
      \caption{Balra néző tömörített kép, 51 fokos elfordulás}
  \end{minipage}
@@ -91,6 +95,7 @@ Arcösszehasonlítás szempontból is érdemes lehet megvizsgálni a Collections
 A Google Mobile Vision\cite{GMV} egy offline, iOS illetve Android eszközökön futó arcfelismerő szolgáltatás. Óriási előny hogy offline, viszont hátrány hogy nem portolható át szerveroldalra, így önmagában nem használható a mi céljainkra. Érdemes ugyan megfontolni azt, hogy jelenlegi működés alapján egy több másodperc hosszú videoból kiválasztunk N darab képkockát, és azt továbbítjuk a szervernek. Ha pontosan tudnánk, hogy a felhasználó mikortól, meddig mozdította a fejét, akkor a felküldendő képkockák mennyiségét csökkenteni lehetne, illetve későbbi precízebb felismerést (pl.: pislogásfelismeréshez egy nagyon kicsi intervallumban sok kép szükséges a gesztikuálció gyorsaságából adódóan) is segíthetünk, ha tudjuk hogy a hosszabb intervallumban hol található pontosan a számunkra érdekes részlet.
 \\Problémát okozhat viszont ebben az esetben a telefonok minősége, és így a feldolgozás gyorsasága. Meg kell találni azt a határt, ahol már nem érdemes előfeldolgozni a képeket, mert több időbe telne, mint feldolgozás nélkül küldeni válogatás nélkül.
 \begin{figure}[h]
+\centering
   \includegraphics[scale=0.5]{img/gmv}
     \caption{A Google Moblie Vision által felismert elfordulási szögek (X tengely egyelőre inaktív)  \cite{GMV_ANGLES}}
 \end{figure}
@@ -108,10 +113,12 @@ Ezek alapján megállapítható, hogy a Microsoft Face API-ja minden fontos tula
 
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
+\centering
     \includegraphics[scale=0.3]{img/mpo_left}
     \caption{Balra néző kép, 21.8 fokos \newline elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
+\centering
      \includegraphics[scale=0.3]{img/mpo_very_left}
      \caption{Balra néző kép, 15 fokos elfordulás}
  \end{minipage}
@@ -120,10 +127,12 @@ Ezek alapján megállapítható, hogy a Microsoft Face API-ja minden fontos tula
 Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb minőségromlás esetén. A feltöltendő képeket az eredeti ~500kb-ról ~40kb-ra csökkentettem, a minőségromlás szemmel látható. Hasonlítsuk össze az erre a két képre adott eredményt (3.ábra, 4.ábra)
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
+\centering
     \includegraphics[scale=0.3]{img/mpo_left_compressed}
     \caption{Balra néző tömörített kép, 21.8 fokos elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
+\centering
      \includegraphics[scale=0.3]{img/mpo_very_left_compressed}
      \caption{Balra néző tömörített kép, 19.5 fokos elfordulás}
  \end{minipage}
@@ -133,10 +142,12 @@ Jól látható, hogy ez az API nem képes olyan széles elfordulás-tartományba
 
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
+\centering
     \includegraphics[scale=0.3]{img/mpo_compare}
     \caption{Közepes mértékű elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
+\centering
      \includegraphics[scale=0.3]{img/mpo_compare_failed}
      \caption{Nagy mértékű elfordulás esetén nem megbízható}
  \end{minipage}
