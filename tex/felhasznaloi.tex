@@ -49,13 +49,157 @@ bejegyzés amely a minimum illetve a maximum allokálandó memóriát szabja meg
 \subsection{A regisztráció folyamata}
 A regisztráció folyamatát a rendszer működéséhez készített demonstrációs weboldalon keresztül mutatom be. Fontos megjegyezni, hogy akármilyen honlapra a weboldal technológiájától függően gyorsan vagy nehezebben, de integrálható a bejelentkezési modul, amennyiben az IDX szerveren be van állítva hogy fogadja a kéréseket az adott címről.
 \\A folyamat végrehajtásához az egész műveletsor Android mobiltelefonról kell hogy végrehajtódjon, személyi számítógépről az alkalmazás nem fog megnyílni, és így nem lehetséges bejelentkezni!
-\\Az oldal megnyitását követően a publikus főoldal látható. A regisztrációs oldalra való jutáshoz a Sign Up feliratra kell kattintani a bejelentkezés doboz alatt (1.kép). A linkre kattintva megjelenik a regisztrációs felület (2. kép). A szövegmezőbe kattintva adhatjuk meg a felhasználónevünket, majd a "START REGISTRATION" gombra kattintva indíthatjuk a regisztrációs folyamatot. Hibalehetőségek, amik esetén a műveletet megszakítja a rendszer és lehetőséget ad új felhazsnálónév megadására:
+\\Az oldal megnyitását követően a publikus főoldal látható. A regisztrációs oldalra való jutáshoz a Sign Up feliratra kell kattintani a bejelentkezés doboz alatt (15. ábra). A linkre kattintva megjelenik a regisztrációs felület (16. ábra). A szövegmezőbe kattintva adhatjuk meg a felhasználónevünket, majd a "START REGISTRATION" gombra kattintva indíthatjuk a regisztrációs folyamatot. Hibalehetőségek, amik esetén a műveletet megszakítja a rendszer és lehetőséget ad új felhazsnálónév megadására:
 \begin{itemize}
-\item A megadott felhasználónév már létezik a rendszerben (3. kép)
-\item Nincsen megadva felhasználónév (4.kép)
+\item A megadott felhasználónév már létezik a rendszerben (17. ábra)
+\item Nincsen megadva felhasználónév (18. ábra)
 \end{itemize}
 
-Amennyiben a megadott név szabad, úgy egy új gomb jelenik meg "OPEN APP" felirattal (5.kép). 
+Amennyiben a megadott név szabad, úgy egy új gomb jelenik meg "OPEN APP" felirattal (19. ébra). 
 Erre a gombra kattintva a már feltelepített alkalmazás megnyílik, és a további információkat szolgáltatja.
+
+\begin{figure}[h]
+ \begin{minipage}{.30\textwidth} 
+\centering
+    \includegraphics[scale=0.30]{img/sign_up_link}
+    \caption{Publikus főoldal}
+ \end{minipage}
+ \begin{minipage}{.30\textwidth} 
+\centering
+     \includegraphics[scale=0.30]{img/register_page}
+     \caption{Regisztrációs oldal}
+ \end{minipage}
+ \begin{minipage}{.30\textwidth} 
+\centering
+     \includegraphics[scale=0.30]{img/open_app_registration}
+     \caption{Alkalmazás megnyitása}
+ \end{minipage}
+\end{figure}
+
+\begin{figure}[h]
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.40]{img/username_not_available}
+    \caption{Felhasználónév foglalt}
+ \end{minipage}
+ \begin{minipage}{.50\textwidth} 
+\centering
+     \includegraphics[scale=0.40]{img/username_empty}
+     \caption{Nincsen megadva felhasználónév}
+ \end{minipage}
+\end{figure}
+
+\subsection{Regisztrációs lépések a mobil alkalmazásban}
+A mobil alkamazá megnyitása után és már előzetesen elmenetett kártyaadatokesetén a képernyőn elhelyezkedő felirat jelzi a felhassnálónak a következő lépést, ami az elektronikus személyi igazolványának telefonja hátuljához való érintése (20. ábra). Fontos, hogy ameddig a "Performing registration" jelzés látható (21. ábra), az igazolványt ne távolítsuk el a telefontól, mert az az adatok beolvasásának sikertelenségéhez vezet.Sikeres regisztráció esetén azt egy megerősítő üzenet fogadja a felhasználót, és gombnyomásra bezárja az alkalmazást, és visszatér a weboldalra amennyiben más művelet közben nem történt (22. ábra).
+
+\begin{figure}[h]
+ \begin{minipage}{.30\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/app_main_screen}
+    \caption{Alkalmazás főoldal}
+ \end{minipage}
+ \begin{minipage}{.30\textwidth} 
+\centering
+     \includegraphics[scale=0.10]{img/performing_registration}
+     \caption{Regisztráció folyamatban}
+ \end{minipage}
+ \begin{minipage}{.30\textwidth} 
+\centering
+     \includegraphics[scale=0.10]{img/registration_successful}
+     \caption{Sikeres regisztráció}
+ \end{minipage}
+\end{figure}
+
+\subsection{Mobil alkmalmazás figyelmeztető illetve hibaüzenetei}
+Az a fejezet a mobil alkalmazás lehetséges üzeneteit mutatja be, és leírást ad a lehetséges okokra. Nézzük először a főoldal üzeneteit, amik még azelőtt történnek, hogy a kártyát regisztráció vagy bejelentkezés céljából a telefonhoz tartanánk.
+\begin{itemize}
+\item Az alkalmazás valószínűleg nem jó időben lett megnyitva (nem egy felületről való kattintással inicializálta magát). Az alkalmazást így nem lehet használni, ezt üzenet jelzi a képernyő közepén (23. ábra). Amennyiben mégis megpróbáljuk elindítani az NFC olvasást, hibaüzenet jelenik meg
+\item Nincsen minden kártyainformáció kitöltve (25. ábra). Ebben az esetben a jobb alsó sarokban található ceruza jelre kattintva megnyílik egy felület az adatok felvitelére. (26. ábra)
+A kártyaszám megadásánál fontos a kisbetűk és nagybetűk megkülönböztetése. A két dátum megadásánál az alapértelmezett Android naptár komponens nyílik meg.
+\item NFC ki van kapcsolva. Ez esetben bal alsó sarokban található csillagra kattintva a telefon megnyitja a beépített beálításkezelőt, ahol be lehet kapcsolni az NFC-t. A visza gombra kattintva a folyamat innen tovább folytatható (27. ábra).
+\end{itemize}
+
+\begin{figure}[h]
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/app_should_not_be_run_directly}
+    \caption{Alkalmazás csak felületről indítva futtatható}
+ \end{minipage}
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/not_enough_mrtd_data}
+    \caption{Nincs minden adat kitöltve}
+ \end{minipage}
+
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/new_mrtd}
+    \caption{Új kártyaadatok felvitele}
+ \end{minipage}
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/nfc_not_enabled}
+    \caption{NFC nincsen engedélyezve}
+ \end{minipage}
+\end{figure}
+
+\newpage
+\subsection{Bejelentkezés folyamata}
+ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+\\ASD
+
 
 \newpage
