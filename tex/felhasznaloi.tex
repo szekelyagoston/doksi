@@ -46,6 +46,41 @@ Ez a modul egy Wildfly 10.1.0 verziójú szerveren fut, Java 8-as verzió alatt.
 \end{verbatim}
 bejegyzés amely a minimum illetve a maximum allokálandó memóriát szabja meg. Ekkora memóriaterületen a rendszer működése megbízható, így ez minimum követelménynek tekinthető.
 
+
+\subsection{Mobil alkmalmazás figyelmeztető illetve hibaüzenetei}
+Ez a fejezet a mobil alkalmazás lehetséges üzeneteit mutatja be, és leírást ad a lehetséges okokra. Nézzük először a főoldal üzeneteit, amik még azelőtt történnek, hogy a kártyát regisztráció vagy bejelentkezés céljából a telefonhoz tartanánk.
+\begin{itemize}
+\item Az alkalmazás valószínűleg nem jó időben lett megnyitva (nem egy felületről való kattintással inicializálta magát). Az alkalmazást így nem lehet használni, ezt üzenet jelzi a képernyő közepén (23. ábra). Amennyiben mégis megpróbáljuk elindítani az NFC olvasást, hibaüzenet jelenik meg
+\item Nincsen minden kártyainformáció kitöltve (25. ábra). Ebben az esetben a jobb alsó sarokban található ceruza jelre kattintva megnyílik egy felület az adatok felvitelére. (26. ábra)
+A kártyaszám megadásánál fontos a kisbetűk és nagybetűk megkülönböztetése. A két dátum megadásánál az alapértelmezett Android naptár komponens nyílik meg.
+\item NFC ki van kapcsolva. Ez esetben bal alsó sarokban található csillagra kattintva a telefon megnyitja a beépített beálításkezelőt, ahol be lehet kapcsolni az NFC-t. A visza gombra kattintva a folyamat innen tovább folytatható (27. ábra).
+\end{itemize}
+
+\begin{figure}[h]
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/app_should_not_be_run_directly}
+    \caption{Alkalmazás csak felületről indítva futtatható}
+ \end{minipage}
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/not_enough_mrtd_data}
+    \caption{Nincs minden adat kitöltve}
+ \end{minipage}
+
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/new_mrtd}
+    \caption{Új kártyaadatok felvitele}
+ \end{minipage}
+ \begin{minipage}{.50\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/nfc_not_enabled}
+    \caption{NFC nincsen engedélyezve}
+ \end{minipage}
+\end{figure}
+
+
 \subsection{A regisztráció folyamata}
 A regisztráció folyamatát a rendszer működéséhez készített demonstrációs weboldalon keresztül mutatom be. Fontos megjegyezni, hogy akármilyen honlapra a weboldal technológiájától függően gyorsan vagy nehezebben, de integrálható a bejelentkezési modul, amennyiben az IDX szerveren be van állítva hogy fogadja a kéréseket az adott címről.
 \\A folyamat végrehajtásához az egész műveletsor Android mobiltelefonról kell hogy végrehajtódjon, személyi számítógépről az alkalmazás nem fog megnyílni, és így nem lehetséges bejelentkezni!
@@ -90,7 +125,7 @@ Erre a gombra kattintva a már feltelepített alkalmazás megnyílik, és a tov�
 \end{figure}
 
 \subsection{Regisztrációs lépések a mobil alkalmazásban}
-A mobil alkamazá megnyitása után és már előzetesen elmenetett kártyaadatokesetén a képernyőn elhelyezkedő felirat jelzi a felhassnálónak a következő lépést, ami az elektronikus személyi igazolványának telefonja hátuljához való érintése (20. ábra). Fontos, hogy ameddig a "Performing registration" jelzés látható (21. ábra), az igazolványt ne távolítsuk el a telefontól, mert az az adatok beolvasásának sikertelenségéhez vezet.Sikeres regisztráció esetén azt egy megerősítő üzenet fogadja a felhasználót, és gombnyomásra bezárja az alkalmazást, és visszatér a weboldalra amennyiben más művelet közben nem történt (22. ábra).
+A mobil alkamazás megnyitása után és már előzetesen elmenetett kártyaadatok esetén a képernyőn elhelyezkedő felirat jelzi a felhasználónak a következő lépést, ami az elektronikus személyi igazolványának telefonja hátuljához való érintése (20. ábra). Fontos, hogy ameddig a "Performing registration" jelzés látható (21. ábra), az igazolványt ne távolítsuk el a telefontól, mert az az adatok beolvasásának sikertelenségéhez vezet.Sikeres regisztráció esetén azt egy megerősítő üzenet fogadja a felhasználót, és gombnyomásra bezárja az alkalmazást, és visszatér a weboldalra amennyiben más művelet közben nem történt (22. ábra).
 
 \begin{figure}[h]
  \begin{minipage}{.30\textwidth} 
@@ -110,96 +145,63 @@ A mobil alkamazá megnyitása után és már előzetesen elmenetett kártyaadato
  \end{minipage}
 \end{figure}
 
-\subsection{Mobil alkmalmazás figyelmeztető illetve hibaüzenetei}
-Az a fejezet a mobil alkalmazás lehetséges üzeneteit mutatja be, és leírást ad a lehetséges okokra. Nézzük először a főoldal üzeneteit, amik még azelőtt történnek, hogy a kártyát regisztráció vagy bejelentkezés céljából a telefonhoz tartanánk.
-\begin{itemize}
-\item Az alkalmazás valószínűleg nem jó időben lett megnyitva (nem egy felületről való kattintással inicializálta magát). Az alkalmazást így nem lehet használni, ezt üzenet jelzi a képernyő közepén (23. ábra). Amennyiben mégis megpróbáljuk elindítani az NFC olvasást, hibaüzenet jelenik meg
-\item Nincsen minden kártyainformáció kitöltve (25. ábra). Ebben az esetben a jobb alsó sarokban található ceruza jelre kattintva megnyílik egy felület az adatok felvitelére. (26. ábra)
-A kártyaszám megadásánál fontos a kisbetűk és nagybetűk megkülönböztetése. A két dátum megadásánál az alapértelmezett Android naptár komponens nyílik meg.
-\item NFC ki van kapcsolva. Ez esetben bal alsó sarokban található csillagra kattintva a telefon megnyitja a beépített beálításkezelőt, ahol be lehet kapcsolni az NFC-t. A visza gombra kattintva a folyamat innen tovább folytatható (27. ábra).
-\end{itemize}
+%\newpage
+\subsection{Bejelentkezés folyamata}
+Sikeres regisztráció után rögtön be lehet jelentkezni az adott weboldalra. Ehhez a főoldalon (15. ábra) a "LOGIN" gombra kell kattintani. Ezután átirányításra kerülünk az IDX szerverre, ahol a megjelenő szövegmezőbe a felhasználónév megadásával folytathatjuk a bejelentkezést (28. ábra). Fontos megjegyezni, hogy egyszer lehet csak próbálkozni a kihívás - válasz nehezebb kijátszása érdekében, így hibás adat megadása esetén a folyamatot előlről kell kezdeni.
+\\Létező felhasználónév megadása esetén újabb oldal jelenik meg (29. ábra), ahol először a "Start App" gombra kattintva megnyílik a már regisztrációnál bemutatott alkalmazás.
+\\Az alkalmazásból visszatérve a bejelentkezés gombra kattintva folytathatjuk a bejelentkezést. Amennyiben a telefonon történt azonosítás is sikeres volt, továbbításra kerülünk a védett weboldalra. Hiba esetén a főoldalra kerülünk, és a folyamatot előről kell kezdeni.
+
+
+\subsection{Bejelentkezés lépései a mobil alkalmazásban}
+Amennyiben a fentebb leírt módon minden adat ki van töltve, az NFC be van kapcsolva, úgy a személyi igazolvány telefon hátfalához tartásával folytatódik a bejelentkezés. Első lépésben authentikálja a kártyát a rendszer, majd ellenőrzi, hogy az adott felhasználónévhez tartozó igazolványszám egyezik-e (30. ábra).
+\\Amennyiben az első lépés sikeres volt (31. ábra), a kihívás - válasz végrehajtása következik. A képernyőn megjelenik a végrehajtandó kihívás, majd a telefon visszaszámol háromtól. A visszaszámolás végén kell a kért kihívást végrehajtani. Fontos, hogy ne korábban mozgassuk a fejünket, mert akkor az elfogadás minősége csökkenhet.
+A kihívás teljesítése után felugró ablakban a "performing challenge verification" szöveg olvasható (32. ábra), amíg ez a felirat nem tűnik el, ne lépjünk vissza az alkalmazásban! Miután a szerver kiértékelte a kihívást, a képernyőre kerül kiírásra annak eredménye, ami lehet elfogadott vagy elutasított. Elfogadott kihívás esetén a böngészőben a "Bejelentkezés" gombra kattintva a védett weboldalra jutunk. Elutasítás esetén a bejelentkezést újra kell kezdeni.
 
 \begin{figure}[h]
- \begin{minipage}{.50\textwidth} 
+ \begin{minipage}{.30\textwidth} 
 \centering
-    \includegraphics[scale=0.10]{img/app_should_not_be_run_directly}
-    \caption{Alkalmazás csak felületről indítva futtatható}
+    \includegraphics[scale=0.10]{img/BAC}
+    \caption{Kártya verifikáció}
  \end{minipage}
- \begin{minipage}{.50\textwidth} 
+ \begin{minipage}{.30\textwidth} 
 \centering
-    \includegraphics[scale=0.10]{img/not_enough_mrtd_data}
-    \caption{Nincs minden adat kitöltve}
+     \includegraphics[scale=0.10]{img/first_step_success}
+     \caption{Kártya elfogadva, gombnyomásra továbblépés a kihíváshoz}
  \end{minipage}
-
- \begin{minipage}{.50\textwidth} 
+ \begin{minipage}{.30\textwidth} 
 \centering
-    \includegraphics[scale=0.10]{img/new_mrtd}
-    \caption{Új kártyaadatok felvitele}
- \end{minipage}
- \begin{minipage}{.50\textwidth} 
-\centering
-    \includegraphics[scale=0.10]{img/nfc_not_enabled}
-    \caption{NFC nincsen engedélyezve}
+     \includegraphics[scale=0.10]{img/performing_challenge_verification}
+     \caption{Várakozás a kihívás teljesítésének kiértékelésére}
  \end{minipage}
 \end{figure}
 
-\newpage
-\subsection{Bejelentkezés folyamata}
-ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
-\\ASD
+\subsection{Bejelentkezés elutasítása}
+Sikertelen azonosítás vagy kihívás teljesítés esetén a bejelntkezés elutasításra kerül. Az okok lehetnek:
 
+\begin{itemize}
+\item A kártya azonosítása nem sikerült, az alkalmazásban megadott hibás adatok miatt, vagy egyéb kommunikációs probléma miatt (például túl hamar lett eltávolítva a kártya, gyenge volt az NFC jel, stb.) (33. ábra)
+\item A megadott kártyaszám nem egyezik a megadott felhasználóhoz tartozó kártyaszámmal (34. ábra)
+\item A kihívás nem került elfogadásra (35. ábra). Nem részletezzük, hogy a kihívás melyik része nem sikerült, hogy egy esetleges támadás ne tudja szűkíteni a támadási pontjait.
+\end{itemize}
+
+\begin{figure}[h]
+ \begin{minipage}{.30\textwidth} 
+\centering
+    \includegraphics[scale=0.10]{img/card_auth_fail}
+    \caption{Kártya azonosítás nem sikerült}
+ \end{minipage}
+ \begin{minipage}{.30\textwidth} 
+\centering
+     \includegraphics[scale=0.10]{img/card_number_does_not_match}
+     \caption{A megadott felhasználóhoz nem ez a kártyaszám tartozik}
+ \end{minipage}
+ \begin{minipage}{.30\textwidth} 
+\centering
+     \includegraphics[scale=0.10]{img/could_not_accept_challenge}
+     \caption{Kihívásra adott válasz nem volt megfelelő}
+ \end{minipage}
+\end{figure}
+\subsection{Kijelentkezés}
+A jelenlegi tesztoldal egyedüli funkciója hogy kiírja a bejelentkezett felhasználó regisztrált felhasználónevét. Kijelentkezés a menüpontban található kijelentkezés gombra kattintva hajtható végre. Ezután a session törlődik, és újból lehet bejelntkezéssel próbálkozni akár ugyanazzal a felhasználóval, akár egy másikkal.
 
 \newpage
