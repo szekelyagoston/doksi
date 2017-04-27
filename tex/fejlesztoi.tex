@@ -95,7 +95,7 @@ Státusz  &  Sikeres \tabularnewline
   \hline
 \end{tabular}
 \end{minipage}
-%\newline
+\newline
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|p{1cm}|p{3cm} |p{3cm}| p{6cm}|}
   \hline
@@ -136,8 +136,7 @@ Státusz  &  Sikeres \tabularnewline
   \hline
 \end{tabular}
 \end{minipage}
-
-%\newline
+\newline
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
   \hline
@@ -160,6 +159,341 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
   \hline
 \end{tabular}
 \end{minipage}
-\subsubsection{3. Teszteset, megnyitás rossz  paraméterekkel}
+\subsubsection{3. Teszteset, megnyitás inaktív NFC-vel, majd NFC bekapcsolása}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 3 \tabularnewline
+  \hline
+Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, NFC nem aktív, NFC aktiválása \tabularnewline
+  \hline
+Érintett rendszerek  &  Mobil alkalmazás, Weboldal \tabularnewline
+  \hline
+Előfeltétel  & Alkalmazás nem fut, weboldalról indítjuk az applikációt, NFC ki van kapcsolva a telefonon, azon kívül minden szükséges beállítás meg van adva \tabularnewline
+  \hline
+Megjegyzés  & \tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Nem létező felhasználónév megadása, regisztrációs gombra kattintás & "Open app" gomb megjelenik \tabularnewline
+  \hline
+ 4 & Regisztrációs oldal & "Open app" gombra kattintás & Alkalmazás megnyílik, piros üzenet jelzi, hogy nincsen bekapcsolva az NFC. \tabularnewline
+  \hline
+ 5 & Mobil alkalmazás főképernyő & Bal alsó sarokban csillagra kattintás &  Az eszköz beépített beállítások képernyője jelenik meg \tabularnewline
+  \hline
+ 6 & Beépített beállítások képernyő & NFC bekapcsolása, vissza gombra kattintás &  Az alkalmazás képernyője jelenik meg, zöld üzenet jelzi, hogy folytathatjuk a regisztrációt \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsubsection{4. Teszteset, megnyitás inaktív NFC-vel, műveletek végrehajtásának blokkolása}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 4 \tabularnewline
+  \hline
+Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, NFC nem aktív, műveleteket ettől függetlenül megpróbáljuk végrehajtani \tabularnewline
+  \hline
+Érintett rendszerek  &  Mobil alkalmazás, Weboldal \tabularnewline
+  \hline
+Előfeltétel  & Alkalmazás nem fut, weboldalról indítjuk az applikációt, NFC ki van kapcsolva a telefonon, azon kívül minden szükséges beállítás meg van adva \tabularnewline
+  \hline
+Megjegyzés  & Mivel ebben az esetben az NFC nem aktív, így a kártya megfelelő közelségét sem fogja felismerni, így erről tájékoztatni sem tuduk a felhasználót.\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Nem létező felhasználónév megadása, regisztrációs gombra kattintás & "Open app" gomb megjelenik \tabularnewline
+  \hline
+ 4 & Regisztrációs oldal & "Open app" gombra kattintás & Alkalmazás megnyílik, piros üzenet jelzi, hogy nincsen bekapcsolva az NFC. \tabularnewline
+  \hline
+ 5 & Mobil alkalmazás főképernyő &  Személyi igazolvány hátlaphoz tartása  &  Az új oldal nem nyílik meg \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsubsection{5. Teszteset, mobil alkalmazás megnyitása, kitöltetlen kártyaadatok kitöltése}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 5 \tabularnewline
+  \hline
+Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, kártyaadatok nincsenek megadva. Megadjuk, majd folytatásra kész a felület\tabularnewline
+  \hline
+Érintett rendszerek  &  Mobil alkalmazás, Weboldal \tabularnewline
+  \hline
+Előfeltétel  & Alkalmazás nem fut, weboldalról indítjuk az applikációt, legalább egy kártyaadat hiányzik \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Nem létező felhasználónév megadása, regisztrációs gombra kattintás & "Open app" gomb megjelenik \tabularnewline
+  \hline
+ 4 & Regisztrációs oldal & "Open app" gombra kattintás & Alkalmazás megnyílik, figyelmeztető üzenet jelzi a hiányzó adatokat \tabularnewline
+  \hline
+ 5 & Mobil alkalmazás főképernyő &  Jobb alsó sarokban található ceruzára kattintás  &  Adatfelvitelre szolgáló mezők megjelennek \tabularnewline
+  \hline
+ 6 & Adatfelvitel ablak &  Mindhárom adat kitöltése, majd az "Add" gombra kattintás  &  Alkalmazás főoldala nyílik meg, jelezve, hogy a folyamat tovább folytatható \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsubsection{6. Teszteset, mobil alkalmazás megnyitása, kitöltetlen kártyaadatok ellenére műveletek folytatásának kísérlete}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 6 \tabularnewline
+  \hline
+Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, kártyaadatok nincsenek megadva. Ennek ellenére kísérletet teszünk a műveletk folytatására, ezt a hibát fel kell felismerni\tabularnewline
+  \hline
+Érintett rendszerek  &  Mobil alkalmazás, Weboldal \tabularnewline
+  \hline
+Előfeltétel  & Alkalmazás nem fut, weboldalról indítjuk az applikációt, legalább egy kártyaadat hiányzik, többi művelethez szükséges előfeltétel megadva \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Nem létező felhasználónév megadása, regisztrációs gombra kattintás & "Open app" gomb megjelenik \tabularnewline
+  \hline
+ 4 & Regisztrációs oldal & "Open app" gombra kattintás & Alkalmazás megnyílik, figyelmeztető üzenet jelzi a hiányzó adatokat \tabularnewline
+  \hline
+ 5 & Mobil alkalmazás főképernyő &  Személyi igazolvány hátlaphoz tartása  &  Az alkalmazás felületén piros szöveg jelzi, hogy nincsen minden kártyaadat kitöltve \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+
+\subsubsection{7. Teszteset, mobil alkalmazás megnyitása, hibásan kitöltött kártyaadatok felismerése}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 7 \tabularnewline
+  \hline
+Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, kártyaadatok hiábsan vannak megadva. Ennek ellenére kísérletet teszünk a műveletk folytatására, ezt a hibát fel kell felismerni\tabularnewline
+  \hline
+Érintett rendszerek  &  Mobil alkalmazás, Weboldal \tabularnewline
+  \hline
+Előfeltétel  & Alkalmazás nem fut, weboldalról indítjuk az applikációt, legalább egy kártyaadat hibásan van megadva, többi művelethez szükséges előfeltétel megadva \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Nem létező felhasználónév megadása, regisztrációs gombra kattintás & "Open app" gomb megjelenik \tabularnewline
+  \hline
+ 4 & Regisztrációs oldal & "Open app" gombra kattintás & Alkalmazás megnyílik, zöld szöveg jelzi, hogy minden előfeltétel meg van adva, lehet folytatni a műveletet \tabularnewline
+  \hline
+ 5 & Mobil alkalmazás főképernyő &  Személyi igazolvány hátlaphoz tartása  &  Az alkalmazás megpróbálja a BAC authentikációt végrehajtani, majd jelzi, hogy ez nem sikerült \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+
+\subsubsection{8. Regisztráció folyamat, üres felhasználónév}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 8 \tabularnewline
+  \hline
+Teszteset célja  & Regisztráció indítása felületről, felhasználónév üresen hagyásának felismerése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal \tabularnewline
+  \hline
+Előfeltétel  & \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Felhasználónév mező üresen hagyása, regisztrációs gombra kattintás & Felugró ablak jelzi, hogy nincsen megadva felhasználónév  \tabularnewline
+  \hline
+ 4 & Hibaüzenet felülete& "OK" gombra kattintás & Az előző oldalra térünk vissza, megadhatunk egy felhasználónevet, és folytathatjuk a folyamatot\tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+
+\subsubsection{9. Regisztráció folyamat, már létező felhasználónév}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 9 \tabularnewline
+  \hline
+Teszteset célja  & Regisztráció indítása felületről, felhasználónév ütközések felismerése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal \tabularnewline
+  \hline
+Előfeltétel  & A teszt során megadandó felhasználónév már létezik a rendszerben\tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Létező felhasználónév megadása, regisztrációs gombra kattintás & Felugró ablak jelzi, hogy a megadott felhasználónév már foglalt  \tabularnewline
+  \hline
+ 4 & Hibaüzenet felülete& "OK" gombra kattintás & Az előző oldalra térünk vissza, választhatunk új felhasználónevet \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+
+
+
+
 
 \newpage
