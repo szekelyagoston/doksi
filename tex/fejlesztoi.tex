@@ -47,32 +47,27 @@ Sorsz. & Teszteset név & Érintett modulok\tabularnewline
 \rowcolor{Header}
 Sorsz. & Teszteset név & Érintett modulok\tabularnewline
 \hline 
- 
- 14  & Bejelentkezés, Mobil authentikáció kihagyása & Weboldal, IDX szerver, Authentikáló alkalmazás \tabularnewline
+  14  & Bejelentkezés, létező felhasználónévvel & Weboldal, IDX szerver\tabularnewline
   \hline
- 15  & Bejelentkezés, személyi szám nem egyezik  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+ 15  & Bejelentkezés, Mobil authentikáció kihagyása & Weboldal, IDX szerver, Authentikáló alkalmazás \tabularnewline
   \hline
- 16  & Bejelentkezés, arcösszehasonlítás elutasítva  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+ 16  & Bejelentkezés, személyi szám nem egyezik  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
   \hline
- 17  & Bejelentkezés, kihívás - válasz sikertelen  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+ 17  & Bejelentkezés, arcösszehasonlítás elutasítva  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
   \hline
- 18  & Bejelentkezési időlimit túllépése  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+ 18  & Bejelentkezés, kihívás - válasz sikertelen  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
   \hline
- 19  & Sikertelen arcösszehasonlítás, újra próbálkozás  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+ 19  & Bejelentkezési időlimit túllépése  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
   \hline
- 20  & Sikertelen kihívás - válasz, újra próbálkozás  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+ 20  &Sikeres bejelentkezés  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
   \hline
- 21  &Sikeres bejelentkezés  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
-  \hline
- 22  &Sikeres kijelentkezés, session bontás  & Weboldal, IDX szerver \tabularnewline
-  \hline
- 23  & Session tartás  & Weboldal, IDX szerver \tabularnewline
+ 21  &Sikeres kijelentkezés, session bontás  & Weboldal, IDX szerver \tabularnewline
   \hline
 \end{tabular}
 
-\subsection{Tesztelési eredmények}
+\subsection{Mobil alkalmazás tesztelési eredményei}
 
-\subsubsection{1. Teszteset, direkt megnyitás}
+\subsubsection{Direkt alkalmazás indítás}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -113,7 +108,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{tabular}
 \end{minipage}
 
-\subsubsection{2. Teszteset, megnyitás rossz  paraméterekkel}
+\subsubsection{Megnyitás rossz  paraméterekkel}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -159,7 +154,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
   \hline
 \end{tabular}
 \end{minipage}
-\subsubsection{3. Teszteset, megnyitás inaktív NFC-vel, majd NFC bekapcsolása}
+\subsubsection{Megnyitás inaktív NFC-vel, majd NFC bekapcsolása}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -208,7 +203,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{tabular}
 \end{minipage}
 
-\subsubsection{4. Teszteset, megnyitás inaktív NFC-vel, műveletek végrehajtásának blokkolása}
+\subsubsection{Megnyitás inaktív NFC-vel, műveletek végrehajtásának blokkolása}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -255,7 +250,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{tabular}
 \end{minipage}
 
-\subsubsection{5. Teszteset, mobil alkalmazás megnyitása, kitöltetlen kártyaadatok kitöltése}
+\subsubsection{Megnyitás, kitöltetlen kártyaadatok kitöltése}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -304,7 +299,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{tabular}
 \end{minipage}
 
-\subsubsection{6. Teszteset, mobil alkalmazás megnyitása, kitöltetlen kártyaadatok ellenére műveletek folytatásának kísérlete}
+\subsubsection{Megnyitás, kitöltetlen kártyaadatok ellenére műveletek folytatásának kísérlete}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -352,7 +347,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{minipage}
 
 
-\subsubsection{7. Teszteset, mobil alkalmazás megnyitása, hibásan kitöltött kártyaadatok felismerése}
+\subsubsection{Megnyitás, hibásan kitöltött kártyaadatok felismerése}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -399,8 +394,8 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{tabular}
 \end{minipage}
 
-
-\subsubsection{8. Regisztráció folyamat, üres felhasználónév}
+\subsection{Regisztrációs folyamat tesztelési eredményei}
+\subsubsection{Üres felhasználónév}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -446,7 +441,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{minipage}
 
 
-\subsubsection{9. Regisztráció folyamat, már létező felhasználónév}
+\subsubsection{Létező felhasználónév}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -493,7 +488,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 
 
 
-\subsubsection{10. Regisztráció folyamat, minden adat helyes, ám a regisztráció folyamat alatt a felhasználónév foglalttá válik}
+\subsubsection{Minden adat helyes, ám a regisztráció folyamat alatt a felhasználónév foglalttá válik}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -538,7 +533,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{tabular}
 \end{minipage}
 
-\subsubsection{11. Regisztráció folyamat, minden adat helyes}
+\subsubsection{Sikeres regisztráció}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -583,8 +578,8 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{tabular}
 \end{minipage}
 
-
-\subsubsection{12. Bejelentkezés, felhasználónév nincsen megadva}
+\subsection{Bejelentkezési folyamat tesztelési eredményei}
+\subsubsection{Felhasználónév nincsen megadva}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -627,7 +622,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 \end{tabular}
 \end{minipage}
 
-\subsubsection{13. Bejelentkezés, felhasználónév nem létezik}
+\subsubsection{Felhasználónév nem létezik}
 \begin{minipage}{1\textwidth}
 \begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
@@ -669,5 +664,371 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
   \hline
 \end{tabular}
 \end{minipage}
+
+\subsubsection{Felhasználónév létezik}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 14 \tabularnewline
+  \hline
+Teszteset célja  & Bejelentkezési folyamat második lépésének elérése helyes felhasználónév esetén\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver \tabularnewline
+  \hline
+Előfeltétel  & \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Bejelentkezés gombra kattintás & IDX első bejelentkezés felület megnyílik \tabularnewline
+  \hline
+ 3 & IDX első bejelentkező felület & Létező felhasználónév megadása, bejelentkezés gombra kattintás & IDX második bejelentkező felülete nyílik meg \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+
+
+\subsubsection{Mobil authentikáció kihagyása}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 15 \tabularnewline
+  \hline
+Teszteset célja  & Mobil authentikáció teljes kihyagása, ez esetben bejelentkezés megtagadásának ellenőrzése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver, Authentikáló alkalmazás \tabularnewline
+  \hline
+Előfeltétel  & 14. teszteset teljesülése \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & IDX második bejelentkező felülete & "Bejelentkezés gombra" kattintás & Bejelentkező főoldal megnyílik, nem vagyunk authentikálva \tabularnewline
+  \hline
+
+\end{tabular}
+\end{minipage}
+
+
+\subsubsection{Személyi igazolvány szám nem egyezik}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 16 \tabularnewline
+  \hline
+Teszteset célja  & Nem egyező személyi igazolvány szám esetén bejelentkezés megtagadásának ellenőrzése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver, Authentikáló alkalmazás, Mobil alkalmazás \tabularnewline
+  \hline
+Előfeltétel  & 14. teszteset teljesülése, Mobil alkalmazás helyesen inicializálódva \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
+  \hline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció után piros üzenet jelzi, hogy az igazolványszám nem helyes\tabularnewline
+  \hline
+ 3 & Mobil alkalmazás hibaoldal &"Back to login" gombra kattintás & IDX második bejelentkező felület jelenik meg\tabularnewline
+  \hline
+ 4 & IDX második bejelentkező felülete & "Bejelentkezés gombra" kattintás & Bejelentkező főoldal megnyílik, nem vagyunk authentikálva \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsubsection{Arcösszehasonlítás elutasítva}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 17 \tabularnewline
+  \hline
+Teszteset célja  & Elutasított arcösszehasonlítás esetén bejelentkezés megtagadásának ellenőrzése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver, Authentikáló alkalmazás, Mobil alkalmazás \tabularnewline
+  \hline
+Előfeltétel  & 14. teszteset teljesülése, Mobil alkalmazás helyesen inicializálódva, nem a személyi igazolvány tulajdonosa hajta végre a műveleteket \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
+  \hline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
+  \hline
+ 3 & Mobil alkalmazás kihívás oldal & "Start challenge" gombra kattintás & Visszaszámlálás után a megjelenő kihívás végrehajtása\tabularnewline
+  \hline
+ 4 & Mobil alkalmazás kihívás oldal & Eredmény kiértékelésének megvárása & Piros szöveg jelzi, hogy a kihívásra adott választ nem tudta elfogadni\tabularnewline
+  \hline
+ 5 & Mobil alkalmazás kihívás oldal & "Return to login page" gombra kattintás & IDX második bejelentkező felülete megjelenik\tabularnewline
+  \hline
+ 6 & IDX második bejelentkező felülete & "Bejelentkezés gombra" kattintás & Bejelentkező főoldal megnyílik, nem vagyunk authentikálva \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsubsection{Kihívás - válasz nem elfogadható}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 18 \tabularnewline
+  \hline
+Teszteset célja  & Sikertelen kihívásra adott válasz esetén bejelentkezés megtagadásának ellenőrzése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver, Authentikáló alkalmazás, Mobil alkalmazás \tabularnewline
+  \hline
+Előfeltétel  & 14. teszteset teljesülése, Mobil alkalmazás helyesen inicializálódva, a személyi igazolvány tulajdonosa rossz irányba fordítja a fejét \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
+  \hline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
+  \hline
+ 3 & Mobil alkalmazás kihívás oldal & "Start challenge" gombra kattintás & Visszaszámlálás után a megjelenő kihívás végrehajtása, de rossz irányba történő fejfordítással\tabularnewline
+  \hline
+ 4 & Mobil alkalmazás kihívás oldal & Eredmény kiértékelésének megvárása & Piros szöveg jelzi, hogy a kihívásra adott választ nem tudta elfogadni\tabularnewline
+  \hline
+ 5 & Mobil alkalmazás kihívás oldal & "Return to login page" gombra kattintás & IDX második bejelentkező felülete megjelenik\tabularnewline
+  \hline
+ 6 & IDX második bejelentkező felülete & "Bejelentkezés gombra" kattintás & Bejelentkező főoldal megnyílik, nem vagyunk authentikálva \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+
+\subsubsection{Időlimit túllépése}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 19 \tabularnewline
+  \hline
+Teszteset célja  & Időlimit túllépése esetén bejelentkezés megtagadásának ellenőrzése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver, Authentikáló alkalmazás, Mobil alkalmazás \tabularnewline
+  \hline
+Előfeltétel  & 14. teszteset teljesülése, Mobil alkalmazás helyesen inicializálódva, a megadott időlimitnél hosszabb várakozás az alkalmazás megnyitása után \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
+  \hline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció és személyi igazolvány szám ellenőrzés után piros üzenet jelzi, hogy abejelentkezési időkeretből kiléptünk\tabularnewline
+ 3 & Mobil alkalmazás kihívás oldal & "Return to login page" gombra kattintás & IDX második bejelentkező felülete megjelenik\tabularnewline
+  \hline
+ 4 & IDX második bejelentkező felülete & "Bejelentkezés gombra" kattintás & Bejelentkező főoldal megnyílik, nem vagyunk authentikálva \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsubsection{Sikeres bejelentkezés}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 20 \tabularnewline
+  \hline
+Teszteset célja  & Sikeres bejelentkezés ellenőrzése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver, Authentikáló alkalmazás, Mobil alkalmazás \tabularnewline
+  \hline
+Előfeltétel  & 14. teszteset teljesülése, Mobil alkalmazás helyesen inicializálódva, a kihívásra adott elfogadható válasz\tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
+  \hline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
+  \hline
+ 3 & Mobil alkalmazás kihívás oldal & "Start challenge" gombra kattintás & Visszaszámlálás után a megjelenő kihívás végrehajtása\tabularnewline
+  \hline
+ 4 & Mobil alkalmazás kihívás oldal & Eredmény kiértékelésének megvárása & Zöld szöveg jelzi a bejelentkezés sikerességét \tabularnewline
+  \hline
+ 5 & Mobil alkalmazás kihívás oldal & "Return to login page" gombra kattintás & IDX második bejelentkező felülete megjelenik\tabularnewline
+  \hline
+ 6 & IDX második bejelentkező felülete & "Bejelentkezés gombra" kattintás & A védett oldalra jutunk, üdvözlő üzenetben megjelenik a felhasználónevünk \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsection{Kijelentkezés folyamatának tesztesetei}
+
+\subsubsection{Sikeres kijelentkezés}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 21 \tabularnewline
+  \hline
+Teszteset célja  & Sikeres kijelentkezés ellenőrzése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver \tabularnewline
+  \hline
+Előfeltétel  & 20. teszteset teljesülése\tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+
+ 1 & Weboldal védett képernyője & Menüsorban "Kijelentkezés" gombra kattintás & A publikus főoldal jelenik meg, újra bejelentkezés esetén az egész folyamatot újra kell kezdeni, tehát kijelentkeztünk\tabularnewline
+  \hline
+ 
+\end{tabular}
+\end{minipage}
+
 
 \newpage
