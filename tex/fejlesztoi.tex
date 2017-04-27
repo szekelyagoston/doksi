@@ -3,17 +3,70 @@
 \subsection{Tesztelés}
 \subsubsection{Tesztelési terv}
 %\begin{tabularx}{1\textwidth}{ |>{\setlength\hsize{1\hsize}\centering}X|>{\setlength\hsize{1\hsize}\raggedleft}X@{} >{\setlength\hsize{1\hsize}\raggedright}X|>{\setlength\hsize{1\hsize}\centering}X| }
-\begin{tabular}{ | l | l | l |}
+\begin{tabular}{|p{1cm}|p{8cm} |p{4cm}|}
   \hline
 \rowcolor{Title}
 \multicolumn{3}{ |c| }{\color{white} Teszteset leírása} \\
   \hline
 \rowcolor{Header}
-Sorszám & Teszteset név & Érintett modulok\tabularnewline
+Sorsz. & Teszteset név & Érintett modulok\tabularnewline
 \hline 
-  1 & Mobil alkalmazás direkt megnyitása & Mobil alkalmazás  \tabularnewline
+  1 & Mobil alkalmazás direkt megnyitása, műveletek elkezdése & Mobil alkalmazás  \tabularnewline
   \hline
-  2  & Mobil alkalmazás megnyitása rossz paraméterekkel & Mobil alkalmazás, Weboldal  \tabularnewline
+  2  & Mobil alkalmazás megnyitása weboldalról rossz paraméterekkel, műveletek elkezdése & Mobil alkalmazás, Weboldal  \tabularnewline
+  \hline
+ 3  & Mobil alkalmazás megnyitása weboldalról, NFC nem aktív, NFC aktiválása & Mobil alkalmazás, Weboldal  \tabularnewline
+  \hline
+ 4  & Mobil alkalmazás megnyitása weboldalról, NFC nem aktív, műveletek elkezdése & Mobil alkalmazás, Weboldal  \tabularnewline
+  \hline
+ 5  & Mobil alkalmazás megnyitása weboldalról, nincsen minden adat kitöltve, adatok kitöltése & Mobil alkalmazás, Weboldal  \tabularnewline
+  \hline
+ 6  & Mobil alkalmazás megnyitása weboldalról, nincsen minden adat kitöltve, műveletek elkezdése & Mobil alkalmazás, Weboldal  \tabularnewline
+  \hline
+ 7  & Mobil alkalmazás megnyitása weboldalról, hibás adatkitöltés & Mobil alkalmazás, Weboldal  \tabularnewline
+  \hline
+ 8  & Regisztráció folyamata, üres felhasználónév &  Weboldal  \tabularnewline
+  \hline
+ 9  & Regisztráció folyamata, már létező felhasználónév &  Weboldal  \tabularnewline
+  \hline
+ 10  & Regisztráció folyamata, helyes adatok, a folyamat közben felhasználónév foglalttá válik &   Mobil alkalmazás, Weboldal \tabularnewline
+  \hline
+ 11  & Regisztráció folyamata helyes adatokkal & Mobil alkalmazás, Weboldal, IDX szerver  \tabularnewline
+  \hline
+ 12  & Bejelentkezés, felhasználónév nincsen megadva & Weboldal, IDX szerver \tabularnewline
+  \hline
+ 13  & Bejelentkezés, felhasználónév nem létezik & Weboldal, IDX szerver \tabularnewline
+  \hline
+\end{tabular}
+
+\begin{tabular}{|p{1cm}|p{8cm} |p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{3}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Teszteset név & Érintett modulok\tabularnewline
+\hline 
+ 
+ 14  & Bejelentkezés, Mobil authentikáció kihagyása & Weboldal, IDX szerver, Authentikáló alkalmazás \tabularnewline
+  \hline
+ 15  & Bejelentkezés, személyi szám nem egyezik  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+  \hline
+ 16  & Bejelentkezés, arcösszehasonlítás elutasítva  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+  \hline
+ 17  & Bejelentkezés, kihívás - válasz sikertelen  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+  \hline
+ 18  & Bejelentkezési időlimit túllépése  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+  \hline
+ 19  & Sikertelen arcösszehasonlítás, újra próbálkozás  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+  \hline
+ 20  & Sikertelen kihívás - válasz, újra próbálkozás  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+  \hline
+ 21  &Sikeres bejelentkezés  & Weboldal, IDX szerver, Mobil alkalmazás, Authentikáló alkalmazás \tabularnewline
+  \hline
+ 22  &Sikeres kijelentkezés, session bontás  & Weboldal, IDX szerver \tabularnewline
+  \hline
+ 23  & Session tartás  & Weboldal, IDX szerver \tabularnewline
   \hline
 \end{tabular}
 
