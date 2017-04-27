@@ -71,8 +71,10 @@ Sorsz. & Teszteset név & Érintett modulok\tabularnewline
 \end{tabular}
 
 \subsection{Tesztelési eredmények}
+
 \subsubsection{1. Teszteset, direkt megnyitás}
-\begin{tabular}{|>{\columncolor{Header}}p{3cm}|p{4cm}|}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
   \hline
 \rowcolor{Title}
 \multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
@@ -87,21 +89,14 @@ Előfeltétel  & Alkalmazás nem fut, az alkalmazások közül indítjuk a mobil
   \hline
 Megjegyzés  &  \tabularnewline
   \hline
-\end{tabular}
- \qquad
-\begin{tabular}{|>{\columncolor{Header}}p{2cm}|p{3cm}|}
+Dátum  &  2017.04.27\tabularnewline
   \hline
-\rowcolor{Title}
-\multicolumn{2}{ |c| }{\color{white} Tesztelés adatai} \\
-  \hline
- Tesztelés dátuma  & 2017.04.27 \tabularnewline
-  \hline
- Tesztelő  & Székely Ágoston \tabularnewline
-  \hline
- Státusz  & Sikeres \tabularnewline
+Státusz  &  Sikeres \tabularnewline
   \hline
 \end{tabular}
-\newline
+\end{minipage}
+%\newline
+\begin{minipage}{1\textwidth}
 \begin{tabular}{|p{1cm}|p{3cm} |p{3cm}| p{6cm}|}
   \hline
 \rowcolor{Title}
@@ -116,5 +111,55 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
  2 & Mobil alkalmazás főképernyő & Személyi igazolvány hátlaphoz tartása & Ha az NFC be van kapcsolva, hibaüzenet jelenik meg, az indítás nem megfelelő módját jelezve \tabularnewline
   \hline
 \end{tabular}
+\end{minipage}
+
+\subsubsection{2. Teszteset, megnyitás rossz  paraméterekkel}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 2 \tabularnewline
+  \hline
+Teszteset célja  & Mobil alkalmazás megnyitása hiányzó paraméterekkel \tabularnewline
+  \hline
+Érintett rendszerek  &  Mobil alkalmazás, Weboldal \tabularnewline
+  \hline
+Előfeltétel  & Alkalmazás nem fut, weboldalról indítjuk az applikációt, és hiba van a weboldalon \tabularnewline
+  \hline
+Megjegyzés  & Hibát előidézni lehet ha a felhasználónév ellenőrzés után töröljük a felhasználónevet, és úgy nyitjuk meg az alkalmazást \tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+%\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Nem létező felhasználónév megadása, regisztrációs gombra kattintás & "Open app" gomb megjelenik \tabularnewline
+  \hline
+ 4 & Regisztrációs oldal & Felhasználónév kitörlése, "Open app" gombra kattintás & Alkalmazás megnyílik, piros üzenet jelzi a hiányzó patamétert \tabularnewline
+  \hline
+ 5 & Mobil alkalmazás főképernyő & Személyi igazolvány hátlaphoz tartása & Ha az NFC be van kapcsolva, hibaüzenet jelenik meg. \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\subsubsection{3. Teszteset, megnyitás rossz  paraméterekkel}
 
 \newpage
