@@ -493,7 +493,181 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
 
 
 
+\subsubsection{10. Regisztráció folyamat, minden adat helyes, ám a regisztráció folyamat alatt a felhasználónév foglalttá válik}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 10 \tabularnewline
+  \hline
+Teszteset célja  & Regisztráció indítása felületről, nem létező felhasználónévvel, de a regisztráció következő lépése előtt a felhasználónév foglalttá válik, ennek a felismerése, kezelése\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, Mobil alkalmazás \tabularnewline
+  \hline
+Előfeltétel  & A teszt során megadandó felhasználónév még nem létezik a rendszerben, de a regisztráció második lépése előtt már létezik\tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Létező felhasználónév megadása, regisztrációs gombra kattintás & Mobil alkalmazás főoldala megjelenik  \tabularnewline
+  \hline
+ 4 & Mobil alkalmazás főoldal & Igazolvány telefon hátlapjához tartása & BAC authentikáció sikeres, majd regisztráció sikertelen, egy piros üzenet jelzi, hogy a felhasználónév már foglalt\tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsubsection{11. Regisztráció folyamat, minden adat helyes}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 11 \tabularnewline
+  \hline
+Teszteset célja  & Regisztráció indítása felületről, regisztrációs folyamat végigjátszása\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, Mobil alkalmazás \tabularnewline
+  \hline
+Előfeltétel  & A teszt során megadandó felhasználónév még nem létezik a rendszerben, minden egyéb előfeltétel az alkalmazás működéséhez megadva\tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Regisztrációs linkre kattintás & Regisztrációs oldal megnyílik \tabularnewline
+  \hline
+ 3 & Regisztrációs oldal & Létező felhasználónév megadása, regisztrációs gombra kattintás & Mobil alkalmazás főoldala megjelenik  \tabularnewline
+  \hline
+ 4 & Mobil alkalmazás főoldal & Igazolvány telefon hátlapjához tartása & BAC authentikáció sikeres, majd regisztráció is sikeres, ezt egy zöld "Registration successful" üzenet jelzi\tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
 
 
+\subsubsection{12. Bejelentkezés, felhasználónév nincsen megadva}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 12 \tabularnewline
+  \hline
+Teszteset célja  & Bejelentkezés hiányzó felhasználónévvel megtagadása\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver \tabularnewline
+  \hline
+Előfeltétel  & \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Bejelentkezés gombra kattintás & IDX első bejelentkezés felület megnyílik \tabularnewline
+  \hline
+ 3 & IDX első bejelentkező felület & Bejelentkezés gombra kattintás & Bejelentkezés főoldalra irányít (nem jelentkeztet be)  \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+
+\subsubsection{13. Bejelentkezés, felhasználónév nem létezik}
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|>{\columncolor{Header}}p{5cm}|p{8cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{2}{ |c| }{\color{white} Teszteset adatok} \\
+  \hline
+ Teszteset sorszáma  & 13 \tabularnewline
+  \hline
+Teszteset célja  & Bejelentkezés nem létező felhasználónévvel megtagadása\tabularnewline
+  \hline
+Érintett rendszerek  & Weboldal, IDX szerver \tabularnewline
+  \hline
+Előfeltétel  & \tabularnewline
+  \hline
+Megjegyzés  &\tabularnewline
+  \hline
+Dátum  &  2017.04.27\tabularnewline
+  \hline
+Státusz  &  Sikeres \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
+\newline
+\begin{minipage}{1\textwidth}
+\begin{tabular}{|p{1cm}|p{3cm} |p{5cm}| p{4cm}|}
+  \hline
+\rowcolor{Title}
+\multicolumn{4}{ |c| }{\color{white} Teszteset leírása} \\
+  \hline
+\rowcolor{Header}
+Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
+\hline 
+ 
+ 1 & Üres böngésző & URL begépelése & Főoldal megnyílik \tabularnewline
+  \hline
+ 2 & Főoldal & Bejelentkezés gombra kattintás & IDX első bejelentkezés felület megnyílik \tabularnewline
+  \hline
+ 3 & IDX első bejelentkező felület & Nem létező felhasználónév megadása, bejelentkezés gombra kattintás & Bejelentkezés főoldalra irányít (nem jelentkeztet be)  \tabularnewline
+  \hline
+\end{tabular}
+\end{minipage}
 
 \newpage
