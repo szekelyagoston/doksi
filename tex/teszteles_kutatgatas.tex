@@ -132,4 +132,8 @@ Az algoritmus optimalizálásának története:
 \item Verzió 4: Elfordulások visszahozva első lépésnek. Nem csak olyan elfordulást keres, ami legalább egy bizonyos fokban el van fordulva, hanem olyat is, ami egy bizonyos foknál kevésbé van elfordulva (amennyiben ilyet nem talál, úgy a legközelebbit választja ki ehhez a számhoz), majd ezt a kiválasztott képettovábbítja összehasonlításra. Ezzel egy kevés sebességvesztés történik, de a megbízhatóság nagyban nő
 \end{itemize}
 
+\subsubsection{Skálázhatóság}
+A rendszer leggynegébb pontja, a felhasználó mobil alkalmazását futtató eszköz minősége. Rövidtávú megoldás lehet minden képtranszformációt és tömörítést szerver oldalon végezni. Így ugyan a készített video egészét kéne adatforgalom szempontjából figyelembe venni, de ez még mindig jobb megoldás mintha bizonyos eszközökön nem tudna minden optimalizációs lépés végigftuni.
+Ez esetben viszont az authentikáló alkalmazás teljesítménye lesz mérvadó, de még mindig gyorsabban és ellenőrzöttebben kezelhető, pollozható, adott esetben bővíthető a szerver. Mind memória (a felküldött képeket memóriában tárolja a kihívás - válasz sikerességének eldöntéséig), mind sávszélesség szempontjából sok bejelentkezési kérelem egy időben elfogyaszthatja erőforrásainkat. Mind nagyobb memória vagy sávszélesség bitzosítása, mind több szerver üzemelése, és a kérések helyes elosztása (a mobil alkalmazásnakjeleznie kell, hogy minden kérése ugyanoda fusson be) csökkentheti a terhelést.
+
 
