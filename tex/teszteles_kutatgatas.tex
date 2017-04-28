@@ -1,0 +1,135 @@
+\subsection{Modul tesztelések}
+Ebben a fejezetben a program azon részét fogom elemezni, amely az egyetlen igazán kritikus pontja a működésnek gyorsaság, megbízhatóság, és a helyes eredmények szempontjából, ez pedig a bejelentkezési folyamat. Ennek főbb lépései a következők:
+\begin{itemize}
+\item Személyi igazolvány szám ellenőrzés. Gyorsaság itt a többi lépéshez képest elhanyagolható, ugyanúgy mint a megbízhatóság, mivel kevés potenciális probléma léphet fel a folyamat közben.
+\item  Kihívás - válasz kiértékelése. Ez a lépés sokkal hosszabb, több ponton is nagyobb a különböző hibák lehetősége, ezért ezt mindenképpen érdemes lehet megvizsgálni.
+\end{itemize}
+A kihívásra adott válasz (egy videostream) kiértékelése a következő lépésekben hajtódik végre:
+\begin{itemize}
+\item (1) Képkockák mentése a videostreamből
+\item (2) Képkockák mennyiségének csökkentése, egyenlő időközönként egy képkocka kiemelése
+\item (3) Kiválogatott képkockák előfeldolgozása, elfordítása, tükrözése, méret csökkentése
+\item (4) Feldolgozott képkockák authentikáló alkalmazás számára való továbbítása
+\item (5) Algoritmus átfutása a megkapott elemeken. Legalább egy arcelfordulás kiértékelés, és egy arcösszehasonlítás, a Microsoft Project Oxford Face API vagy a Face++ API segítségével.
+\end{itemize}
+
+Ezekből a pontokból ami gyorsaság szempontjából kritikus lehet az a hármas (3) pont esetén a feldolgozás sebessége, és a kapott képek méretcsökkenése különböző tömörítési szintek esetén, illetve az ötödik (5) pont esetén szintén a különböző méretű és minőségű képek esetén az elfordulások felismerésének gyorsasága, minősége és az összehasonlítás megbízhatósága (itt a gyorsaság nem kritikus, mivel pontosan 1 db képet továbbít a jelenlegi algoritmus, szemben az arcelfordulás esetén továbbítandó akár 15 képpel ellentétben).
+\\Az első verziója az alkalmazásnak képtömörítést még nem végzett csak transzformációkat, ez súlyos mértékben befolyásolta a gyorsaságot. Érdemesnek látszott megvizsgálni, hogy különböző tömörítéseket mennyire gyorsan tudnak a végeszközök végrehajtani, és ezzel mennyire gyorsul a folyamat. De az is látható volt, hogy túl nagy mértékű tömörítés mind az arcelfordulás megállapítását mind az arcösszehasonlítás megbízhatóságát negatív irányban befolyásolja. A megfelelő egyensúlyt a megbízhatóság és a sebesség között prioritássá vált megtalálni.
+\\
+Tesztelés céljából az alkalmazást átalakítottam, bejelentkezés helyett 6 képet továbbít, majd az összesre mind a Microsoft Project Oxford mind a Face++ arceflismerő és arcösszehasonlító szolgáltatását igénybe veszi, az eredményeket pedig kiírja fájlba, amiből az összehasonlatásokat könnyen végre lehet hajtani. A tömörítés minősége a"YuvImage" "compressToJpeg" "quality" paramétát adja meg, ami egy 0-tól 100-ig terjedő skála, ahol 100 a maximum minőőség, 0 a kis méret.
+\\Nézzük meg a képkockák tömörítésének gyorsaságát a tesztelésre használt LG G3 telefon esetében.
+
+\begin{center}
+	\begin{tabular}{|p{1cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
+   	\hline
+	 & Kép\#1 & Kép\#2& Kép\#3&Kép\#4 &Kép\#5 &Kép\#6\\ \hline
+	100 & 869ms & 798ms & 870ms & 854ms & 874ms & 875ms \\ \hline
+	30 & 503ms & 498ms & 527ms & 424ms & 532ms & 479ms \\ \hline
+	3 & 443ms & 458ms & 426ms & 483ms & 452ms & 445ms\\ \hline
+	\end{tabular}
+\end{center}
+
+Látható hogy a tömörítés illetve a külöböző transzformációk sebessége minél kisebb a célminőség, annál gyorsabb. A 100 pontos minőség és a 3 pontos között nagyságrendileg kétszeres különbség van, ami párhuzamos feldolgozás esetén is minimum felére csökkenti a művelettel töltött időt. Nézzeük meg adatforgalom szempontjából milyen értékeket kaptunk különböző tömörítettségi szintekre.
+
+
+\begin{center}
+	\begin{tabular}{|p{1cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
+   	\hline
+	 & Kép\#1 & Kép\#2& Kép\#3&Kép\#4 &Kép\#5 &Kép\#6\\ \hline
+	100 & 730kb & 730kb & 727kb & 728kb & 726kb & 724kb \\ \hline
+	30 & 145kb & 145kb & 143kb & 140kb & 139kb & 136kb \\ \hline
+	3 & 32kb & 32kb & 32kb & 31kb & 31kb & 31kb\\ \hline
+	\end{tabular}
+\end{center}
+
+Az eredmények alapján megállapítható, hogy a méretek még drasztikusabb mértékben csökkentek. A 100 pontos és a 30 pontos méret között nagyságrendileg 600kb különbség van, ami 15 kép esetén $15*600 = 9000kb$ azaz nagyságrendileg 9MB adatforgalom illetve a kommunikáció sebessége miatti sebesség változást okoz.
+\\Az alkalmazás ezt a megállapítást követő verziója a lehető legkisebbre tömörítette a képeket, ez esetben pedig a megbízhatóság csökkent. Mind a Microsoft Project Oxford, mind a Face++ válaszai nem tűntek elég precíznek, így érdemessé vált megvizsgálni különböző minőségű képekre a válaszok minőségét, illetve gyorsaságát.
+
+\begin{center}
+	\begin{tabular}{|p{2cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
+   	\hline
+	 & Kép\#1 & Kép\#2& Kép\#3&Kép\#4 &Kép\#5 &Kép\#6\\ \hline
+	FACE++ 100 & -1.84 & -3.29 & -4.29 & -10.91 & -23.24 & -33.57 \\ \hline
+	FACE++ 30 & -2.84 & -3.05 & -3.42 & -10.34 & -21.45 & -32.64 \\ \hline
+	FACE++ 3 & -1.90 & -6.96 & -3.40 & -4.00 & -7.23 & -\\ \hline
+	\end{tabular}
+\end{center}
+
+A Face++ eredményeinek láttán megállapítható, hogy míg 100-as és 30-as tömörítésnél az eredmények nagyságrendileg megegyeznek (így lényegi különbség nincsen a továbbított képek méretében), addig 3-as tömörítése szinten a kapott értékek teljesen megbízhatatlanok, így azt alkalmazni nem lehet biztonságosan. 
+\\A válaszok sebessége (teljes adatforgalmmal): 
+\begin{center}
+	\begin{tabular}{|p{1cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
+   	\hline
+	 & Kép\#1 & Kép\#2& Kép\#3&Kép\#4 &Kép\#5 &Kép\#6\\ \hline
+	100 & 2965ms & 3520ms & 2968ms & 2960ms & 2973ms & 3162ms \\ \hline
+	30 & 1986ms & 2000ms & 2109ms & 2214ms & 2037ms & 2012ms \\ \hline
+	3 & 1563ms & 1584ms & 1598ms & 1682ms & 1656ms & 1499ms\\ \hline
+	\end{tabular}
+\end{center}
+
+Mivel a jelenleg használt ingyenes Face++ API párhuzamos kéréseket nem enged, így a 100-as és a 30-as szint között 15mp különbség lehet 15 képkocka esetén, így az algoritmust mindenképpen valamely módon optimalizálni kell (a végleges megoldásban egy minimum elfordulást meghaladó válasz esetén a további képeket nem dolgozza fel, hanem elfogadja a kihívást).
+\\Nézzük meg ugyanezekre a képekre a Microsoft Project Oxford hogyan viselkedik:
+\begin{center}
+	\begin{tabular}{|p{2cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
+   	\hline
+	 & Kép\#1 & Kép\#2& Kép\#3&Kép\#4 &Kép\#5 &Kép\#6\\ \hline
+	Microsoft 100 & -6.4 & -6.7 & -6.2 & -7.2 & -12.9 & -16.6 \\ \hline
+	Microsoft 30 & -6.7 & -0.70 & 0.3 & -6.0 & -21.8 & -24.8 \\ \hline
+	Microsoft 3 & -0.4 & -1.8 & -3.7 & -3.8 & -2.2 & -16.2\\ \hline
+	\end{tabular}
+\end{center}
+
+Az eredményeket áfutva látszik, hogy 100-as és 30-as tömörítésnél is nagyok az eltérések, de nagy elfordulásnál az elfordulások nagyságrendjét tartja a szolgáltatás, kis minőségnél ugyanúgy megbízhatatlan, habár talán szélesebb skálán működik mint a Face++. Gyorsasgában viszont jelentősen gyorsabb ez a megoldás: 
+\begin{center}
+	\begin{tabular}{|p{1cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
+   	\hline
+	 & Kép\#1 & Kép\#2& Kép\#3&Kép\#4 &Kép\#5 &Kép\#6\\ \hline
+	100 & 2339ms & 2208ms & 3611ms & 2123ms &2314ms & 2210ms \\ \hline
+	30 & 1494ms & 1492ms & 1475ms & 1509ms & 1512ms & 1478ms \\ \hline
+	3 & 1102ms & 1107ms & 1169ms & 1158ms & 1171ms & 1140ms\\ \hline
+	\end{tabular}
+\end{center}
+
+Az utolsó fontos megvizsgálandó kérdés az arcösszehasonlítás minősége. Szintén ugyanezeket a képeket vizsgálva a következő eredményeket kapjuk Face++ esetén (0-100 ig terjedő megbízhatósági skálán, ahol 100 jelenti hogy a két arc 100\%-os valószínűséggel megegyezik):
+\begin{center}
+	\begin{tabular}{|p{2cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
+   	\hline
+	 & Kép\#1 & Kép\#2& Kép\#3&Kép\#4 &Kép\#5 &Kép\#6\\ \hline
+	100 & 67 & 68 & 69 & 72 & 71 & 66 \\ \hline
+	30 & 68 & 69 & 68 &73 & 71 & 67 \\ \hline
+	3 & 59 & 58 & 70 & 60 & 56 & -\\ \hline
+	\end{tabular}
+\end{center}
+
+Látható, hogy 100-as és 30-as szintre az eredmények nagyvonalakban ugyanazok, de 3-as tömörítettségi szintre lényegesen gyengébben működik a szolgáltatás, sőt ha nem talál arcot (Kép\#6, 3-as tömörítettségi szinten), akkor a bejelentkezés el lenne utasítva automatikusan. Ezt is az algoritmusba kell beépíteni (Nem csak maximum elfordulásra kell keresni képeket, hanem minimumra is, amivel garantálható, hogy olyan képkockát továbbítsunk arcösszehasonlításra, amin található arc).
+
+Ugyanez a teszt Microsoft Project Oxford esetén:
+\begin{center}
+	\begin{tabular}{|p{2cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
+   	\hline
+	 & Kép\#1 & Kép\#2& Kép\#3&Kép\#4 &Kép\#5 &Kép\#6\\ \hline
+	100 & 54 & 55 &57 & 56 & 58 & 52 \\ \hline
+	30 & 53 & 54 & 55 &56 & 56 & 50 \\ \hline
+	3 & 42 & 48 & 51 & 53 & 62 & 57\\ \hline
+	\end{tabular}
+\end{center}
+
+Megállapítható, hogy a Microsoft is 100-as illetve 30-es szint mellett működik megbízhatóan, és nagy elfordulásra drasztikusan csökkenhet az elfogadottság. Az előző esetben leírt algoritmmus módosítás ezek alapján ebben az esetben is kritikus a megfelelő működés eléréséhez.
+\\Összegzésként feljegyezhetőek a következő tapasztalatok:
+\begin{itemize}
+\item Minőséget csökkenteni érdemes lehet, de a 3-as szint már nem megfelelő, a 30-ast kell implementálni. Különböző telefonokra ez a szint később változó lehet.
+\item Ennél a 30-as szintnél mind az arcösszehasonlítás, mind az elfordulás megállapítása még megfelelően működik
+\item Az arcösszehasonlítás széles elfordulásnál nem megbízható
+\item Mind a kettő vizsgált szolgáltatást érdemes beépíteni
+\item A kihívásra adott választ elemző algoritmus optimalizálása sebesség szempontjából nagyon fontos
+\end{itemize}
+
+Az algoritmus optimalizálásának története:
+\begin{itemize}
+\item Verzió 1: A megkapott képeket továbbítja egyesével a harmadik félnek, majd a válaszok között amennyiben talál minimum akkora elfordulást mint a célelfordulás, akkor elfogadja ezt a lépést, és egy találomra kiválasztott képet továbbít arcösszehasonlításra
+\item Verzió 2: Arcösszehasonlítás az első lépés elé hozva, így elutasított arcösszehasonlítás esetén az elfordulások ellenőrzésével már nem megy az idő
+\item Verzió 3: Elfordulásokat csak addig ellenőrzi, amíg nem talál legalább egy megfelelőt, ezután a műveletet megszakítja és elfogadottnak veszi ezt a lépést, ezzel időt lehet spórolni
+\item Verzió 4: Elfordulások visszahozva első lépésnek. Nem csak olyan elfordulást keres, ami legalább egy bizonyos fokban el van fordulva, hanem olyat is, ami egy bizonyos foknál kevésbé van elfordulva (amennyiben ilyet nem talál, úgy a legközelebbit választja ki ehhez a számhoz), majd ezt a kiválasztott képettovábbítja összehasonlításra. Ezzel egy kevés sebességvesztés történik, de a megbízhatóság nagyban nő
+\end{itemize}
+
+
