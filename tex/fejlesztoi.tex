@@ -121,11 +121,93 @@ Mezők leírása:
 	SYS\_UP\_DT & TIMESTAMP(6)& Rekord frissítésének időpontja \\ \hline
 \end{tabular}
 
+\subsubsection{Modulok kommunikációja bejelentkezés esetén}
+A két funkció közül a bejelentkezés ami nagyságrandekkel bonyolultabb, a regisztráció tulajdonképpen csak egy ellenőrzés utáni adatkiolvasás illetve rekordbeszúrás. A bejelentkezés folyamatát érdemes lehet modulokra lebontva jellemezni.
+Először tekintsük a bejelentkezés szekvencia diagramját:
 
-%\begin{sidewaysfigure}
-%\centering
+\begin{sidewaysfigure}
+\centering
+         \includegraphics[scale=0.47]{img/szekvencia}
+    \caption{Bejelentkezés szekvencia diagramja}
+\end{sidewaysfigure}
 
-   %      \includegraphics[scale=0.47]{img/szekvencia}
 
-    %\caption{Bejelentkezés szekvencia diagramja}
-%\end{sidewaysfigure}
+\newpage
+Bontsuk lépésekre a folyamatot, majd egyesével jellemezzük a modulok közötti kommunikációt:
+\begin{itemize}
+\item A felhasználó a webodalon a "Bejelentkezés" gombra kattint, és az IDX szerverre továbbítódik a kérése (1)
+\item Megadja a felhasználónevét, ezzel egy regisztrációs kérés indul (2)
+\item Megnyitja az új felületen a mobil alkalmazását, és beolvassa a kártyájáról a szükséges adatokat (3)
+\item Beolvassa a személyi igazolvány adatait (4)
+\item Végrehajtja a kért kihívást, bezárja a mobil alkalmazást  (5)
+\item "Bejelentkezés" gombra kattint, és a kihívásra adott sikeres válasz esetén megjelenik a főoldal (6)
+\end{itemize}
+
+
+\begin{tabular}{|p{3cm}|p{10cm} |}
+   	\hline
+	\textbf{1. lépés:} & \textbf{}\\ \hline
+	Kiinduló modul & Felhasználói weboldal \\ \hline
+	Cél modul & IDX szerver \\ \hline
+	Kimenő adat & Bejelentkezési kérelem az adott URL-ről \\ \hline
+	Tevékenység & Elindítja a bejelentkezés folyamatt, és átad minden szükséges adatot ahhoz, hoyg az IDX szerver azonosítani tudja a weboldalt \\ \hline
+\end{tabular}
+
+
+\begin{tabular}{|p{3cm}|p{10cm} |}
+   	\hline
+	\textbf{2. lépés:} & \textbf{}\\ \hline
+	Kiinduló modul & IDX szerver \\ \hline
+	Cél modul & Authentikáló alkalmazás \\ \hline
+	Kimenő adat & Igazolványkép, generált azonosító, személyi igazolvány száma \\ \hline
+	Tevékenység & Jelzi az authentikáló alkalmazásnak a bejelentkezési kérelmet, amit az authentikáló alkalmazás perzisztál\\ \hline
+\end{tabular}
+
+
+\begin{tabular}{|p{3cm}|p{10cm} |}
+   	\hline
+	\textbf{3. lépés:} & \textbf{}\\ \hline
+	Kiinduló modul & IDX szerver \\ \hline
+	Cél modul & Mobil alkalmazás \\ \hline
+	Kimenő adat & Authentikáló alkalmazás elérési URL, generált azonosító a bejelentkezési kérelemhez \\ \hline
+	Tevékenység & Inicializálja a mobil alkalmazást a bejelentkezés lépéseinek végrehajtásához\\ \hline
+\end{tabular}
+
+\begin{tabular}{|p{3cm}|p{10cm} |}
+   	\hline
+	\textbf{4. lépés:} & \textbf{}\\ \hline
+	Kiinduló modul & Mobil alkalmazás \\ \hline
+	Cél modul & Authentikáló alkalmazás \\ \hline
+	Kimenő adat & Beolvasott személyi igazolvány száma, generált azonosító a bejelentkezési kérelemhez \\ \hline
+	Tevékenység & Ellenőrzi, hogy a személyi igazolvány száma megegyzik-e azzal amit a generált azonosítóhoz regisztrált a rendszer  a 2. lépésben\\ \hline
+	Válasz & Végrehajtandó kihívás szöveges leirata\\ \hline
+\end{tabular}
+
+
+\begin{tabular}{|p{3cm}|p{10cm} |}
+   	\hline
+	\textbf{5/1. lépés:} & \textbf{}\\ \hline
+	Kiinduló modul & Mobil alkalmazás \\ \hline
+	Cél modul & Authentikáló alkalmazás \\ \hline
+	Kimenő adat & Feldolgozott képek, generált azonosító a bejelentkezési kérelemhez \\ \hline
+	Tevékenység & Feldolgozza (transzformációk, tömörítés) a kihívás során beolvasott képeket, majd továbbítja\\ \hline
+\end{tabular}
+
+
+\begin{tabular}{|p{3cm}|p{10cm} |}
+   	\hline
+	\textbf{5/2. lépés:} & \textbf{}\\ \hline
+	Kiinduló modul & Mobil alkalmazás \\ \hline
+	Cél modul & Authentikáló alkalmazás \\ \hline
+	Kimenő adat & Nyugta, generált azonosító a bejelentkezési kérelemhez  \\ \hline
+	Tevékenység & Eldönti, hogy a kihívás teljesítése sikeres volt-e\\ \hline
+\end{tabular}
+
+\begin{tabular}{|p{3cm}|p{10cm} |}
+   	\hline
+	\textbf{6. lépés:} & \textbf{}\\ \hline
+	Kiinduló modul & IDX szerver \\ \hline
+	Cél modul & Authentikáló alkalmazás \\ \hline
+	Kimenő adat & Generált azonosító a bejelentkezési kérelemhez \\ \hline
+	Tevékenység & Ellenőrzi, hogy a küldött azonosítóhoz tartozó rekord meg lett-e erősítve\\ \hline
+\end{tabular}
