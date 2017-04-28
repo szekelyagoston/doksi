@@ -9,7 +9,23 @@ A rendszer több különálló modulból kell hogy álljon:
 \item Egy vagy több third party arcfelismerő alkalmazás, amely hosszútávon lehet egy online, illetve offline megoldás is, beépítésekor törekedni kell a könnyű konfigurációra. Az authentikáló alkalmazás fogja hívni a bejelentkezés megfelelő lépéseiben, a válasz alapján lehet eldönteni a bejelentkezés sikerességét. Jelenleg a Microsoft Project Oxford és a Face++ kerül beépítésre
 \end{itemize}
 
+Az alábbi ábra mutatja a rendszer komponenseit és azok kommunikációját. Az egyenes nyíl jelzi, ha az adott komponens meg tudja szólítani valamilyen módon a célkomponenst. A kérésre adott választ nem jelöltem.
 
+\begin{figure}[h]
+ \begin{minipage}{1\textwidth} 
+\centering
+    \includegraphics[scale=0.47]{img/rendszerkomponensek}
+    \caption{A rendszer komponensei}
+ \end{minipage}
+\end{figure}
 
 \subsubsection{Felhasználó weboldal}
 A publikus főoldalon van lehetőségünk bejelentkezni, illetve amennyiben még nincsen felhasználónk, regisztrálni. A bejelentkezés gombra kattintva megfelelő IDX integráció esetén az IDX bejelentkező felületére leszünk továbbítva. Regisztráció esetén egy felhasználónév megadásával indíthatunk új folyamatot. Itt ellenőrizni kell a felhasználónév szabad felhasználást, illetve mivel itt még csak paramétereket generálunk a mobilalkalmazásnak, a regisztrációs adatok csak később kerülnek adatbázisba, így ezt később is ellenőrizni kell!
+
+\begin{sidewaysfigure}
+\centering
+
+         \includegraphics[scale=0.47]{img/szekvencia}
+
+    \caption{Bejelentkezés szekvencia diagramja}
+\end{sidewaysfigure}
