@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>530</x>
+      <y>20</y>
+      <w>440</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>Table:FACELOGIN_CA_CONFIRMATION
+--
+-ID: NUMBER(12,0) {Primary}
+-REQUEST_ID: VARCHAR2(255 BYTE)
+-DOCUMENT_ID: VARCHAR2(255 BYTE)
+-DOC_CONFIRMED: NUMBER(1,0)
+-PICTURE: BLOB
+-CHALLENGE_TYPE: VARCHAR2(255 BYTE)
+-CHALLENGE_CONFIRMED: NUMBER(1,0)
+-CHALLENGE_TRIED: NUMBER(1,0)
+-SYS_CR_DT: TIMESTAMP(6)
+-SYS_UP_DT: TIMESTAMP(6)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>20</x>
+      <y>20</y>
+      <w>440</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>Table:FACELOGIN_CA_CONFIGURATION
+--
+-ID: NUMBER(12,0) {Primary}
+-PARAM: VARCHAR2(255 BYTE)
+-PARAM_VALUE: VARCHAR2(255 BYTE)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

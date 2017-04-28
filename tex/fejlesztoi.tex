@@ -79,13 +79,48 @@ Ez a modul két képernyő megjelenítését kívánja meg. Első amikor a felha
 \subsubsection{Mobil alkalmazás}
 A mobil alkalmazás egy android rendszeren futó segégszoftver a bejelentkezés szükséges lépéseinek végrehajtásához. Két üzemmódja létezik:
 \begin{itemize}
-\item Regisztrációs
-\item Bejelentkezéses
+\item Regisztráció
+\item Bejelentkezés
 \end{itemize}
 
 Mindkét üzemmód használatának előfeltétele a kártyaadatok helyes megadása, az alkalmazás erre előkészített felületéről való indítása (a szükséges paraméterek megléte nélül nem használható) és az NFC bekapcsolása. Ezeknek a feltételeknek hiányosságairól az alkalmazás indításkor figyelmeztet. Javítás után a felhasználó folytathatja a megkezdett folyamatot. Következő lépés az elektronikus személy hátlaphoz tartása. A kártya olvasásában a nyílt forráskódú JMRTD lesz segítségünkre, amely először egy BAC (Basic Access Control) authentikációt hajt végre a megadott kártyaadatokkal (kártyaszám, születési dátum, lejárat dátuma), majd sikeres authentikáció esetén lehetőségünk nyílik a kártya szükséges adatainak olvasására.
 \\Regisztráció esetén a kártyaszámot és az igazolványképet kell kiolvasni és visszaküldeni a felhasználói weboldalra az inicializáláskor megkapott link segítségével.
-Bejelentkezés esetén először a kártyaszámot kell kiolvasni, és a szintén inicializáláskor megkapott paraméterekkel az authentikáló alkalmazásnak továbbítani. Amennyiben az alkalmazás ezt elfogadja, sikeres választ kapunk, különben hibaüzenetet, amit megjelenítünk a képernyőn. Sikeres válasz esetén a válaszban kell szerepeljen a kért kihívás. Új felületen az előlapi kamera képét kell megjeleníteni, majd gombnyomásra indítani a kihívást. Célszerű pár másodperc visszaszámlálást beépíteni, hogy a felhasználó az ilyenkor megjelenő kihívás szövegére gyorsan fel tudjun készülni. Ezután felvesszük a választ, majd továbbítjuk az authentikáló alkalmazásnak, az erre kapott választ pedg feldolgozzuk és kiírjuk a felületre. Sikeres és sikertelen bejelentkezés esetén is gombnyomásra bezárjuk az alkalmazást, és visszatérünk az IDX felületére.
+Bejelentkezés esetén először a kártyaszámot kell kiolvasni, és a szintén inicializáláskor megkapott paraméterekkel az authentikáló alkalmazásnak továbbítani. Amennyiben az alkalmazás ezt elfogadja, sikeres választ kapunk, különben hibaüzenetet, amit megjelenítünk a képernyőn. Sikeres válasz esetén a válaszban kell szerepeljen a kért kihívás. Új felületen az előlapi kamera képét kell megjeleníteni, majd gombnyomásra indítani a kihívást. Célszerű pár másodperc visszaszámlálást beépíteni, hogy a felhasználó az ilyenkor megjelenő kihívás szövegére gyorsan fel tudjunk készülni. Ezután felvesszük a választ, transzformációkat hajtunk végre (elfordítás 90 fokkal, tükrözés), tömörítünk, és kiválasztunk egyenlő időközönként maximum N darab képkockát, majd továbbítjuk az authentikáló alkalmazásnak párhuzamosan a bejelentkezési kérelem generált azonosítójával együtt, hogy a szerver tudja csatolni a megfelelő rekordhoz. Az erre kapott választ pedg feldolgozzuk és kiírjuk a felületre. Sikeres és sikertelen bejelentkezés esetén is gombnyomásra bezárjuk az alkalmazást, és visszatérünk az IDX felületére.
+
+\subsubsection{Authentikáló alkalmazás}
+Ennek a modulnak a célja, hogy minden felhasználói adat permanens tárolása nélkül egy bejelentkezési kérést elfogadjon vagy elutasítson. Fogadnia kell tudni az IDX felületéről REST híváson keresztül indított bejelentkezási kérelmet, ezt adatbázisba tárolni kell. Miután a megadott bejelentkezési időtartam lejárt, egy automata műveletnek ezt a régi, már nem használható bejegyzést törölnie kell.\\
+Fogadnia kell továbbá három különböző kérést REST-en keresztül a mobil alkalmazásból:
+\begin{itemize}
+\item Személyi igazolvány szám és generált bejelentkezési azonosító fogadása a bejelentkezés első lépésének ellenőrzésére. Ha talál olyan rekordot a megerősítésre váró kérések táblájában amely az adott azonosítóhoz ugyanezt az igazolványszámot rendeli, és még a maximum időtartamon belül van, úgy ezt a lépést el kell fogadni, és válaszüzenetben a mobilalkalmazásnak vissza kell küldenie a rekordhoz tartozó kihívás szöveges leiratát. Hiba esetén a válasz törzsében a hiba okát meg kell jegyezni, ezt később a mobil alkalmazás feltudja dolgozni.
+\item Kihíváshoz tartozó kékockákat kell fogadnia. Ezeket a mobil kliens párhuzamosan küldi a hozzájuk tartozó generált azonosítóval, azonosítónként pedig csoportosítani kell a beérkezett képeket. Érdemes a gyorsaság szempontjából nem adatbázisban, hanem memóriában tárolni ezeket, de ez esetben fontos a törlésükről nem megfeledkezni!
+\item Miután a mobil alkalmazás minden képet felküldött, egy "nyugtát" küld, hogy minden adat megérkezett, és azt a nyugtát fogadva a kihívásra adott válasz kiértékelését el kell kezdeni. A kiértékelés eredményéről pedig a nyugtára adott válaszüzenetben tájékoztatni kell a mobil kilenst.
+\end{itemize}
+
+\begin{figure}[h]
+ \begin{minipage}{1\textwidth} 
+\centering
+    \includegraphics[scale=0.4]{img/facelogin_ca_db}
+    \caption{Authentikáló alkalmazás táblái}
+ \end{minipage}
+\end{figure}
+%\newpage
+Mezők leírása:
+
+\begin{tabular}{|p{5.5cm}|p{3cm} |p{6cm}|}
+   	\hline
+	\textbf{Mező neve} & \textbf{Érték} & \textbf{Szerep}\\ \hline
+	ID & NUMBER(12,0) & Generált azonosító, elsődleges kulcs \\ \hline
+	REQUEST\_ID & VARCHAR2(255 BYTE) & Az IDX szerverből kapott generált azonosító. A mobil alkalmazásból kapott adatokat is ezzel tudjuk majd azonosítani \\ \hline
+	DOCUMENT\_ID & VARCHAR2(255 BYTE)& Személyi igazolvány száma \\ \hline
+	DOC\_CONFIRMED & NUMBER(1,0) & Személyi igazolvány mobilos megerősítése után vátozik igazzá\\ \hline
+	PICTURE & BLOB & IDX modulból kapott, bináris formában mentett igazolványkép\\ \hline
+	CHALLENGE\_TYPE & VARCHAR2(255 BYTE)& A kért kihívás azonosítója, a rendszerben egy Enum értéknek felel majd meg. Ez az Enum fogja tartalmazni a kihívás szöveges leírását \\ \hline
+	CHALLENGE\_CONFIRMED & NUMBER(1,0)& A kihívás elfogadása után válik igazzá \\ \hline
+	CHALLENGE\_TRIED & NUMBER(1,0) & Amenyiben a kihívást már megpróbáltuk teljesíteni, igazzá válik. Az időlimiten belüli újrapróbálkozások ellen véd \\ \hline
+	SYS\_CR\_DT & TIMESTAMP(6)& A bejelentkezési kérelem regisztrálásának időpontja \\ \hline
+	SYS\_UP\_DT & TIMESTAMP(6)& Rekord frissítésének időpontja \\ \hline
+\end{tabular}
+
 
 %\begin{sidewaysfigure}
 %\centering
