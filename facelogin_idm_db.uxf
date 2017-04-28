@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.2">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>110</x>
+      <y>50</y>
+      <w>440</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>Table:IDM_FACELOGIN
+--
+-IDM_FACELOGIN_UID: VARCHAR2(255 BYTE) {Primary}
+-IDM_FACELOGIN_MAPPED_UID: VARCHAR2(255 BYTE)
+-IDM_FACELOGIN_CARD_NO: VARCHAR2(255 BYTE)
+-IDM_FACELOGIN_PIC: BLOB
+-IDM_FACELOGIN_IS_ENABLED: NUMBER(1,0)
+-SYS_USER_ID: NUMBER(4,0)
+-SYS_CR_DT: TIMESTAMP(6)
+-SYS_UP_DT: TIMESTAMP(6)
+-LAST_SUCCESSFUL_ATTEMPT: TIMESTAMP(6)
+-LAST_FAILED_ATTEMPT: TIMESTAMP(6)
+-LAST_BLOCKED_ATTEMPT: TIMESTAMP(6)
+-FAILED_ATTEMPT_COUNTER: NUMBER(10,0)
+-FIRST_BLOCKED_ATTEMPT: TIMESTAMP(6)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
