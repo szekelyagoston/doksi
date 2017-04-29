@@ -9,16 +9,6 @@ A rendszer több különálló modulból kell hogy álljon:
 \item Egy vagy több third party arcfelismerő alkalmazás, amely hosszútávon lehet egy online, illetve offline megoldás is, beépítésekor törekedni kell a könnyű konfigurációra. Az authentikáló alkalmazás fogja hívni a bejelentkezés megfelelő lépéseiben, a válasz alapján lehet eldönteni a bejelentkezés sikerességét. Jelenleg a Microsoft Project Oxford és a Face++ kerül beépítésre
 \end{itemize}
 
-%Az alábbi ábra mutatja a rendszer komponenseit és azok kommunikációját. Az egyenes nyíl jelzi, ha az adott komponens meg tudja szólítani valamilyen módon a célkomponenst. A kérésre adott választ nem jelöltem.
-
-%\begin{figure}[h]
-% \begin{minipage}{1\textwidth} 
-%\centering
-  %  \includegraphics[scale=0.47]{img/rendszerkomponensek}
-    %\caption{A rendszer komponensei}
- %\end{minipage}
-%\end{figure}
-
 \subsubsection{Felhasználó weboldal}
 A publikus főoldalon van lehetőségünk bejelentkezni, illetve amennyiben még nincsen felhasználónk, regisztrálni. A bejelentkezés gombra kattintva megfelelő IDX integráció esetén az IDX bejelentkező felületére leszünk továbbítva. Regisztráció esetén egy felhasználónév megadásával indíthatunk új folyamatot. Itt ellenőrizni kell a felhasználónév szabad felhasználást, illetve mivel itt még csak paramétereket generálunk a mobilalkalmazásnak és a regisztrációs adatok csak később kerülnek adatbázisba, így ezt később is ellenőrizni kell! A regisztrációnál generálni kell egy olyan linket, amit a telefon megnyitva elindítja a mobilalkalmazást regisztrációs módban, és ennek a linknek tartalmaznia kell azokat a paramétereket ami alapján a megadott felhasználónévvel, a személyi igazolványból kiolvasott igazolványszámmal és igazolványképpel a regisztrációt véglegesíteni tudja a weboldalon.
 Ezután egy új regisztrált felhasználónak kell megjelennie a mgfelelő táblában, és ezt a felhasználót regisztrálni kell az IDX szerver megfelelő táblájába is.
@@ -99,11 +89,11 @@ Fogadnia kell továbbá három különböző kérést REST-en keresztül a mobil
 \begin{figure}[h]
  \begin{minipage}{1\textwidth} 
 \centering
-    \includegraphics[scale=0.4]{img/facelogin_ca_db}
+    \includegraphics[scale=0.8]{img/facelogin_ca_db}
     \caption{Authentikáló alkalmazás táblái}
  \end{minipage}
 \end{figure}
-%\newpage
+\newpage
 Mezők leírása:
 
 \begin{tabular}{|p{5.5cm}|p{3cm} |p{6cm}|}
@@ -211,3 +201,115 @@ Bontsuk lépésekre a folyamatot, majd egyesével jellemezzük a modulok közöt
 	Kimenő adat & Generált azonosító a bejelentkezési kérelemhez \\ \hline
 	Tevékenység & Ellenőrzi, hogy a küldött azonosítóhoz tartozó rekord meg lett-e erősítve\\ \hline
 \end{tabular}
+
+\subsection{Megvalósítás}
+
+Az alábbi ábra mutatja a rendszer komponenseit és azok kommunikációját. Az egyenes nyíl jelzi, ha az adott komponens meg tudja szólítani valamilyen módon a célkomponenst. A kérésre adott választ nem jelöltem.
+
+\begin{figure}[h]
+ \begin{minipage}{1\textwidth} 
+\centering
+    \includegraphics[scale=0.47]{img/rendszerkomponensek}
+    \caption{A rendszer komponensei}
+ \end{minipage}
+\end{figure}
+
+
+\subsubsection{A felhasználói weboldal integrációja}
+
+A felhasználói weboldal JavaEE alapokon, Spring keretrendszer használatával működik. Az IDX szerver integráláshoz az erre a célra készített JAR fájlt importáltam a MAVEN projektbe.
+\\
+A kódszintű integráció egyik legfontosabb lépése az "IdServerUserDetailsService" implementálása, aminek "loadUser" metódusában töltjük be saját adatbázisból a felhasználónkat. Ez a metódus bemenő paraméterként egy Object típusú értéket vár, amit String-é konvertálva kapjuk meg az IDX azonosított felhasználóját, annak is a "IDM\_FACELOGIN\_MAPPED\_UID" oszlopban található értékét. A mi felelősségünk, hogy amikor regisztrálunk egy felhasználót, ebbe a mezőbe egy olyan tulajdonságot írjunk, ami alapján később azonosítani tudjuk a saját rendszerünkben. Ez jelen esetben a felhasználónév lesz.
+\\A String-é alakított felhasználónév alapján kikeressük a saját adatbázisunkból a felhasználót majd kimenő adatként visszatérünk egy "MyUserDetails" objektummal, aminek implementálnia kell a dependenciaként importált jar "IdServerUserDetails" interfészét. Ez az interfész olyan metódusokat tartalmaz amit később a Spring keretrendszer az azonosításra felhasznál. Saját adatokat adhatunk ehhez az osztályhoz, ha implementálunk még egy tetszőleges interfészt, ez jelen esetben a "IUserDetails", ami visszadja a felhasználói azonosítót a felhasználói weboldal adatbázisában.
+
+\begin{figure}[h]
+ \begin{minipage}{1\textwidth} 
+    \includegraphics[scale=0.6]{img/userdetails}
+    \caption{A MyUserDetails imlementálja saját interfészt, és a JAR által biztosított interfészt is}
+ \end{minipage}
+\end{figure}
+
+\newpage
+További integrációs lépések property fájlok, adatbázis bejegyzések, illetve xml fájlok szerkesztésével történnek. Pár példa a teljesség igénye nélkül:
+Megadja a használt bejelentkezési modult, esetünkben a gesztikuláció alapú bejelentkezést: \\
+"idserversso.proxy.request.audience=urn:eksz.gov.hu:1.0:azonositas:kau:2:uk:facelogin"
+\\
+A Spring security XML fájlában megadja a property fájl nevét, amiben megtalálhatóak az IDX szerver elérései:
+\begin{lstlisting}[
+    basicstyle=\tiny
+]
+	<beans:bean id="loginInfoProvider"
+		class="com.egroup.idserversso.facelogin.web.auth.PropertiesLoginInfoProvider">
+		<beans:constructor-arg type="java.lang.String"
+			value="facelogin.properties" />
+	</beans:bean>
+
+\end{lstlisting}
+
+Az "Init" fájl beállítja a fent kifejtett "IdServerUserDetailsSerivce" interfészt implementáló service-t a következő parancsokkal:
+\begin{lstlisting}[
+    basicstyle=\tiny
+]
+	
+
+    private IdServerAuthenticationProvider idServerAuthenticationProvider;
+
+    private IdServerUserDetailsService idserverUserDetailsService;
+
+    public void init() throws ConfigurationParameterException {
+	idServerAuthenticationProvider
+		.setUserDetailsService(idserverUserDetailsService);
+    }
+
+\end{lstlisting}
+
+\subsubsection{A mobilalkalmazás}
+
+A mobilalkalmazás megvalósításakor törekedtünk az egyszerű, letisztult alkalmazás alkotására.
+User Experience javító megoldások kerültek beépítésre (NFC kikapcsolt állapota esetén a beállítások menüpontra mutató link, Spinner a hosszabb műveletek végrehajtása közben, stb). Az egyszer már begépelt kártyatulajdonságokat a "getSharedPreferences" metódussal elérhető alkalmazáshoz tartozó tárolóhelyre menti, és indításkor innen tölti vissza.
+\\Két Activity futtatható az alkalmazással:
+\begin{itemize}
+\item MainActivity
+\item NfcActivity
+\end{itemize}
+
+Az alkalmazás indításakor midnen esetben a MainActivity kerül megnyitásra, ez ellenőrzi a külöböző paraméterek jelenlétét, itt lehet kártyaadatokat megadni, módosítani. Amennyiben NFC-t érzékel a telefon, úgy elindítja az NfcActivity-t. Ezt a tulajdonságot az AndroidManifest.xml fájlban kellett regisztrálni. A két Activity közös model objektumon dolgozik, ez segíti a hatékony komunikációt.
+\\Említést érdemel a videofeldolgozó modul. A kihívás végrehajtása alatt a kamera objektumhoz regisztrált "previewCallback" függvény az ami visszaadja a képkockákat. Mivel az a Main Thread-en fut, így minél gyorsabban kell menteni az adatot, különben blokkolnánk a további képkockák felételét. Ennek tudatában a képfeldolgozás a kihívás végrehajtásának vége után kezdődik.\\
+Képkockák feldolgozását egy az "IVideoAnalyzer" interfészt implementáló osztály végzi, annak is a "filterFrames" metódusa. Ez kiválaszt az osztályba beégetett "MAX\_SELECTED\_FRAMES" darab képkockát egyenletesen, tömöríti a "YuwImage" importált könyvtár segítségével, majd 90 fokkal elforgatja és tükrözi (az előlapi kamera így készíti a képeket). Az "IVideoAnalyzer" interfész fontos metódusa még a "filterFrames" eljárás, amely törli a memóriából a képeket, így ezt miután minden kép továbbítva lett, minden esetben meg kell hívnunk!
+\\REST hívások küldésére fogadására az "OKHTTP3" könyvtárt használjuk, amely támogatja az aszinkron üzenetküldést, és könnyen lehet vele összetettebb törzset csatolni a kimenő üzenetkhez.
+
+\subsubsection{IDX szerver új modulja}
+
+Ez a modul is JavaEE alapokon működik, a frontend rendszer viszont valamely Javascript alapú framework helyett Velocity.
+Az IDX szerverbe egy új modult kellett létrehozni. Ennek a modulnak legfontosabb elemei közé tartozotta linkgenerálás, ami alapján a felhasználó a mobil alkalmazását tudja indítani.
+Ez a link a következőképpen néz ki : \\"intent://facelogin/\#Intent;scheme=com.egroup.facelogin;package=com.gusztafszon.eszigreader;
+S.appurl=\$!\{appPath\};S.uid=\$!\{uid\};S.type=L;end"
+\\ Az android rendszer a scheme és a pakage értékei alapján fog olyan alkalmazást keresni a rendszerben, amely AndroidManifest.xml fájljában a következőképpen van definiálva:
+\begin{lstlisting}[
+    basicstyle=\tiny
+]
+<intent-filter>
+	<data android:scheme="com.egroup.facelogin" android:host="facelogin" android:path="/"/>
+	<action android:name="android.intent.action.VIEW" />
+	<category android:name="android.intent.category.BROWSABLE" />
+	<category android:name="android.intent.category.DEFAULT" />
+</intent-filter>
+\end{lstlisting}
+
+Ezután elindítja az alkalmazást, ahol az "appurl", "uid" és "type" paraméterek kiolvashatóak, így az alkalamzás ezekkel az értékekkel inicializálódik, és a bejelentkezést folyatathatj a felhasználó.
+\\Konfigurációs lépések találhatóak még az SQL fájlok között, itt található meg pl. az IDP\_MODULE\_REGISTRY táblába beszúrva a "urn:eksz.gov.hu:1.0:azonositas:kau:2:uk:facelogin" érték, amelyet láttunk a webalkalmazás property konfigurációjai között megjelenni. Itt állítjuk a "MAX\_AUTH\_ATTEMPTS\_SESSION" és a "MAX\_AUTH\_ATTEMPTS" értékeket is 1-re, amivel nem engedünk többszöri próbálkozást bejelentkezésre.
+
+\subsubsection{Authentikáló alkalmazás}
+Az egész bejelentkezés sikerességét eldöntő algoritmus található meg ebben a modulban. Szintén JavaEE alapokon működik, frontend nincsen. REST-en keresztül kommunikál mind az IDX szerverrel, mind a kapcsolódó mobil alkalmazásokkal. Önállóan kéréseket csak az arcfeldolgozó szolgáltatások felé küld.
+\\A HTTP kéréseket az ApacheHTTP segítségével állítja össze, míg a válaszokat a Jackson object mapper-e segítségével illeszti meglévő osztálystruktúrákra.
+\\ Az algoritmus futásához szüksges paramétereket a FACELOGIN\_CA\_CONFIGURATION adatbázistáblából kérdezi le. Ezek a paraméterek segítenek összeállítani a különböző szolgáltatások megszólításához szükséges REST üzeneteket. Fontos megjegyezni, hogy ezek az adatok mivel adatbázisból érhetőek el, egy esetleges kisebb endpoint változás valamely hazsnált szolgáltatásban csak egy adatbázisbeli "UPDATE" parancs kiadásával követhető lenne, ellenkező esetben az alkalmazás újratelepítésével kéne járnia. Az algoritmus részeletes működését (a kialakulásának törtéentével) másik pontban már leírtam, illetve a modul fő kommunikáckiós útvonalait és azok szerepeit is részleteztem másik fejezetben, így erre itt külön nem térek ki.
+\\Érdekes kérdéskör a paraméterek (pl.: elfordulás szöge) beállítása, erről a tesztelés során írtam bővebben.
+\\Egy új modul felvitele:
+A jelenlegi két modulon felül a rendszer lehetőséget biztosít új modul könnyű integrálására is. Ennek lépései a következőek:
+\begin{itemize}
+\item Modul létrehozása, amely implementálja az "ILoginProcessor" interfészt. Ennek két metódusa közül az "checkPersonPresent" visszatérési értéke a "PersonPresentResponse" objektum, amely tartalmazza hogy talált-e olyan képet, ahol az elfordulás szöge minimum az elvárt volt, illetve a legkisebb elfordulást is visszaadja, egy hozzá tartozó azonosítóval. Ez az azonosító lesz a másik művelet, a "checkPersonValid" bemenete, a mentett igazolványkép mellett, ezeket fogja összehasonlítani, és tér vissza egy igaz/hamis értékkel. Ez a két metódus ahol a képeket fel kell dolgozni, a lényegi logikát implementálni kell.
+\item  A "ThirdPartyModule" felsoroló típusban regisztrálni kell egy egyedi névvel a modulunkat
+\item A "FACE\_CA\_CONFIGURATION" tábla "DEFAULT\_THIRD\_PARTY" paraméterű mezője értékének helyére az előző pontban megadott nevet kell adni, illetve a szükséges paramétereket az adott service használatához ebbe a táblába felvinni, és a "ModuleProducer" osztálynak a "getActiveModule" metódusában ezt a modulkiválasztást is kezelni. Itt lehet a felvitt paraméterekkel inicializálni a modult.
+\end{itemize}
+
+Ezek a lépések végrehajtásával úgy vihető fel új modul, hogy strukturális módosítás nem szükséges a szoftverben, a különböző IDX illetve Mobil kommunikációkkal foglakozni nem kell, csak implentálni a saját online vagy offline megoldásunkat.
