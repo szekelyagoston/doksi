@@ -47,7 +47,7 @@ A Google Cloud Vision API \cite{GoogleCloudVision} A Google Cloud Platform Machi
 
 Az utolsó pontot tudjuk mi ez esetben kihasználni, mégpedig a visszaadaott arc pozícióját, ami a Roll, Tilt, Pan hármasból a Pan.
 \\Nagyon fontos a különböző API-k vizsgálatakor, hogy mekkora elfordulásig ismerik fel az arcokat a képen. Első tesztnek 3 képet használtam, egy kamera felé nézőt, egy picit elfordítottat és egy nagyon elfordítottat (ebben az esetben csak 1 szem látszódik).
-Az eredmények: \\
+Az eredmények (1. ábra, 2. ábra): \\
 
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
@@ -109,7 +109,7 @@ A Microsoft fejlesztése első ránézésre is biztatónak tűnik, többek köz�
     \caption{A Microsoft által használt fogalmak a fej elfordulására \cite{roll_yaw_pitch}}
 \end{figure}
 
-Ezek alapján megállapítható, hogy a Microsoft Face API-ja minden fontos tulajdonságot biztosít számunkra, már csak azt kell megnézni, milyen minőségűek ezek a válaszok, mennyire megbízható ez a szolgáltatás. Vizsgáljuk meg a Google Cloud Vision-nél használt képekkel a feldolgozás minőségét különböző minőségű képek esetén.
+Ezek alapján megállapítható, hogy a Microsoft Face API-ja minden fontos tulajdonságot biztosít számunkra, már csak azt kell megnézni, milyen minőségűek ezek a válaszok, mennyire megbízható ez a szolgáltatás. Vizsgáljuk meg a Google Cloud Vision-nél használt képekkel a feldolgozás minőségét különböző minőségű képek esetén  (7.ábra, 8.ábra).
 
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
@@ -124,7 +124,7 @@ Ezek alapján megállapítható, hogy a Microsoft Face API-ja minden fontos tula
  \end{minipage}
 \end{figure}
 
-Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb minőségromlás esetén. A feltöltendő képeket az eredeti ~500kb-ról ~40kb-ra csökkentettem, a minőségromlás szemmel látható. Hasonlítsuk össze az erre a két képre adott eredményt (3.ábra, 4.ábra)
+Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb minőségromlás esetén. A feltöltendő képeket az eredeti ~500kb-ról ~40kb-ra csökkentettem, a minőségromlás szemmel látható. Hasonlítsuk össze az erre a két képre adott eredményt (9.ábra, 10.ábra).
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
 \centering
