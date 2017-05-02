@@ -1,24 +1,24 @@
 \section{Fejlesztői dokumentáció}
 \subsection{Megoldási terv}
-A rendszer több különálló modulból kell hogy álljon:
+A rendszer több különálló modulból kell, hogy álljon:
 \begin{itemize}
-\item Felhasználói weboldal, ahol a bejelentkezést végre akarják hajtani. Jelen esetben ez egy JavaEE backend (Spring Framework), és AngularJS frontendet használó alkalmazás. Ennek az alkalmazásnak a bejelentkezési mechanizmusa kell , hogy össze legyen integrálva az E-Group IDX szerverével. Erről az integrálásról a megvalósítás pontban írok részletesebben. Ez az oldal pusztán demonstrálásra lesz használva, egy publikus oldalról gesztikuláció alapú bejelentkezéssel egy védett oldalt lehet majd elérni, amely kiírja az azonosított felhasználó nevét. Kijelentkezés menüpont pedig bontja a munkamenetet.
+\item Felhasználói weboldal, ahol a bejelentkezést végre akarják hajtani. Jelen esetben ez egy JavaEE backend (Spring Framework), és AngularJS frontendet használó alkalmazás. Ennek az alkalmazásnak a bejelentkezési mechanizmusa kell, hogy össze legyen integrálva az E-Group IDX szerverével. Erről az integrálásról a megvalósítás pontban írok részletesebben. Ez az oldal pusztán demonstrálásra lesz használva, egy publikus oldalról gesztikuláció alapú bejelentkezéssel egy védett oldalt lehet majd elérni, amely kiírja az azonosított felhasználó nevét. Kijelentkezés menüpont pedig bontja a munkamenetet.
 \item Az E-Group IDX szervere, amelyben új modulként jelenik meg a gesztikuláció alapú bejelentkezés. Mivel a jelenlegi modulok hasonló, off-site kommunikációt egy kivételével nem tartalmaznak, így a jelenlegi limitáló tényezők miatt szükséges lesz egy authentikáló alkalmazásra is, amit az IDX szerver REST hívásokon keresztül el tud érni. A lényeges logika ebben a rendszerben kell megvalósuljon, ám a felhasználókról semmilyen adatot nem tartalmazhat permanensen.
-\item Authentikáló alkalmazás, amely a belépési logikát tartalmazza. Egy IDX felületről indított bejelentkezésről REST-en keresztül üzenetet kell kapnia, majd ezt az rekordot társítani kell tudni egy a mobil alkalmazásból jövő üzenettel. A mobil alkalmazás üzenetei és az IDX szerverből érkező perzisztált rekord alapján valamilyen logika mentén a bejelentkezést el kell fogadnia vagy el kellutasítania. Ezt az üzenetet nem küldheti vissza az IDX szervernek, ehelyett user interakció vagy esetleges pollozó algoritmus kell lekérdezze tőle.
-\item Android mobil alkalmazás, amely támogatja a regisztrációt és a bejelentkezést. Ez az alkalmazás az IDX vagy a felhasználói weboldal felületéről kell indítható legyen, innen megfelelő kezdeti paramétereketkell fogadnia, ami segítségével tudnia kell, hogy regisztráció illetve bejelentkezés esetén hova továbbítsa a feldolgozott adatokat. Az elektronikus személyi igazolvánnyal való kommunikációhoz a nyílt forráskódú JMRTD függvénytárat használjuk.
+\item Authentikáló alkalmazás, amely a belépési logikát tartalmazza. Egy IDX felületről indított bejelentkezésről REST-en keresztül üzenetet kell kapnia, majd ezt az rekordot társítani kell tudni egy a mobil alkalmazásból jövő üzenettel. A mobil alkalmazás üzenetei és az IDX szerverből érkező perzisztált rekord alapján valamilyen logika mentén a bejelentkezést el kell fogadnia vagy el kell utasítania. Ezt az üzenetet nem küldheti vissza az IDX szervernek, ehelyett user interakció vagy esetleges pollozó algoritmus kell lekérdezze tőle.
+\item Android mobil alkalmazás, amely támogatja a regisztrációt és a bejelentkezést. Ez az alkalmazás az IDX vagy a felhasználói weboldal felületéről kell indítható legyen, innen megfelelő kezdeti paramétereket kell fogadnia, ami segítségével tudnia kell, hogy regisztráció illetve bejelentkezés esetén hova továbbítsa a feldolgozott adatokat. Az elektronikus személyi igazolvánnyal való kommunikációhoz a nyílt forráskódú JMRTD függvénytárat használjuk.
 \item Egy vagy több third party arcfelismerő alkalmazás, amely hosszútávon lehet egy online, illetve offline megoldás is, beépítésekor törekedni kell a könnyű konfigurációra. Az authentikáló alkalmazás fogja hívni a bejelentkezés megfelelő lépéseiben, a válasz alapján lehet eldönteni a bejelentkezés sikerességét. Jelenleg a Microsoft Project Oxford és a Face++ kerül beépítésre
 \end{itemize}
 
 \subsubsection{Felhasználó weboldal}
-A publikus főoldalon van lehetőségünk bejelentkezni, illetve amennyiben még nincsen felhasználónk, regisztrálni. A bejelentkezés gombra kattintva megfelelő IDX integráció esetén az IDX bejelentkező felületére leszünk továbbítva. Regisztráció esetén egy felhasználónév megadásával indíthatunk új folyamatot. Itt ellenőrizni kell a felhasználónév szabad felhasználást, illetve mivel itt még csak paramétereket generálunk a mobilalkalmazásnak és a regisztrációs adatok csak később kerülnek adatbázisba, így ezt később is ellenőrizni kell! A regisztrációnál generálni kell egy olyan linket, amit a telefon megnyitva elindítja a mobilalkalmazást regisztrációs módban, és ennek a linknek tartalmaznia kell azokat a paramétereket ami alapján a megadott felhasználónévvel, a személyi igazolványból kiolvasott igazolványszámmal és igazolványképpel a regisztrációt véglegesíteni tudja a weboldalon.
-Ezután egy új regisztrált felhasználónak kell megjelennie a mgfelelő táblában, és ezt a felhasználót regisztrálni kell az IDX szerver megfelelő táblájába is.
+A publikus főoldalon van lehetőségünk bejelentkezni, illetve amennyiben még nincsen felhasználónk, regisztrálni. A bejelentkezés gombra kattintva megfelelő IDX integráció esetén az IDX bejelentkező felületére leszünk továbbítva. Regisztráció esetén egy felhasználónév megadásával indíthatunk új folyamatot. Itt ellenőrizni kell a felhasználónév szabad felhasználást, illetve mivel itt még csak paramétereket generálunk a mobilalkalmazásnak és a regisztrációs adatok csak később kerülnek adatbázisba, így ezt később is ellenőrizni kell! A regisztrációnál generálni kell egy olyan linket, amit a telefon megnyitva elindítja a mobilalkalmazást regisztrációs módban, és ennek a linknek tartalmaznia kell azokat a paramétereket, ami alapján a megadott felhasználónévvel, a személyi igazolványból kiolvasott igazolványszámmal és igazolványképpel a regisztrációt véglegesíteni tudja a weboldalon.
+Ezután egy új regisztrált felhasználónak kell megjelennie a megfelelő táblában, és ezt a felhasználót regisztrálni kell az IDX szerver megfelelő táblájába is.
 \\Az IDX integrációhoz szükséges táblákon kívül (ezeket a megvalósítás résznél írja le a fejezet), ez a modul egy adatbázis táblát tartalmaz.
 
 \begin{figure}[h]
  \begin{minipage}{1\textwidth} 
 \centering
     \includegraphics[scale=0.7]{img/facelogin_db}
-    \caption{Felhasználó weboldal adatbázisszerkezet}
+    \caption{Felhasználó weboldal adatbázis szerkezet}
  \end{minipage}
 \end{figure}
 
@@ -37,9 +37,9 @@ A felhasználói weboldalhoz integrált IDX szerver felelős a beléptetés mene
 \item Jelenjen meg az eddigi modulok között egy új lehetőségként
 \item Amennyiben ezt az új modult használjuk bejelentkezéshez, saját képernyői legyenek, és saját táblából töltse be a felhasználóit
 \item Minden más munkamenet kezeléshez integrálódjunk, ezt a már meglévő rendszer ugyanis tudja menedzselni. Mi csak a felhasználó betöltést végezzük saját logika alapján
-\item A saját logika delegálja a feladatokat az authentikáló alkalmazásnak REST hívásokon keresztül. Adjon át minden olyan adatot, amely az azonosításhoz szükséges. Ilyenek a felhasználónév, a bejelentkezési kérelemhez generált id, az elmentett személyi igazolvány képe, személyi igazolvány száma és a kért kihívás azonosítója.
-\item Azokat a paramétereket (generált id és az authentikáló alkalmazás eléréséhez szükséges URL) amik szükségesek a mobil alkalmazás bejelentkezést végrehajtó műveleteihez, egy linken a feületre kell generálni, ami elindítja a mobil alkalmazást bejelentkezés módban
-\item A bejelentkezési kérelem delegálása után pollozással vagy felhasználói interakcióval REST híváson keresztülellenőrizze, hogy az adott generált id-hoz tartalmazó kérelem megerőítésre került-e
+\item A saját logika delegálja a feladatokat az authentikáló alkalmazásnak REST hívásokon keresztül. Adjon át minden olyan adatot, amely az azonosításhoz szükséges. Ilyenek a felhasználónév, a bejelentkezési kérelemhez generált azonosító, az elmentett személyi igazolvány képe, személyi igazolvány száma és a kért kihívás azonosítója.
+\item Azokat a paramétereket (generált azonosító és az authentikáló alkalmazás eléréséhez szükséges URL) amik szükségesek a mobil alkalmazás bejelentkezést végrehajtó műveleteihez, egy linken a felületre kell generálni, ami elindítja a mobil alkalmazást bejelentkezés módban
+\item A bejelentkezési kérelem delegálása után pollozással vagy felhasználói interakcióval REST híváson keresztülellenőrizze, hogy az adott generált azonosítóhoz tartalmazó kérelem megerősítésre került-e
 \item Sikeres megerősítés után delegáljuk a bejelentkezés további lépéseinek végrehajtását a már meglévő modulokhoz.
 \end{itemize}
 
@@ -57,14 +57,14 @@ Fontosabb mezők leírása:
    	\hline
 	\textbf{Mező neve} & \textbf{Érték} & \textbf{Szerep}\\ \hline
 	IDM\_FACELOGIN\_UID & VARCHAR2(255 BYTE) & Felhasználónév, elsődleges kulcs \\ \hline
-	IDM\_FACELOGIN\_MAPPED\_UID & VARCHAR2(255 BYTE) & Felhasználónév. Más modulok esetén nem feltétlen ugyanaz mint az előző mező, de itt minden esetben megegyezik \\ \hline
+	IDM\_FACELOGIN\_MAPPED\_UID & VARCHAR2(255 BYTE) & Felhasználónév. Más modulok esetén nem feltétlen ugyanaz, mint az előző mező, de itt minden esetben megegyezik \\ \hline
 	IDM\_FACELOGIN\_CARD\_NO & VARCHAR2(255 BYTE)& Személyi igazolvány száma \\ \hline
 	IDM\_FACELOGIN\_PIC & BLOB & Bináris formában mentett igazolványkép \\ \hline
 	IDM\_FACELOGIN\_IS\_ENABLED & NUMBER(1,0) & Flag, ami jelzi, hogy a felhasználó aktív-e \\ \hline
 	\end{tabular}
 
 
-Ez a modul két képernyő megjelenítését kívánja meg. Első amikor a felhasználó begépeli a bejelentkeztetni kívánt felhasználónevet. Ezt a rendszer ellenőrzi, és ha létezik és aktív, megjeleníti a következő képernyőt. Ezen a felületen két lehetősége van a felhasználónak: megnyitja a mobil applikációt vagy a bejelentkezsére kattint. Hibás bejelentkezési kérelem esetén (a bejelentkezési kérelem nem lett még mobiltelefonon keresztül megerősítve), a kérelem elutasításra kerül, és visszairányításra kerül a felhasználó a kiinduló weboldalára.
+Ez a modul két képernyő megjelenítését kívánja meg. Első, amikor a felhasználó begépeli a bejelentkeztetni kívánt felhasználónevet. Ezt a rendszer ellenőrzi, és ha létezik és aktív, megjeleníti a következő képernyőt. Ezen a felületen két lehetősége van a felhasználónak: megnyitja a mobil applikációt vagy a bejelentkezésre kattint. Hibás bejelentkezési kérelem esetén (a bejelentkezési kérelem nem lett még mobiltelefonon keresztül megerősítve), a kérelem elutasításra kerül, és visszairányításra kerül a felhasználó a kiinduló weboldalára.
 
 \subsubsection{Mobil alkalmazás}
 A mobil alkalmazás egy android rendszeren futó segégszoftver a bejelentkezés szükséges lépéseinek végrehajtásához. Két üzemmódja létezik:
@@ -73,17 +73,17 @@ A mobil alkalmazás egy android rendszeren futó segégszoftver a bejelentkezés
 \item Bejelentkezés
 \end{itemize}
 
-Mindkét üzemmód használatának előfeltétele a kártyaadatok helyes megadása, az alkalmazás erre előkészített felületéről való indítása (a szükséges paraméterek megléte nélül nem használható) és az NFC bekapcsolása. Ezeknek a feltételeknek hiányosságairól az alkalmazás indításkor figyelmeztet. Javítás után a felhasználó folytathatja a megkezdett folyamatot. Következő lépés az elektronikus személy hátlaphoz tartása. A kártya olvasásában a nyílt forráskódú JMRTD lesz segítségünkre, amely először egy BAC (Basic Access Control) authentikációt hajt végre a megadott kártyaadatokkal (kártyaszám, születési dátum, lejárat dátuma), majd sikeres authentikáció esetén lehetőségünk nyílik a kártya szükséges adatainak olvasására.
+Mindkét üzemmód használatának előfeltétele a kártyaadatok helyes megadása, az alkalmazás erre előkészített felületéről való indítása (a szükséges paraméterek megléte nélkül nem használható) és az NFC bekapcsolása. Ezeknek a feltételeknek hiányosságairól az alkalmazás indításkor figyelmeztet. Javítás után a felhasználó folytathatja a megkezdett folyamatot. Következő lépés az elektronikus személy hátlaphoz tartása. A kártya olvasásában a nyílt forráskódú JMRTD lesz segítségünkre, amely először egy BAC (Basic Access Control) authentikációt hajt végre a megadott kártyaadatokkal (kártyaszám, születési dátum, lejárat dátuma), majd sikeres authentikáció esetén lehetőségünk nyílik a kártya szükséges adatainak olvasására.
 \\Regisztráció esetén a kártyaszámot és az igazolványképet kell kiolvasni és visszaküldeni a felhasználói weboldalra az inicializáláskor megkapott link segítségével.
-Bejelentkezés esetén először a kártyaszámot kell kiolvasni, és a szintén inicializáláskor megkapott paraméterekkel az authentikáló alkalmazásnak továbbítani. Amennyiben az alkalmazás ezt elfogadja, sikeres választ kapunk, különben hibaüzenetet, amit megjelenítünk a képernyőn. Sikeres válasz esetén a válaszban kell szerepeljen a kért kihívás. Új felületen az előlapi kamera képét kell megjeleníteni, majd gombnyomásra indítani a kihívást. Célszerű pár másodperc visszaszámlálást beépíteni, hogy a felhasználó az ilyenkor megjelenő kihívás szövegére gyorsan fel tudjunk készülni. Ezután felvesszük a választ, transzformációkat hajtunk végre (elfordítás 90 fokkal, tükrözés), tömörítünk, és kiválasztunk egyenlő időközönként maximum N darab képkockát, majd továbbítjuk az authentikáló alkalmazásnak párhuzamosan a bejelentkezési kérelem generált azonosítójával együtt, hogy a szerver tudja csatolni a megfelelő rekordhoz. Az erre kapott választ pedg feldolgozzuk és kiírjuk a felületre. Sikeres és sikertelen bejelentkezés esetén is gombnyomásra bezárjuk az alkalmazást, és visszatérünk az IDX felületére.
+Bejelentkezés esetén először a kártyaszámot kell kiolvasni, és a szintén inicializáláskor megkapott paraméterekkel az authentikáló alkalmazásnak továbbítani. Amennyiben az alkalmazás ezt elfogadja, sikeres választ kapunk, különben hibaüzenetet, amit megjelenítünk a képernyőn. Sikeres válasz esetén a válaszban kell szerepeljen a kért kihívás. Új felületen az előlapi kamera képét kell megjeleníteni, majd gombnyomásra indítani a kihívást. Célszerű pár másodperc visszaszámlálást beépíteni, hogy a felhasználó az ilyenkor megjelenő kihívás szövegére gyorsan fel tudjunk készülni. Ezután felvesszük a választ, transzformációkat hajtunk végre (elfordítás 90 fokkal, tükrözés), tömörítünk, és kiválasztunk egyenlő időközönként maximum N darab képkockát, majd továbbítjuk az authentikáló alkalmazásnak párhuzamosan a bejelentkezési kérelem generált azonosítójával együtt, hogy a szerver tudja csatolni a megfelelő rekordhoz. Az erre kapott választ pedig feldolgozzuk és kiírjuk a felületre. Sikeres és sikertelen bejelentkezés esetén is gombnyomásra bezárjuk az alkalmazást, és visszatérünk az IDX felületére.
 
 \subsubsection{Authentikáló alkalmazás}
-Ennek a modulnak a célja, hogy minden felhasználói adat permanens tárolása nélkül egy bejelentkezési kérést elfogadjon vagy elutasítson. Fogadnia kell tudni az IDX felületéről REST híváson keresztül indított bejelentkezási kérelmet, ezt adatbázisba tárolni kell. Miután a megadott bejelentkezési időtartam lejárt, egy automata műveletnek ezt a régi, már nem használható bejegyzést törölnie kell.\\
+Ennek a modulnak a célja, hogy minden felhasználói adat permanens tárolása nélkül egy bejelentkezési kérést elfogadjon vagy elutasítson. Fogadnia kell tudni az IDX felületéről REST híváson keresztül indított bejelentkezési kérelmet, ezt adatbázisba tárolni kell. Miután a megadott bejelentkezési időtartam lejárt, egy automata műveletnek ezt a régi, már nem használható bejegyzést törölnie kell.\\
 Fogadnia kell továbbá három különböző kérést REST-en keresztül a mobil alkalmazásból:
 \begin{itemize}
-\item Személyi igazolvány szám és generált bejelentkezési azonosító fogadása a bejelentkezés első lépésének ellenőrzésére. Ha talál olyan rekordot a megerősítésre váró kérések táblájában amely az adott azonosítóhoz ugyanezt az igazolványszámot rendeli, és még a maximum időtartamon belül van, úgy ezt a lépést el kell fogadni, és válaszüzenetben a mobilalkalmazásnak vissza kell küldenie a rekordhoz tartozó kihívás szöveges leiratát. Hiba esetén a válasz törzsében a hiba okát meg kell jegyezni, ezt később a mobil alkalmazás feltudja dolgozni.
+\item Személyi igazolvány szám és generált bejelentkezési azonosító fogadása a bejelentkezés első lépésének ellenőrzésére. Ha talál olyan rekordot a megerősítésre váró kérések táblájában, amely az adott azonosítóhoz ugyanezt az igazolványszámot rendeli, és még a maximum időtartamon belül van, úgy ezt a lépést el kell fogadni, és válaszüzenetben a mobilalkalmazásnak vissza kell küldenie a rekordhoz tartozó kihívás szöveges leiratát. Hiba esetén a válasz törzsében a hiba okát meg kell jegyezni, ezt később a mobil alkalmazás feltudja dolgozni.
 \item Kihíváshoz tartozó kékockákat kell fogadnia. Ezeket a mobil kliens párhuzamosan küldi a hozzájuk tartozó generált azonosítóval, azonosítónként pedig csoportosítani kell a beérkezett képeket. Érdemes a gyorsaság szempontjából nem adatbázisban, hanem memóriában tárolni ezeket, de ez esetben fontos a törlésükről nem megfeledkezni!
-\item Miután a mobil alkalmazás minden képet felküldött, egy "nyugtát" küld, hogy minden adat megérkezett, és azt a nyugtát fogadva a kihívásra adott válasz kiértékelését el kell kezdeni. A kiértékelés eredményéről pedig a nyugtára adott válaszüzenetben tájékoztatni kell a mobil kilenst.
+\item Miután a mobil alkalmazás minden képet felküldött, egy "nyugtát" küld, hogy minden adat megérkezett, és azt a nyugtát fogadva a kihívásra adott válasz kiértékelését el kell kezdeni. A kiértékelés eredményéről pedig a nyugtára adott válaszüzenetben tájékoztatni kell a mobil klienst.
 \end{itemize}
 
 \begin{figure}[h]
@@ -102,17 +102,17 @@ Mezők leírása:
 	ID & NUMBER(12,0) & Generált azonosító, elsődleges kulcs \\ \hline
 	REQUEST\_ID & VARCHAR2(255 BYTE) & Az IDX szerverből kapott generált azonosító. A mobil alkalmazásból kapott adatokat is ezzel tudjuk majd azonosítani \\ \hline
 	DOCUMENT\_ID & VARCHAR2(255 BYTE)& Személyi igazolvány száma \\ \hline
-	DOC\_CONFIRMED & NUMBER(1,0) & Személyi igazolvány mobilos megerősítése után vátozik igazzá\\ \hline
+	DOC\_CONFIRMED & NUMBER(1,0) & Személyi igazolvány mobilon keresztüli megerősítése után változik igazzá\\ \hline
 	PICTURE & BLOB & IDX modulból kapott, bináris formában mentett igazolványkép\\ \hline
 	CHALLENGE\_TYPE & VARCHAR2(255 BYTE)& A kért kihívás azonosítója, a rendszerben egy Enum értéknek felel majd meg. Ez az Enum fogja tartalmazni a kihívás szöveges leírását \\ \hline
 	CHALLENGE\_CONFIRMED & NUMBER(1,0)& A kihívás elfogadása után válik igazzá \\ \hline
-	CHALLENGE\_TRIED & NUMBER(1,0) & Amenyiben a kihívást már megpróbáltuk teljesíteni, igazzá válik. Az időlimiten belüli újrapróbálkozások ellen véd \\ \hline
+	CHALLENGE\_TRIED & NUMBER(1,0) & Amennyiben a kihívást már megpróbáltuk teljesíteni, igazzá válik. Az időlimiten belüli újrapróbálkozások ellen véd \\ \hline
 	SYS\_CR\_DT & TIMESTAMP(6)& A bejelentkezési kérelem regisztrálásának időpontja \\ \hline
 	SYS\_UP\_DT & TIMESTAMP(6)& Rekord frissítésének időpontja \\ \hline
 \end{tabular}
 
 \subsubsection{Modulok kommunikációja bejelentkezés esetén}
-A két funkció közül a bejelentkezés ami nagyságrandekkel bonyolultabb, a regisztráció tulajdonképpen csak egy ellenőrzés utáni adatkiolvasás illetve rekordbeszúrás. A bejelentkezés folyamatát érdemes lehet modulokra lebontva jellemezni.
+A két funkció közül a bejelentkezés ami nagyságrendekkel bonyolultabb, a regisztráció tulajdonképpen csak egy ellenőrzés utáni adatkiolvasás illetve rekordbeszúrás. A bejelentkezés folyamatát érdemes lehet modulokra lebontva jellemezni.
 Először tekintsük a bejelentkezés szekvencia diagramját:
 
 \begin{sidewaysfigure}
@@ -125,7 +125,7 @@ Először tekintsük a bejelentkezés szekvencia diagramját:
 \newpage
 Bontsuk lépésekre a folyamatot, majd egyesével jellemezzük a modulok közötti kommunikációt:
 \begin{itemize}
-\item A felhasználó a webodalon a "Bejelentkezés" gombra kattint, és az IDX szerverre továbbítódik a kérése (1)
+\item A felhasználó a weboldalon a "Bejelentkezés" gombra kattint, és az IDX szerverre továbbítódik a kérése (1)
 \item Megadja a felhasználónevét, ezzel egy regisztrációs kérés indul (2)
 \item Megnyitja az új felületen a mobil alkalmazását, és beolvassa a kártyájáról a szükséges adatokat (3)
 \item Beolvassa a személyi igazolvány adatait (4)
@@ -140,7 +140,7 @@ Bontsuk lépésekre a folyamatot, majd egyesével jellemezzük a modulok közöt
 	Kiinduló modul & Felhasználói weboldal \\ \hline
 	Cél modul & IDX szerver \\ \hline
 	Kimenő adat & Bejelentkezési kérelem az adott URL-ről \\ \hline
-	Tevékenység & Elindítja a bejelentkezés folyamatt, és átad minden szükséges adatot ahhoz, hoyg az IDX szerver azonosítani tudja a weboldalt \\ \hline
+	Tevékenység & Elindítja a bejelentkezés folyamatát, és átad minden szükséges adatot ahhoz, hogy az IDX szerver azonosítani tudja a weboldalt \\ \hline
 \end{tabular}
 
 
@@ -169,7 +169,7 @@ Bontsuk lépésekre a folyamatot, majd egyesével jellemezzük a modulok közöt
 	Kiinduló modul & Mobil alkalmazás \\ \hline
 	Cél modul & Authentikáló alkalmazás \\ \hline
 	Kimenő adat & Beolvasott személyi igazolvány száma, generált azonosító a bejelentkezési kérelemhez \\ \hline
-	Tevékenység & Ellenőrzi, hogy a személyi igazolvány száma megegyzik-e azzal amit a generált azonosítóhoz regisztrált a rendszer  a 2. lépésben\\ \hline
+	Tevékenység & Ellenőrzi, hogy a személyi igazolvány száma megegyezik-e azzal, amit a generált azonosítóhoz regisztrált a rendszer  a 2. lépésben\\ \hline
 	Válasz & Végrehajtandó kihívás szöveges leirata\\ \hline
 \end{tabular}
 
@@ -220,12 +220,12 @@ Az alábbi ábra mutatja a rendszer komponenseit és azok kommunikációját. Az
 A felhasználói weboldal JavaEE alapokon, Spring keretrendszer használatával működik. Az IDX szerver integráláshoz az erre a célra készített JAR fájlt importáltam a MAVEN projektbe.
 \\
 A kódszintű integráció egyik legfontosabb lépése az "IdServerUserDetailsService" implementálása, aminek "loadUser" metódusában töltjük be saját adatbázisból a felhasználónkat. Ez a metódus bemenő paraméterként egy Object típusú értéket vár, amit String-é konvertálva kapjuk meg az IDX azonosított felhasználóját, annak is a "IDM\_FACELOGIN\_MAPPED\_UID" oszlopban található értékét. A mi felelősségünk, hogy amikor regisztrálunk egy felhasználót, ebbe a mezőbe egy olyan tulajdonságot írjunk, ami alapján később azonosítani tudjuk a saját rendszerünkben. Ez jelen esetben a felhasználónév lesz.
-\\A String-é alakított felhasználónév alapján kikeressük a saját adatbázisunkból a felhasználót majd kimenő adatként visszatérünk egy "MyUserDetails" objektummal, aminek implementálnia kell a dependenciaként importált jar "IdServerUserDetails" interfészét. Ez az interfész olyan metódusokat tartalmaz amit később a Spring keretrendszer az azonosításra felhasznál. Saját adatokat adhatunk ehhez az osztályhoz, ha implementálunk még egy tetszőleges interfészt, ez jelen esetben a "IUserDetails", ami visszadja a felhasználói azonosítót a felhasználói weboldal adatbázisában.
+\\A String-é alakított felhasználónév alapján kikeressük a saját adatbázisunkból a felhasználót majd kimenő adatként visszatérünk egy "MyUserDetails" objektummal, aminek implementálnia kell a dependenciaként importált jar "IdServerUserDetails" interfészét. Ez az interfész olyan metódusokat tartalmaz, amit később a Spring keretrendszer az azonosításra felhasznál. Saját adatokat adhatunk ehhez az osztályhoz, ha implementálunk még egy tetszőleges interfészt, ez jelen esetben a "IUserDetails", ami visszaadja a felhasználói azonosítót a felhasználói weboldal adatbázisában.
 
 \begin{figure}[h]
  \begin{minipage}{1\textwidth} 
     \includegraphics[scale=0.6]{img/userdetails}
-    \caption{A MyUserDetails imlementálja saját interfészt, és a JAR által biztosított interfészt is}
+    \caption{A MyUserDetails implementálja saját interfészt, és a JAR által biztosított interfészt is}
  \end{minipage}
 \end{figure}
 
@@ -234,7 +234,7 @@ További integrációs lépések property fájlok, adatbázis bejegyzések, ille
 Megadja a használt bejelentkezési modult, esetünkben a gesztikuláció alapú bejelentkezést: \\
 "idserversso.proxy.request.audience=urn:eksz.gov.hu:1.0:azonositas:kau:2:uk:facelogin"
 \\
-A Spring security XML fájlában megadja a property fájl nevét, amiben megtalálhatóak az IDX szerver elérései:
+A Spring security XML fájljában megadja a property fájl nevét, amiben megtalálhatóak az IDX szerver elérései:
 \begin{lstlisting}[
     basicstyle=\tiny
 ]
@@ -273,18 +273,18 @@ User Experience javító megoldások kerültek beépítésre (NFC kikapcsolt ál
 \item NfcActivity
 \end{itemize}
 
-Az alkalmazás indításakor midnen esetben a MainActivity kerül megnyitásra, ez ellenőrzi a külöböző paraméterek jelenlétét, itt lehet kártyaadatokat megadni, módosítani. Amennyiben NFC-t érzékel a telefon, úgy elindítja az NfcActivity-t. Ezt a tulajdonságot az AndroidManifest.xml fájlban kellett regisztrálni. A két Activity közös model objektumon dolgozik, ez segíti a hatékony komunikációt.
-\\Említést érdemel a videofeldolgozó modul. A kihívás végrehajtása alatt a kamera objektumhoz regisztrált "previewCallback" függvény az ami visszaadja a képkockákat. Mivel az a Main Thread-en fut, így minél gyorsabban kell menteni az adatot, különben blokkolnánk a további képkockák felételét. Ennek tudatában a képfeldolgozás a kihívás végrehajtásának vége után kezdődik.\\
+Az alkalmazás indításakor minden esetben a MainActivity kerül megnyitásra, ez ellenőrzi a különböző paraméterek jelenlétét, itt lehet kártyaadatokat megadni, módosítani. Amennyiben NFC-t érzékel a telefon, úgy elindítja az NfcActivity-t. Ezt a tulajdonságot az AndroidManifest.xml fájlban kellett regisztrálni. A két Activity közös model objektumon dolgozik, ez segíti a hatékony kommunikációt.
+\\Említést érdemel a video-feldolgozó modul. A kihívás végrehajtása alatt a kamera objektumhoz regisztrált "previewCallback" függvény az, ami visszaadja a képkockákat. Mivel az a Main Thread-en fut, így minél gyorsabban kell menteni az adatot, különben blokkolnánk a további képkockák felvételét. Ennek tudatában a képfeldolgozás a kihívás végrehajtásának vége után kezdődik.\\
 Képkockák feldolgozását egy az "IVideoAnalyzer" interfészt implementáló osztály végzi, annak is a "filterFrames" metódusa. Ez kiválaszt az osztályba beégetett "MAX\_SELECTED\_FRAMES" darab képkockát egyenletesen, tömöríti a "YuwImage" importált könyvtár segítségével, majd 90 fokkal elforgatja és tükrözi (az előlapi kamera így készíti a képeket). Az "IVideoAnalyzer" interfész fontos metódusa még a "filterFrames" eljárás, amely törli a memóriából a képeket, így ezt miután minden kép továbbítva lett, minden esetben meg kell hívnunk!
-\\REST hívások küldésére fogadására az "OKHTTP3" könyvtárt használjuk, amely támogatja az aszinkron üzenetküldést, és könnyen lehet vele összetettebb törzset csatolni a kimenő üzenetkhez.
+\\REST hívások küldésére fogadására az "OKHTTP3" könyvtárt használjuk, amely támogatja az aszinkron üzenetküldést, és könnyen lehet vele összetettebb törzset csatolni a kimenő üzenetekhez.
 
 \subsubsection{IDX szerver új modulja}
 
 Ez a modul is JavaEE alapokon működik, a frontend rendszer viszont valamely Javascript alapú framework helyett Velocity.
-Az IDX szerverbe egy új modult kellett létrehozni. Ennek a modulnak legfontosabb elemei közé tartozotta linkgenerálás, ami alapján a felhasználó a mobil alkalmazását tudja indítani.
+Az IDX szerverbe egy új modult kellett létrehozni. Ennek a modulnak legfontosabb elemei közé tartozott a linkgenerálás, ami alapján a felhasználó a mobil alkalmazását tudja indítani.
 Ez a link a következőképpen néz ki : \\"intent://facelogin/\#Intent;scheme=com.egroup.facelogin;package=com.gusztafszon.eszigreader;
 S.appurl=\$!\{appPath\};S.uid=\$!\{uid\};S.type=L;end"
-\\ Az android rendszer a scheme és a pakage értékei alapján fog olyan alkalmazást keresni a rendszerben, amely AndroidManifest.xml fájljában a következőképpen van definiálva:
+\\ Az android rendszer a scheme és a package értékei alapján fog olyan alkalmazást keresni a rendszerben, amely AndroidManifest.xml fájljában a következőképpen van definiálva:
 \begin{lstlisting}[
     basicstyle=\tiny
 ]
@@ -296,20 +296,20 @@ S.appurl=\$!\{appPath\};S.uid=\$!\{uid\};S.type=L;end"
 </intent-filter>
 \end{lstlisting}
 
-Ezután elindítja az alkalmazást, ahol az "appurl", "uid" és "type" paraméterek kiolvashatóak, így az alkalamzás ezekkel az értékekkel inicializálódik, és a bejelentkezést folyatathatj a felhasználó.
+Ezután elindítja az alkalmazást, ahol az "appurl", "uid" és "type" paraméterek kiolvashatóak, így az alkalmazás ezekkel az értékekkel inicializálódik, és a bejelentkezést folyatathatj a felhasználó.
 \\Konfigurációs lépések találhatóak még az SQL fájlok között, itt található meg pl. az IDP\_MODULE\_REGISTRY táblába beszúrva a "urn:eksz.gov.hu:1.0:azonositas:kau:2:uk:facelogin" érték, amelyet láttunk a webalkalmazás property konfigurációjai között megjelenni. Itt állítjuk a "MAX\_AUTH\_ATTEMPTS\_SESSION" és a "MAX\_AUTH\_ATTEMPTS" értékeket is 1-re, amivel nem engedünk többszöri próbálkozást bejelentkezésre.
 
 \subsubsection{Authentikáló alkalmazás}
 Az egész bejelentkezés sikerességét eldöntő algoritmus található meg ebben a modulban. Szintén JavaEE alapokon működik, frontend nincsen. REST-en keresztül kommunikál mind az IDX szerverrel, mind a kapcsolódó mobil alkalmazásokkal. Önállóan kéréseket csak az arcfeldolgozó szolgáltatások felé küld.
 \\A HTTP kéréseket az ApacheHTTP segítségével állítja össze, míg a válaszokat a Jackson object mapper-e segítségével illeszti meglévő osztálystruktúrákra.
-\\ Az algoritmus futásához szüksges paramétereket a FACELOGIN\_CA\_CONFIGURATION adatbázistáblából kérdezi le. Ezek a paraméterek segítenek összeállítani a különböző szolgáltatások megszólításához szükséges REST üzeneteket. Fontos megjegyezni, hogy ezek az adatok mivel adatbázisból érhetőek el, egy esetleges kisebb endpoint változás valamely hazsnált szolgáltatásban csak egy adatbázisbeli "UPDATE" parancs kiadásával követhető lenne, ellenkező esetben az alkalmazás újratelepítésével kéne járnia. Az algoritmus részeletes működését (a kialakulásának törtéentével) másik pontban már leírtam, illetve a modul fő kommunikáckiós útvonalait és azok szerepeit is részleteztem másik fejezetben, így erre itt külön nem térek ki.
+\\ Az algoritmus futásához szükséges paramétereket a FACELOGIN\_CA\_CONFIGURATION adatbázistáblából kérdezi le. Ezek a paraméterek segítenek összeállítani a különböző szolgáltatások megszólításához szükséges REST üzeneteket. Fontos megjegyezni, hogy ezek az adatok mivel adatbázisból érhetőek el, egy esetleges kisebb endpoint változás valamely használt szolgáltatásban csak egy adatbázisbeli "UPDATE" parancs kiadásával követhető lenne, ellenkező esetben az alkalmazás újratelepítésével kéne járnia. Az algoritmus részletes működését (a kialakulásának történetével) másik pontban már leírtam, illetve a modul fő kommunikációs útvonalait és azok szerepeit is részleteztem másik fejezetben, így erre itt külön nem térek ki.
 \\Érdekes kérdéskör a paraméterek (pl.: elfordulás szöge) beállítása, erről a tesztelés során írtam bővebben.
 \\Egy új modul felvitele:
 A jelenlegi két modulon felül a rendszer lehetőséget biztosít új modul könnyű integrálására is. Ennek lépései a következőek:
 \begin{itemize}
-\item Modul létrehozása, amely implementálja az "ILoginProcessor" interfészt. Ennek két metódusa közül az "checkPersonPresent" visszatérési értéke a "PersonPresentResponse" objektum, amely tartalmazza hogy talált-e olyan képet, ahol az elfordulás szöge minimum az elvárt volt, illetve a legkisebb elfordulást is visszaadja, egy hozzá tartozó azonosítóval. Ez az azonosító lesz a másik művelet, a "checkPersonValid" bemenete, a mentett igazolványkép mellett, ezeket fogja összehasonlítani, és tér vissza egy igaz/hamis értékkel. Ez a két metódus ahol a képeket fel kell dolgozni, a lényegi logikát implementálni kell.
+\item Modul létrehozása, amely implementálja az "ILoginProcessor" interfészt. Ennek két metódusa közül az "checkPersonPresent" visszatérési értéke a "PersonPresentResponse" objektum, amely tartalmazza, hogy talált-e olyan képet, ahol az elfordulás szöge minimum az elvárt volt, illetve a legkisebb elfordulást is visszaadja, egy hozzá tartozó azonosítóval. Ez az azonosító lesz a másik művelet, a "checkPersonValid" bemenete, a mentett igazolványkép mellett, ezeket fogja összehasonlítani, és tér vissza egy igaz/hamis értékkel. Ez a két metódus ahol a képeket fel kell dolgozni, a lényegi logikát implementálni kell.
 \item  A "ThirdPartyModule" felsoroló típusban regisztrálni kell egy egyedi névvel a modulunkat
 \item A "FACE\_CA\_CONFIGURATION" tábla "DEFAULT\_THIRD\_PARTY" paraméterű mezője értékének helyére az előző pontban megadott nevet kell adni, illetve a szükséges paramétereket az adott service használatához ebbe a táblába felvinni, és a "ModuleProducer" osztálynak a "getActiveModule" metódusában ezt a modulkiválasztást is kezelni. Itt lehet a felvitt paraméterekkel inicializálni a modult.
 \end{itemize}
 
-Ezek a lépések végrehajtásával úgy vihető fel új modul, hogy strukturális módosítás nem szükséges a szoftverben, a különböző IDX illetve Mobil kommunikációkkal foglakozni nem kell, csak implentálni a saját online vagy offline megoldásunkat.
+Ezek a lépések végrehajtásával úgy vihető fel új modul, hogy strukturális módosítás nem szükséges a szoftverben, a különböző IDX illetve Mobil kommunikációkkal foglakozni nem kell, csak implementálni a saját online vagy offline megoldásunkat.

@@ -1,7 +1,7 @@
 \section{Képfeldolgozó megoldások kihívás-válasz implementálására}
 \subsection{Alapok}
-A kihívás - válasz megoldások célja a felhasználó-hitelesítés és -azonosítás valósidejűségének ellenőrzése, nélküle a természetes és virtuális személy összehasonlítása után ( amennyiben a két képen található arc megfelelő valószínűséggel azonos emberhez tartozik ) , az authentikációt elfogadottnak vesszük.
-Gondoljunk bele ennek a megoldásnak a sebezhetőségeibe. A legegyszerűbb feltörése a rendszernek, ha az elektronikus személyi igazolvánnyal történő azonosítás után a kamera elé helyezzük az igazolványt, képpel kamerának nézve. A használt képfeldolgozó szoftver nagy valószínűséggel fel fogja ismerni a képet, és magas százalékos valószínűséget fog dobni az összetartozóságra. Ennek a verziónak a sebezhetőségén kiívánunk javítani kihívás - válasz megoldás implementálásával.
+A kihívás - válasz megoldások célja a felhasználó-hitelesítés és -azonosítás valósidejűségének ellenőrzése, nélküle a természetes és virtuális személy összehasonlítása után (amennyiben a két képen található arc megfelelő valószínűséggel azonos emberhez tartozik ) , az authentikációt elfogadottnak vesszük.
+Gondoljunk bele ennek a megoldásnak a sebezhetőségeibe. A legegyszerűbb feltörése a rendszernek, ha az elektronikus személyi igazolvánnyal történő azonosítás után a kamera elé helyezzük az igazolványt, képpel kamerának nézve. A használt képfeldolgozó szoftver nagy valószínűséggel fel fogja ismerni a képet, és magas százalékos valószínűséget fog dobni az összetartozóságra. Ennek a verziónak a sebezhetőségén kívánunk javítani kihívás - válasz megoldás implementálásával.
 \subsection{Kihívás - válasz első gondolatok}
 Ennek a szakdolgozatnak célja nem különböző képfeldolgozó eszközök létrehozása, ami alapján ezeket a kihívásokat értékelni tudjuk. Leginkább publikusan elérhető third party lehetőségeket felkutatása volt a cél, amelyek önállóan tudnak feldolgozni képet vagy videót, majd bizonyos felismert tulajdonságokkal visszatérni a rendszerhez. Ezután ezeket a válaszokat feldolgozva eldönthető, hogy a bejelentkezést engedjük vagy megtagadjuk.
 Alapvetően két típust különböztetünk meg elérhetőség szempontjából
@@ -12,10 +12,10 @@ Alapvetően két típust különböztetünk meg elérhetőség szempontjából
 Egy másik fajta osztályozás pedig működés szempontjából lehetséges
 \begin{itemize}
 \item implementálja a kihívás - válasz protokollt, így video-streamből egy igen/nem választ, esetleg egy százalékos valószínűséget ad
-\item képfeldolgozó könyvtár / api, ami kép-et vár kérésben, válaszban pedig a ennek valamilyen felismert tulajdonságaival tér vissza. Ezután nekünk kell eldönteni hogy elfogadjuk-e az adott kihívásra érkezett választ
+\item képfeldolgozó könyvtár / api, ami kép-et vár kérésben, válaszban pedig ennek valamilyen felismert tulajdonságaival tér vissza. Ezután nekünk kell eldönteni, hogy elfogadjuk-e az adott kihívásra érkezett választ
 \end{itemize}
 
-Az első komoly nehézség rögtön adja magát : amennyiben online megoldást választunk, az komoly adatforalommal, és emiatt késleltetéssel járhat, pedig egy authentikációnál a gyorsaság nem elhanyagolható. Másik gyorsasági tényező az adott könyvtár/API képfeldolgozási sebessége különböző méretű/sebességű képek esetén. Ezt a feldolgozási időt drasztikusan csökkenteni lehet a képek méretének (és ezzel minőségének csökkentésével), de ez esetben komoly kérdés marad a képfeldolgozás minősége. Másik megoldás lehet a képek szürkeárnyalatossá alakítása, ezzel a képfeldolgozás sikeressége lehetséges hogy kevésbé fog csökkenni mint egy sima tömörítésnél, de a méretet csökkentheti.
+Az első komoly nehézség rögtön adja magát: amennyiben online megoldást választunk, az komoly adatforgalommal, és emiatt késleltetéssel járhat, pedig egy authentikációnál a gyorsaság nem elhanyagolható. Másik gyorsasági tényező az adott könyvtár/API képfeldolgozási sebessége különböző méretű/sebességű képek esetén. Ezt a feldolgozási időt drasztikusan csökkenteni lehet a képek méretének (és ezzel minőségének csökkentésével), de ez esetben komoly kérdés marad a képfeldolgozás minősége. Másik megoldás lehet a képek szürkeárnyalatossá alakítása, ezzel a képfeldolgozás sikeressége lehetséges, hogy kevésbé fog csökkenni mint egy sima tömörítésnél, de a méretet csökkentheti.
 \\A képek mérete és ezzel a felhasznált sávszélesség, illetve sebesség két helyen számít. Először amikor a felhasználó eszköze (jelen esetben android okostelefon) rögzíti a videót, kiválaszt belőle valamennyi képkockát, majd továbbítja az azonosítást végző szervernek. Ezután pedig amikor ez a szerver továbbküldi egy third party alkalmazásnak. Jól látható, hogy a legkevesebb adatforgalommal az jár, ha már a felhasználó telefonján transzformációkat (tömörítés, szürkeárnyalatossá konvertálás) hajtunk végre. Ezzel a megközelítéssel a probléma viszont a felhasználói eszközök sokszínűsége: Különböző erősségű telefonok különböző gyorsasággal tudják ezeket az alapvetően költséges műveleteket végrehajtani, szélsőséges esetben el is fogyhat a telefon alól a memória, ami az alkalmazás leállásához is vezethet.
 \\Kézenfekvőnek látszódhat a költséges műveletek szerver oldalra való átcsoportosítása, hiszen ott a teljesítményt sokkal hatékonyabban tudjuk maximalizálni, monitorozni, végső esetben pedig több erőforrást adni. Ám ez esetben pedig egy erős minőségű kamerával készített pár másodperces videó komoly adatforgalommal járna, ami mobilnet esetében kifejezetten kerülendő.
 Ezeket a kérdéseket mindenképp körül kell járni a tesztelés szakaszában, és a legoptimálisabbat megtalálni.
@@ -31,21 +31,21 @@ Ezeket a kérdéseket mindenképp körül kell járni a tesztelés szakaszában,
 	\end{tabular}
 \end{center}
 
-A szakdolgozat keretein belül a második esetet, tehát a felhazsnáló eszközén történő transzformációt valósítottuk meg. A tesztelés feladata lesz a megfelelő paraméterek beállítása a képtömörítéshez, hogy a minimalizáljuk azt az adatmennyiséget illetve sebességet ami az adott képfeldolgozó eszköz megbízható működéséhez még szükséges.
+A szakdolgozat keretein belül a második esetet, tehát a felhasználó eszközén történő transzformációt valósítottuk meg. A tesztelés feladata lesz a megfelelő paraméterek beállítása a képtömörítéshez, hogy a minimalizáljuk azt az adatmennyiséget illetve sebességet, ami az adott képfeldolgozó eszköz megbízható működéséhez még szükséges.
 
 \subsection{Képfeldolgozó eszközök}
 Több online illetve offline képfeldolgozási lehetőséget vizsgáltunk meg, ezeknek egy része számunkra jelenleg nem használható, vagy használata nem fér bele a szakdolgozat kereteibe. A jelenlegi kihívás - válasz megoldásunk arc jobbra illetve balra fordulását keresi, illetve a két arc összetartozóságát állapítja meg, így elsősorban erre kihegyezve jegyeztük fel a talált lehetőségeket, de a jövőbeni fejlesztéseket szem előtt tartva más kihívás - válasz megoldásokra való használhatóságot is figyeltünk.
 \subsubsection{Google Cloud Vision}
-A Google Cloud Vision API \cite{GoogleCloudVision} A Google Cloud Platform Machine Learning moduljában található többek között a Cloud Speech API, és Cloud Translation API -val. Külön érdekes lehet számunkra hosszútávon a Cloud Video Itelligence API, ami jelenleg Private Beta státuszban van.
+A Google Cloud Vision API \cite{GoogleCloudVision} A Google Cloud Platform Machine Learning moduljában található többek között a Cloud Speech API, és Cloud Translation API -val. Külön érdekes lehet számunkra hosszútávon a Cloud Video Intelligence API, ami jelenleg Private Beta státuszban van.
 \\A számunkra érdekes Vision API egy képről az alábbi tulajdonságokat képes megállapítani:
 \begin{itemize}
-\item Különböző tárgyakat, élőlényeket, objektumokat ismer fel a képen és pozicionál
+\item Különböző tárgyakat, élőlényeket, objektumokat ismer fel a képen és pozícionál
 \item Tartalom moderálásra használható, szűrhet felnőtt, hamisított, erőszakos tartalomra vagy orvosi részleteket tartalmazó részekre (amik szintén rossz hatással lehetnek arra fel nem készült személyek számára)
 \item Hasonló képeket keres az interneten, így például egy arcról eldönthet, hogy melyik celebre hasonlít a legjobban
-\item Visszadja a felismert képeket minden tulajdonságukkal (szemöldök, száj pozíciók, stb.), illetve a felismert érzelmeket
+\item Visszaadja a felismert képeket minden tulajdonságukkal (szemöldök, száj pozíciók, stb.), illetve a felismert érzelmeket
 \end{itemize}
 
-Az utolsó pontot tudjuk mi ez esetben kihasználni, mégpedig a visszadaott arc pozícióját, ami a Roll, Tilt, Pan hármasból a Pan.
+Az utolsó pontot tudjuk mi ez esetben kihasználni, mégpedig a visszaadaott arc pozícióját, ami a Roll, Tilt, Pan hármasból a Pan.
 \\Nagyon fontos a különböző API-k vizsgálatakor, hogy mekkora elfordulásig ismerik fel az arcokat a képen. Első tesztnek 3 képet használtam, egy kamera felé nézőt, egy picit elfordítottat és egy nagyon elfordítottat (ebben az esetben csak 1 szem látszódik).
 Az eredmények: \\
 
@@ -76,15 +76,15 @@ Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb 
  \end{minipage}
 \end{figure}
 
-Jól látható, hogy jelentős méretcsökkentésre a feldolgozás megbízhatósága 95\%-ról 93\%-ra változott abban az esetben amikor a célszemély csak egyik szeme látszódik, a visszadaott tulajdonságok pedig nagyvonalakban megyegyeznek. 
+Jól látható, hogy jelentős méretcsökkentésre a feldolgozás megbízhatósága 95\%-ról 93\%-ra változott abban az esetben, amikor a célszemély csak egyik szeme látszódik, a visszaadaott tulajdonságok pedig nagyvonalakban megegyeznek. 
 Az eredmények láttán megállapítható, hogy a Google Cloud Vision széles skálán érzékeli az elfordulást, még akkor is, amikor a célszemély egyik szeme látszódik csak (ugyan ilyenkor az arc tulajdonságainak illesztése nem pontos, de az elfordulás mértéke nagyvonalakban megfelel), és tömörítésre sem érzékeny.
-\\A probléma, hogy önmagában ez az API kevés lenne az elvárt működés implemetálására, mivel arcösszehaonlítást nem tartalmaz. Így ha mégis a használat mellett döntünk, az összehasonlító modult egy másik eszközzel kell megoldani.
+\\A probléma, hogy önmagában ez az API kevés lenne az elvárt működés implementálására, mivel arcösszehasonlítást nem tartalmaz. Így ha mégis a használat mellett döntünk, az összehasonlító modult egy másik eszközzel kell megoldani.
 
 \subsubsection{IBM Watson}
 A mesterséges intelligencia témakörében a legtöbb embernek először az IBM Watson ugrik be, úgyhogy érdemes lehet megnézni, hogy a képfeldolgozó modulja (Visual Recognition \cite{IBMWatson}) mit tud adni nekünk a mi témakörünkben. 
 \begin{itemize}
 \item megbízhatósági pontszámmal csoportokba sorolja a képeket, ami csoportosításokra használható (pl.: Person, female, bridesmaid)
-\item felimseri az arcokat, és visszadja a pozíciókat, életkort tippel (minimum és maximum értékkel), illetve a felismert arc nemét állapítja meg.
+\item felismeri az arcokat, és visszaadja a pozíciókat, életkort tippel (minimum és maximum értékkel), illetve a felismert arc nemét állapítja meg.
 \end{itemize}
 
 A dokumentációban\cite{WATSON_DETECT} mélyebbre ásva sem lehet találni semmi olyan visszaadott értéket, ami az arcelforduláshoz segítséget adna, így megállapítható hogy nem lesz segítségünkre ez az API.
@@ -92,7 +92,7 @@ A dokumentációban\cite{WATSON_DETECT} mélyebbre ásva sem lehet találni semm
 Arcösszehasonlítás szempontból is érdemes lehet megvizsgálni a Collections BETA\cite{WATSON_COLLECTIONS} verzióban lévő API-ját. A működési mechanizmus nagyon hasonló más collections típusú arcösszehasonlítást tartalmazó szolgáltatásokhoz. Először hozzáadjuk a képet egy általunk választott gyűjteményhez, majd egy már feltöltött képhez hasonlóakat tudunk keresni egy adott gyűjteményben. Ez a megoldás akár segíthet is arcösszehasonlításban, de ez esetben minden regisztráció után a képet egy új gyűjteményben kéne elhelyezni, majd ebben a gyűjteményben keresni később, ám nem erre lett elsősorban létrehozva ez a service. Az alapötlet az, hogy metadata adatokat lehet csatolni a feltöltött képekhez (pl.: név), így például egy visszatérő felhasználót név szerint tudnánk már szólítani. Ráerőltethető valamilyen szinten az összehasonlítás is, de elsősorban olyan szolgáltatást kéne keresni, ami két képről dönti el hogy egyeznek-e, és a képeket se kelljen tárolni harmadik félnél. Ezek alapján az IBM Watson ezen megoldását elvethetjük.
 
 \subsubsection{Google Mobile Vision}
-A Google Mobile Vision\cite{GMV} egy offline, iOS illetve Android eszközökön futó arcfelismerő szolgáltatás. Óriási előny hogy offline, viszont hátrány hogy nem portolható át szerveroldalra, így önmagában nem használható a mi céljainkra. Érdemes ugyan megfontolni azt, hogy jelenlegi működés alapján egy több másodperc hosszú videoból kiválasztunk N darab képkockát, és azt továbbítjuk a szervernek. Ha pontosan tudnánk, hogy a felhasználó mikortól, meddig mozdította a fejét, akkor a felküldendő képkockák mennyiségét csökkenteni lehetne, illetve későbbi precízebb felismerést (pl.: pislogásfelismeréshez egy nagyon kicsi intervallumban sok kép szükséges a gesztikuálció gyorsaságából adódóan) is segíthetünk, ha tudjuk hogy a hosszabb intervallumban hol található pontosan a számunkra érdekes részlet.
+A Google Mobile Vision\cite{GMV} egy offline, iOS illetve Android eszközökön futó arcfelismerő szolgáltatás. Óriási előny hogy offline, viszont hátrány hogy nem portolható át szerveroldalra, így önmagában nem használható a mi céljainkra. Érdemes ugyan megfontolni azt, hogy jelenlegi működés alapján egy több másodperc hosszú videóból kiválasztunk N darab képkockát, és azt továbbítjuk a szervernek. Ha pontosan tudnánk, hogy a felhasználó mikortól, meddig mozdította a fejét, akkor a felküldendő képkockák mennyiségét csökkenteni lehetne, illetve későbbi precízebb felismerést (pl.: pislogás felismeréséhez egy nagyon kicsi intervallumban sok kép szükséges a gesztikuláció gyorsaságából adódóan) is segíthetünk, ha tudjuk hogy a hosszabb intervallumban hol található pontosan a számunkra érdekes részlet.
 \\Problémát okozhat viszont ebben az esetben a telefonok minősége, és így a feldolgozás gyorsasága. Meg kell találni azt a határt, ahol már nem érdemes előfeldolgozni a képeket, mert több időbe telne, mint feldolgozás nélkül küldeni válogatás nélkül.
 \begin{figure}[h]
 \centering
@@ -101,7 +101,7 @@ A Google Mobile Vision\cite{GMV} egy offline, iOS illetve Android eszközökön 
 \end{figure}
 
 \subsubsection{Microsoft Project Oxford}
-A Microsoft fejlesztése első ránézésre is biztatónak tűnik, többek között példakódot is publikáltak C\# nyelven, ami egy videóról folyamatosan jelzi hogy a megjelenő arcok merrefele néznek, illetve arc összehaonlítást is biztosít számunkra. Összegezzük mit tud az a szolgáltatás:
+A Microsoft fejlesztése első ránézésre is biztatónak tűnik, többek között példakódot is publikáltak C\# nyelven, ami egy videóról folyamatosan jelzi hogy a megjelenő arcok merrefele néznek, illetve arc összehasonlítást is biztosít számunkra. Összegezzük mit tud az a szolgáltatás:
 
 \begin{figure}[h]
 \centering
@@ -109,7 +109,7 @@ A Microsoft fejlesztése első ránézésre is biztatónak tűnik, többek köz�
     \caption{A Microsoft által használt fogalmak a fej elfordulására \cite{roll_yaw_pitch}}
 \end{figure}
 
-Ezek alapján megállapítható, hogy a Microsoft Face API-ja minden fontos tulajdonságot biztosít számunkra, már csak azt kell megnézni, milyen minőségűek ezek a válaszok, mennire megbízható ez a szolgáltatás. Vizsgáljuk meg a Google Cloud Vision-nél használt képekkel a feldolgozás minőségét különböző minőségű képek esetén.
+Ezek alapján megállapítható, hogy a Microsoft Face API-ja minden fontos tulajdonságot biztosít számunkra, már csak azt kell megnézni, milyen minőségűek ezek a válaszok, mennyire megbízható ez a szolgáltatás. Vizsgáljuk meg a Google Cloud Vision-nél használt képekkel a feldolgozás minőségét különböző minőségű képek esetén.
 
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
@@ -138,7 +138,7 @@ Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb 
  \end{minipage}
 \end{figure}
 
-Jól látható, hogy ez az API nem képes olyan széles elfordulás-tartományban dolgozni mint a már vizsgált Google Cloud Vision. Amennyiben mindkét szem nem látszódik, az orr illesztése rossz helyre kerül és láthatóan az alapján próbálja a másik szemet illeszteni, ami teljesen hibás elfordulás eredményeket ad. Amennyiben kisebb elfordulás elegendő a kihívás-válasz implementációjához úgy amíg a keresett elfordulás még bőven a megbízhatóan felismert elfordulástartományon belül van, nem fog problémát okozni a nagy elfordulás esetén mutatott pontatlanság. Mivel ennek a szolgáltatásnak létezik arcösszehasonlító megoldása, mindenképp érdemes azt is megvizsgálni, hogy mindkét modul azonos szolgáltatáshoz tartozzon.
+Jól látható, hogy ez az API nem képes olyan széles elfordulás-tartományban dolgozni, mint a már vizsgált Google Cloud Vision. Amennyiben mindkét szem nem látszódik, az orr illesztése rossz helyre kerül és láthatóan az alapján próbálja a másik szemet illeszteni, ami teljesen hibás elfordulás eredményeket ad. Amennyiben kisebb elfordulás elegendő a kihívás-válasz implementációjához, úgy amíg a keresett elfordulás még bőven a megbízhatóan felismert elfordulás tartományon belül van, nem fog problémát okozni a nagy elfordulás esetén mutatott pontatlanság. Mivel ennek a szolgáltatásnak létezik arcösszehasonlító megoldása, mindenképp érdemes azt is megvizsgálni, hogy mindkét modul azonos szolgáltatáshoz tartozzon.
 
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
@@ -157,14 +157,14 @@ Jól látható, hogy az elfordulás mértéke drasztikusan befolyásolja az öss
 A Microsoft Face API-t megvizsgálva megállapítható, hogy minden számunkra szükséges funkcióval rendelkezik, azokat kellő körültekintéssel használva megbízható eredményeket kapunk. Ezért ezt érdemes beépíteni a szakdolgozat keretein belül.
 
 \subsubsection{Face++}
-Utolsó online megoldásként a Face++ szolgáltatását vizsgáltuk meg, amit többek között a Lenovo is használ saját célra. Mindenképpen pozitívum, hogy nincsen használati limit az ingyenes csomagban sem, viszont nem enged párhuzamos képfeldolgozást. 83 különböző tulajdonságot ad vissza egy felismert arcról, többek között a számunkra fontos "yaw\_angle"-t is \cite{FACEPP}. Ezen kívül a szokásos életkor, nem, különöző testrészek pozíciójat az arcon és még sok egyebet ismer fel számunkra.
-\\Összehasonlításra szintén használható, a Microsofthoz hasonló módon két képet vár (vagy egy előre felismert képnek az azonosítóját), amire három különböző százalékos értéket kapunk vissza \cite{FACEPP_COMPARE}. Ezek a százalékos értékek különböző hibaszázalék mellett mutatják annak a valószínűségét hogy a két kép ugyanahhoz a fizikai személyhez tartozik. Ez különösen akkor lehet hasznos, ha különböző érzékenységű adatokat akarunk védeni a szoftverünkkel, és így magas érzékenységű adathoz alacsonyabb hibahatárt várunk. Egy negyedik százalékos érték maga a végeleges valószínűség, nekünk egyelőre elég lesz azzal foglalkozni. Érdemes lehet főleg a limitmentessége és mindkét használható modulja miatt beépíteni a szakdolgozat keretében ezt a szolgáltatást is. 
+Utolsó online megoldásként a Face++ szolgáltatását vizsgáltuk meg, amit többek között a Lenovo is használ saját célra. Mindenképpen pozitívum, hogy nincsen használati limit az ingyenes csomagban sem, viszont nem enged párhuzamos képfeldolgozást. 83 különböző tulajdonságot ad vissza egy felismert arcról, többek között a számunkra fontos "yaw\_angle"-t is \cite{FACEPP}. Ezen kívül a szokásos életkor, nem, különböző testrészek pozícióját az arcon és még sok egyebet ismer fel számunkra.
+\\Összehasonlításra szintén használható, a Microsofthoz hasonló módon két képet vár (vagy egy előre felismert képnek az azonosítóját), amire három különböző százalékos értéket kapunk vissza \cite{FACEPP_COMPARE}. Ezek a százalékos értékek különböző hibaszázalék mellett mutatják annak a valószínűségét, hogy a két kép ugyanahhoz a fizikai személyhez tartozik. Ez különösen akkor lehet hasznos, ha különböző érzékenységű adatokat akarunk védeni a szoftverünkkel, és így magas érzékenységű adathoz alacsonyabb hibahatárt várunk. Egy negyedik százalékos érték maga a végeleges valószínűség, nekünk egyelőre elég lesz azzal foglalkozni. Érdemes lehet főleg a limitmentessége és mindkét használható modulja miatt beépíteni a szakdolgozat keretében ezt a szolgáltatást is. 
 
 \subsubsection{Egyéb vizsgált lehetőségek}
 
 \begin{itemize}
-\item mesterséges intelligencia függvénytárak (Dlib, opencv) offline saját megoldásra jó opciónak tűnnek, ám ezek megismerése és használata hosszabb időt igényel minthogy beleférjen a szakdolgozat keretébe. Bemutató videók alapján akár szemmozgás, pislogás felismerésére is használható, hosszútávon mindenképpen megfontolandó ennek használata/beépítése.
-\item BioID regisztráióhoz kötött, de ingyenes. Minimum két kép feltöltésével jelenlét ellenőrzést kínál hangsúlyozva, hogy jelenleg könnyen kijátszható a rendszer. Kihívás - válasz kritérium csatolható a kéréshez, ilyenkor ennek is meg kell felelni (arcelfordítás, akár egymás után többször is). Ez a működés szerinti csoportosításnak az a fele, amelyik saját maga implementálja a kihívást.
+\item mesterséges intelligencia függvénytárak (Dlib, opencv) offline saját megoldásra jó opciónak tűnnek, ám ezek megismerése és használata hosszabb időt igényel, minthogy beleférjen a szakdolgozat keretébe. Bemutató videók alapján akár szemmozgás, pislogás felismerésére is használható, hosszútávon mindenképpen megfontolandó ennek használata/beépítése.
+\item BioID regisztrációhoz kötött, de ingyenes. Minimum két kép feltöltésével jelenlét ellenőrzést kínál hangsúlyozva, hogy jelenleg könnyen kijátszható a rendszer. Kihívás - válasz kritérium csatolható a kéréshez, ilyenkor ennek is meg kell felelni (arcelfordítás, akár egymás után többször is). Ez a működés szerinti csoportosításnak az a fele, amelyik saját maga implementálja a kihívást.
 \item Lambda Labs Face Recognition API egyik számunkra szükséges modulhoz sem nyújt segítséget.
 \item FaceR szintén nem nyújt segítséget számunkra.
 \end{itemize}

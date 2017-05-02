@@ -1,11 +1,11 @@
 \section{Felhasználói dokumentáció}
-Ez a fejezet tartalmazza a segítségeta regisztráció illetve bejelentkezés folyamatának sikeres végrehajtásához. A felhasználói műveletek alapvetően két csoportra bonthatóak:
+Ez a fejezet tartalmazza a segítséget a regisztráció illetve bejelentkezés folyamatának sikeres végrehajtásához. A felhasználói műveletek alapvetően két csoportra bonthatóak:
 \begin{itemize}
-\item Azok a műveletek amiket a felhasználó a telefonjának böngészőjében hajt végre
+\item Azok a műveletek, amiket a felhasználó a telefonjának böngészőjében hajt végre
 \item És a telefonra telepített bejelentkezést segítő android alkalmazás kezelése
 \end{itemize}
 
-Egy sikeres bejelentkezéshez ennek megfelelően futnia kell egy weboldalnak amely előre definiált módon csatlakozik az E-Group IDX felhasználó-hitelesítési és azonosítási termékéhez.
+Egy sikeres bejelentkezéshez ennek megfelelően futnia kell egy weboldalnak amely, előre definiált módon csatlakozik az E-Group IDX felhasználó-hitelesítési és azonosítási termékéhez.
 A szakdolgozat keretein belül egy AngularJS weboldalt JavaEE (Spring keretrendszer) backend réteggel hoztunk létre és integráltuk a bejelentkezést a Spring Security rendszerébe.
 
 \subsection{Mobil eszköz minimum követelményei}
@@ -15,13 +15,13 @@ A rendszer működése többnyire egy LG G3 telefonnal volt tesztelve, gyors és
 \item Minimum 2GB RAM
 \item Quad-core 2.5 GHz Krait 400 CPU vagy erősebb
 \item Előlapi kamera
-\item NFC támogaottság
+\item NFC támogatottság
 \end{itemize}
 
-Természetesen ennél gyengébb eszközökön is fut az alkalmazás amennyiben minimum a 16-os SDK szintet (Jelly Bean) elére, és rendelkezik előlapi kamerával, ám a teljesítmény drasztikusan csökkenhet, szélsőséges esetben a bejelentkezéshez szükséges képtranszformációk sem kerülnek végrahajtásra, így a folyamat megszakadhat és a kérés elutasításra kerülhet.
+Természetesen ennél gyengébb eszközökön is fut az alkalmazás amennyiben minimum a 16-os SDK szintet (Jelly Bean) elér, és rendelkezik előlapi kamerával, ám a teljesítmény drasztikusan csökkenhet, szélsőséges esetben a bejelentkezéshez szükséges képtranszformációk sem kerülnek végrehajtásra, így a folyamat megszakadhat és a kérés elutasításra kerülhet.
 
 \subsection{Mobil alkalmazás telepítése}
-A mobil alkalmazás telepítését a telpítendő apk fájl birtokában azt megnyitva lehet elkezdeni. A műveletsor elején az android rendszer hozzáférést kér képkészítéshez, és NFC kommunikációhoz, ezek nélkül a telepítés nem tud folytatódni mivel elengedethetetlenek az alkalmazás megfelelő működéséhez (13. ábra).
+A mobil alkalmazás telepítését a telepítendő apk fájl birtokában azt megnyitva lehet elkezdeni. A műveletsor elején az android rendszer hozzáférést kér képkészítéshez, és NFC kommunikációhoz, ezek nélkül a telepítés nem tud folytatódni mivel elengedhetetlenek az alkalmazás megfelelő működéséhez (13. ábra).
 \\Miután minden komponens települt azt egy sikeres telepítést jelző felirat jelzi (14. ábra).
 \begin{figure}[h]
  \begin{minipage}{.5\textwidth} 
@@ -37,9 +37,9 @@ A mobil alkalmazás telepítését a telpítendő apk fájl birtokában azt megn
 \end{figure}
 
 \subsection{A webalkalmazás követelményei}
-Az egyetlen követelmény hogy csatlakozzon  E-Group IDX felhasználó-hitelesítési és azonosítási termékének egy olyan verziójához amiben megtalálható már a szakdolgozat keretében elkészített modul. Az integrálás módjáról a fejlesztői dokumentációban lehet olvasni.
+Az egyetlen követelmény hogy csatlakozzon  E-Group IDX felhasználó-hitelesítési és azonosítási termékének egy olyan verziójához, amiben megtalálható már a szakdolgozat keretében elkészített modul. Az integrálás módjáról a fejlesztői dokumentációban lehet olvasni.
 
-\subsection{Az authentikáló alkalmazás követleményei}
+\subsection{Az authentikáló alkalmazás követelményei}
 
 Ez a modul egy Wildfly 10.1.0 verziójú szerveren fut, Java 8-as verzió alatt. Az indítási paraméterek között szerepel a
 \begin{verbatim}
@@ -48,13 +48,13 @@ Ez a modul egy Wildfly 10.1.0 verziójú szerveren fut, Java 8-as verzió alatt.
 bejegyzés amely a minimum illetve a maximum allokálandó memóriát szabja meg. Ekkora memóriaterületen a rendszer működése megbízható, így ez minimum követelménynek tekinthető.
 
 
-\subsection{Mobil alkmalmazás figyelmeztető illetve hibaüzenetei}
+\subsection{Mobil alkalmazás figyelmeztető illetve hibaüzenetei}
 Ez a fejezet a mobil alkalmazás lehetséges üzeneteit mutatja be, és leírást ad a lehetséges okokra. Nézzük először a főoldal üzeneteit, amik még azelőtt történnek, hogy a kártyát regisztráció vagy bejelentkezés céljából a telefonhoz tartanánk.
 \begin{itemize}
 \item Az alkalmazás valószínűleg nem jó időben lett megnyitva (nem egy felületről való kattintással inicializálta magát). Az alkalmazást így nem lehet használni, ezt üzenet jelzi a képernyő közepén (23. ábra). Amennyiben mégis megpróbáljuk elindítani az NFC olvasást, hibaüzenet jelenik meg
 \item Nincsen minden kártyainformáció kitöltve (25. ábra). Ebben az esetben a jobb alsó sarokban található ceruza jelre kattintva megnyílik egy felület az adatok felvitelére. (26. ábra)
 A kártyaszám megadásánál fontos a kisbetűk és nagybetűk megkülönböztetése. A két dátum megadásánál az alapértelmezett Android naptár komponens nyílik meg.
-\item NFC ki van kapcsolva. Ez esetben bal alsó sarokban található csillagra kattintva a telefon megnyitja a beépített beálításkezelőt, ahol be lehet kapcsolni az NFC-t. A visza gombra kattintva a folyamat innen tovább folytatható (27. ábra).
+\item NFC ki van kapcsolva. Ez esetben bal alsó sarokban található csillagra kattintva a telefon megnyitja a beépített beállításkezelőt, ahol be lehet kapcsolni az NFC-t. A vissza gombra kattintva a folyamat innen tovább folytatható (27. ábra).
 \end{itemize}
 
 \begin{figure}[h]
@@ -83,15 +83,15 @@ A kártyaszám megadásánál fontos a kisbetűk és nagybetűk megkülönbözte
 
 
 \subsection{A regisztráció folyamata}
-A regisztráció folyamatát a rendszer működéséhez készített demonstrációs weboldalon keresztül mutatom be. Fontos megjegyezni, hogy akármilyen honlapra a weboldal technológiájától függően gyorsan vagy nehezebben, de integrálható a bejelentkezési modul, amennyiben az IDX szerveren be van állítva hogy fogadja a kéréseket az adott címről.
-\\A folyamat végrehajtásához az egész műveletsor Android mobiltelefonról kell hogy végrehajtódjon, személyi számítógépről az alkalmazás nem fog megnyílni, és így nem lehetséges bejelentkezni!
-\\Az oldal megnyitását követően a publikus főoldal látható. A regisztrációs oldalra való jutáshoz a Sign Up feliratra kell kattintani a bejelentkezés doboz alatt (15. ábra). A linkre kattintva megjelenik a regisztrációs felület (16. ábra). A szövegmezőbe kattintva adhatjuk meg a felhasználónevünket, majd a "START REGISTRATION" gombra kattintva indíthatjuk a regisztrációs folyamatot. Hibalehetőségek, amik esetén a műveletet megszakítja a rendszer és lehetőséget ad új felhazsnálónév megadására:
+A regisztráció folyamatát a rendszer működéséhez készített demonstrációs weboldalon keresztül mutatom be. Fontos megjegyezni, hogy akármilyen honlapra a weboldal technológiájától függően gyorsan vagy nehezebben, de integrálható a bejelentkezési modul, amennyiben az IDX szerveren be van állítva, hogy fogadja a kéréseket az adott címről.
+\\A folyamat végrehajtásához az egész műveletsor Android mobiltelefonról kell, hogy végrehajtódjon, személyi számítógépről az alkalmazás nem fog megnyílni, és így nem lehetséges bejelentkezni!
+\\Az oldal megnyitását követően a publikus főoldal látható. A regisztrációs oldalra való jutáshoz a "Sign Up" feliratra kell kattintani a bejelentkezés doboz alatt (15. ábra). A linkre kattintva megjelenik a regisztrációs felület (16. ábra). A szövegmezőbe kattintva adhatjuk meg a felhasználónevünket, majd a "START REGISTRATION" gombra kattintva indíthatjuk a regisztrációs folyamatot. Hibalehetőségek, amik esetén a műveletet megszakítja a rendszer és lehetőséget ad új felhasználónév megadására:
 \begin{itemize}
 \item A megadott felhasználónév már létezik a rendszerben (17. ábra)
 \item Nincsen megadva felhasználónév (18. ábra)
 \end{itemize}
 
-Amennyiben a megadott név szabad, úgy egy új gomb jelenik meg "OPEN APP" felirattal (19. ébra). 
+Amennyiben a megadott név szabad, úgy egy új gomb jelenik meg "OPEN APP" felirattal (19. ábra). 
 Erre a gombra kattintva a már feltelepített alkalmazás megnyílik, és a további információkat szolgáltatja.
 
 \begin{figure}[h]
@@ -126,7 +126,7 @@ Erre a gombra kattintva a már feltelepített alkalmazás megnyílik, és a tov�
 \end{figure}
 
 \subsection{Regisztrációs lépések a mobil alkalmazásban}
-A mobil alkamazás megnyitása után és már előzetesen elmenetett kártyaadatok esetén a képernyőn elhelyezkedő felirat jelzi a felhasználónak a következő lépést, ami az elektronikus személyi igazolványának telefonja hátuljához való érintése (20. ábra). Fontos, hogy ameddig a "Performing registration" jelzés látható (21. ábra), az igazolványt ne távolítsuk el a telefontól, mert az az adatok beolvasásának sikertelenségéhez vezet.Sikeres regisztráció esetén azt egy megerősítő üzenet fogadja a felhasználót, és gombnyomásra bezárja az alkalmazást, és visszatér a weboldalra amennyiben más művelet közben nem történt (22. ábra).
+A mobil alkalmazás megnyitása után és már előzetesen elmentett kártyaadatok esetén, a képernyőn elhelyezkedő felirat jelzi a felhasználónak a következő lépést, ami az elektronikus személyi igazolványának telefonja hátuljához való érintése (20. ábra). Fontos, hogy ameddig a "Performing registration" jelzés látható (21. ábra), az igazolványt ne távolítsuk el a telefontól, mert az az adatok beolvasásának sikertelenségéhez vezet. Sikeres regisztráció esetén azt egy megerősítő üzenet fogadja a felhasználót, és gombnyomásra bezárja az alkalmazást, és visszatér a weboldalra amennyiben más művelet közben nem történt (22. ábra).
 
 \begin{figure}[h]
  \begin{minipage}{.30\textwidth} 
@@ -148,9 +148,9 @@ A mobil alkamazás megnyitása után és már előzetesen elmenetett kártyaadat
 
 %\newpage
 \subsection{Bejelentkezés folyamata}
-Sikeres regisztráció után rögtön be lehet jelentkezni az adott weboldalra. Ehhez a főoldalon (15. ábra) a "LOGIN" gombra kell kattintani. Ezután átirányításra kerülünk az IDX szerverre, ahol a megjelenő szövegmezőbe a felhasználónév megadásával folytathatjuk a bejelentkezést (28. ábra). Fontos megjegyezni, hogy egyszer lehet csak próbálkozni a kihívás - válasz nehezebb kijátszása érdekében, így hibás adat megadása esetén a folyamatot előlről kell kezdeni.
+Sikeres regisztráció után rögtön be lehet jelentkezni az adott weboldalra. Ehhez a főoldalon (15. ábra) a "LOGIN" gombra kell kattintani. Ezután átirányításra kerülünk az IDX szerverre, ahol a megjelenő szövegmezőbe a felhasználónév megadásával folytathatjuk a bejelentkezést (28. ábra). Fontos megjegyezni, hogy egyszer lehet csak próbálkozni a kihívás - válasz nehezebb kijátszása érdekében, így hibás adat megadása esetén a folyamatot elölről kell kezdeni.
 \\Létező felhasználónév megadása esetén újabb oldal jelenik meg (29. ábra), ahol először a "Start App" gombra kattintva megnyílik a már regisztrációnál bemutatott alkalmazás.
-\\Az alkalmazásból visszatérve a bejelentkezés gombra kattintva folytathatjuk a bejelentkezést. Amennyiben a telefonon történt azonosítás is sikeres volt, továbbításra kerülünk a védett weboldalra. Hiba esetén a főoldalra kerülünk, és a folyamatot előről kell kezdeni.
+\\Az alkalmazásból visszatérve a bejelentkezés gombra kattintva folytathatjuk a bejelentkezést. Amennyiben a telefonon történt azonosítás is sikeres volt, továbbításra kerülünk a védett weboldalra. Hiba esetén a főoldalra kerülünk, és a folyamatot elölről kell kezdeni.
 
 
 \subsection{Bejelentkezés lépései a mobil alkalmazásban}
@@ -177,7 +177,7 @@ A kihívás teljesítése után felugró ablakban a "performing challenge verifi
 \end{figure}
 
 \subsection{Bejelentkezés elutasítása}
-Sikertelen azonosítás vagy kihívás teljesítés esetén a bejelntkezés elutasításra kerül. Az okok lehetnek:
+Sikertelen azonosítás vagy kihívás teljesítés esetén a bejelentkezés elutasításra kerül. Az okok lehetnek:
 
 \begin{itemize}
 \item A kártya azonosítása nem sikerült, az alkalmazásban megadott hibás adatok miatt, vagy egyéb kommunikációs probléma miatt (például túl hamar lett eltávolítva a kártya, gyenge volt az NFC jel, stb.) (33. ábra)
@@ -203,6 +203,6 @@ Sikertelen azonosítás vagy kihívás teljesítés esetén a bejelntkezés elut
  \end{minipage}
 \end{figure}
 \subsection{Kijelentkezés}
-A jelenlegi tesztoldal egyedüli funkciója hogy kiírja a bejelentkezett felhasználó regisztrált felhasználónevét. Kijelentkezés a menüpontban található kijelentkezés gombra kattintva hajtható végre. Ezután a session törlődik, és újból lehet bejelntkezéssel próbálkozni akár ugyanazzal a felhasználóval, akár egy másikkal.
+A jelenlegi tesztoldal egyedüli funkciója hogy kiírja a bejelentkezett felhasználó regisztrált felhasználónevét. Kijelentkezés a menüpontban található kijelentkezés gombra kattintva hajtható végre. Ezután a session törlődik, és újból lehet bejelentkezéssel próbálkozni akár ugyanazzal a felhasználóval, akár egy másikkal.
 
 \newpage

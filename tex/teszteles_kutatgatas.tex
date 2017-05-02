@@ -1,7 +1,7 @@
 \subsection{Modul tesztelések}
 Ebben a fejezetben a program azon részét fogom elemezni, amely az egyetlen igazán kritikus pontja a működésnek gyorsaság, megbízhatóság, és a helyes eredmények szempontjából, ez pedig a bejelentkezési folyamat. Ennek főbb lépései a következők:
 \begin{itemize}
-\item Személyi igazolvány szám ellenőrzés. Gyorsaság itt a többi lépéshez képest elhanyagolható, ugyanúgy mint a megbízhatóság, mivel kevés potenciális probléma léphet fel a folyamat közben.
+\item Személyi igazolvány szám ellenőrzés. Gyorsaság itt a többi lépéshez képest elhanyagolható, ugyanúgy, mint a megbízhatóság, mivel kevés potenciális probléma léphet fel a folyamat közben.
 \item  Kihívás - válasz kiértékelése. Ez a lépés sokkal hosszabb, több ponton is nagyobb a különböző hibák lehetősége, ezért ezt mindenképpen érdemes lehet megvizsgálni.
 \end{itemize}
 A kihívásra adott válasz (egy videostream) kiértékelése a következő lépésekben hajtódik végre:
@@ -16,7 +16,7 @@ A kihívásra adott válasz (egy videostream) kiértékelése a következő lép
 Ezekből a pontokból ami gyorsaság szempontjából kritikus lehet az a hármas (3) pont esetén a feldolgozás sebessége, és a kapott képek méretcsökkenése különböző tömörítési szintek esetén, illetve az ötödik (5) pont esetén szintén a különböző méretű és minőségű képek esetén az elfordulások felismerésének gyorsasága, minősége és az összehasonlítás megbízhatósága (itt a gyorsaság nem kritikus, mivel pontosan 1 db képet továbbít a jelenlegi algoritmus, szemben az arcelfordulás esetén továbbítandó akár 15 képpel ellentétben).
 \\Az első verziója az alkalmazásnak képtömörítést még nem végzett csak transzformációkat, ez súlyos mértékben befolyásolta a gyorsaságot. Érdemesnek látszott megvizsgálni, hogy különböző tömörítéseket mennyire gyorsan tudnak a végeszközök végrehajtani, és ezzel mennyire gyorsul a folyamat. De az is látható volt, hogy túl nagy mértékű tömörítés mind az arcelfordulás megállapítását mind az arcösszehasonlítás megbízhatóságát negatív irányban befolyásolja. A megfelelő egyensúlyt a megbízhatóság és a sebesség között prioritássá vált megtalálni.
 \\
-Tesztelés céljából az alkalmazást átalakítottam, bejelentkezés helyett 6 képet továbbít, majd az összesre mind a Microsoft Project Oxford mind a Face++ arceflismerő és arcösszehasonlító szolgáltatását igénybe veszi, az eredményeket pedig kiírja fájlba, amiből az összehasonlatásokat könnyen végre lehet hajtani. A tömörítés minősége a"YuvImage" "compressToJpeg" "quality" paramétát adja meg, ami egy 0-tól 100-ig terjedő skála, ahol 100 a maximum minőőség, 0 a kis méret.
+Tesztelés céljából az alkalmazást átalakítottam, bejelentkezés helyett 6 képet továbbít, majd az összesre mind a Microsoft Project Oxford mind a Face++ arcfelismerő és arcösszehasonlító szolgáltatását igénybe veszi, az eredményeket pedig kiírja fájlba, amiből az összehasonlításokat könnyen végre lehet hajtani. A tömörítés minősége a"YuvImage" "compressToJpeg" "quality" paraméterét adja meg, ami egy 0-tól 100-ig terjedő skála, ahol 100 a maximum minőség, 0 a kis méret.
 \\Nézzük meg a képkockák tömörítésének gyorsaságát a tesztelésre használt LG G3 telefon esetében.
 
 \begin{center}
@@ -29,7 +29,7 @@ Tesztelés céljából az alkalmazást átalakítottam, bejelentkezés helyett 6
 	\end{tabular}
 \end{center}
 
-Látható hogy a tömörítés illetve a külöböző transzformációk sebessége minél kisebb a célminőség, annál gyorsabb. A 100 pontos minőség és a 3 pontos között nagyságrendileg kétszeres különbség van, ami párhuzamos feldolgozás esetén is minimum felére csökkenti a művelettel töltött időt. Nézzeük meg adatforgalom szempontjából milyen értékeket kaptunk különböző tömörítettségi szintekre.
+Látható hogy a tömörítés illetve a különböző transzformációk sebessége minél kisebb a célminőség, annál gyorsabb. A 100 pontos minőség és a 3 pontos között nagyságrendileg kétszeres különbség van, ami párhuzamos feldolgozás esetén is minimum felére csökkenti a művelettel töltött időt. Nézzük meg adatforgalom szempontjából milyen értékeket kaptunk különböző tömörítettségi szintekre.
 
 
 \begin{center}
@@ -56,7 +56,7 @@ Az eredmények alapján megállapítható, hogy a méretek még drasztikusabb m�
 \end{center}
 
 A Face++ eredményeinek láttán megállapítható, hogy míg 100-as és 30-as tömörítésnél az eredmények nagyságrendileg megegyeznek (így lényegi különbség nincsen a továbbított képek méretében), addig 3-as tömörítése szinten a kapott értékek teljesen megbízhatatlanok, így azt alkalmazni nem lehet biztonságosan. 
-\\A válaszok sebessége (teljes adatforgalmmal): 
+\\A válaszok sebessége (teljes adatforgalommal): 
 \begin{center}
 	\begin{tabular}{|p{1cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
    	\hline
@@ -79,7 +79,7 @@ Mivel a jelenleg használt ingyenes Face++ API párhuzamos kéréseket nem enged
 	\end{tabular}
 \end{center}
 
-Az eredményeket áfutva látszik, hogy 100-as és 30-as tömörítésnél is nagyok az eltérések, de nagy elfordulásnál az elfordulások nagyságrendjét tartja a szolgáltatás, kis minőségnél ugyanúgy megbízhatatlan, habár talán szélesebb skálán működik mint a Face++. Gyorsasgában viszont jelentősen gyorsabb ez a megoldás: 
+Az eredményeket átfutva látszik, hogy 100-as és 30-as tömörítésnél is nagyok az eltérések, de nagy elfordulásnál az elfordulások nagyságrendjét tartja a szolgáltatás, kis minőségnél ugyanúgy megbízhatatlan, habár talán szélesebb skálán működik, mint a Face++. Gyorsaságban viszont jelentősen jobb ez a megoldás: 
 \begin{center}
 	\begin{tabular}{|p{1cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
    	\hline
@@ -90,7 +90,7 @@ Az eredményeket áfutva látszik, hogy 100-as és 30-as tömörítésnél is na
 	\end{tabular}
 \end{center}
 
-Az utolsó fontos megvizsgálandó kérdés az arcösszehasonlítás minősége. Szintén ugyanezeket a képeket vizsgálva a következő eredményeket kapjuk Face++ esetén (0-100 ig terjedő megbízhatósági skálán, ahol 100 jelenti hogy a két arc 100\%-os valószínűséggel megegyezik):
+Az utolsó fontos megvizsgálandó kérdés az arcösszehasonlítás minősége. Szintén ugyanezeket a képeket vizsgálva a következő eredményeket kapjuk Face++ esetén (0-100 ig terjedő megbízhatósági skálán, ahol 100 jelenti, hogy a két arc 100\%-os valószínűséggel megegyezik):
 \begin{center}
 	\begin{tabular}{|p{2cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
    	\hline
@@ -114,7 +114,7 @@ Ugyanez a teszt Microsoft Project Oxford esetén:
 	\end{tabular}
 \end{center}
 
-Megállapítható, hogy a Microsoft is 100-as illetve 30-es szint mellett működik megbízhatóan, és nagy elfordulásra drasztikusan csökkenhet az elfogadottság. Az előző esetben leírt algoritmmus módosítás ezek alapján ebben az esetben is kritikus a megfelelő működés eléréséhez.
+Megállapítható, hogy a Microsoft is 100-as illetve 30-es szint mellett működik megbízhatóan, és nagy elfordulásra drasztikusan csökkenhet az elfogadottság. Az előző esetben leírt algoritmus módosítás ezek alapján ebben az esetben is kritikus a megfelelő működés eléréséhez.
 \\Összegzésként feljegyezhetőek a következő tapasztalatok:
 \begin{itemize}
 \item Minőséget csökkenteni érdemes lehet, de a 3-as szint már nem megfelelő, a 30-ast kell implementálni. Különböző telefonokra ez a szint később változó lehet.
@@ -126,14 +126,14 @@ Megállapítható, hogy a Microsoft is 100-as illetve 30-es szint mellett műkö
 
 Az algoritmus optimalizálásának története:
 \begin{itemize}
-\item Verzió 1: A megkapott képeket továbbítja egyesével a harmadik félnek, majd a válaszok között amennyiben talál minimum akkora elfordulást mint a célelfordulás, akkor elfogadja ezt a lépést, és egy találomra kiválasztott képet továbbít arcösszehasonlításra
+\item Verzió 1: A megkapott képeket továbbítja egyesével a harmadik félnek, majd a válaszok között amennyiben talál minimum akkora elfordulást mint, a célelfordulás, akkor elfogadja ezt a lépést, és egy találomra kiválasztott képet továbbít arcösszehasonlításra
 \item Verzió 2: Arcösszehasonlítás az első lépés elé hozva, így elutasított arcösszehasonlítás esetén az elfordulások ellenőrzésével már nem megy az idő
 \item Verzió 3: Elfordulásokat csak addig ellenőrzi, amíg nem talál legalább egy megfelelőt, ezután a műveletet megszakítja és elfogadottnak veszi ezt a lépést, ezzel időt lehet spórolni
-\item Verzió 4: Elfordulások visszahozva első lépésnek. Nem csak olyan elfordulást keres, ami legalább egy bizonyos fokban el van fordulva, hanem olyat is, ami egy bizonyos foknál kevésbé van elfordulva (amennyiben ilyet nem talál, úgy a legközelebbit választja ki ehhez a számhoz), majd ezt a kiválasztott képettovábbítja összehasonlításra. Ezzel egy kevés sebességvesztés történik, de a megbízhatóság nagyban nő
+\item Verzió 4: Elfordulások visszahozva első lépésnek. Nem csak olyan elfordulást keres, ami legalább egy bizonyos fokban el van fordulva, hanem olyat is, ami egy bizonyos foknál kevésbé van elfordulva (amennyiben ilyet nem talál, úgy a legközelebbit választja ki ehhez a számhoz), majd ezt a kiválasztott képet továbbítja összehasonlításra. Ezzel egy kevés sebességvesztés történik, de a megbízhatóság nagyban nő
 \end{itemize}
 
 \subsubsection{Skálázhatóság}
-A rendszer leggynegébb pontja, a felhasználó mobil alkalmazását futtató eszköz minősége. Rövidtávú megoldás lehet minden képtranszformációt és tömörítést szerver oldalon végezni. Így ugyan a készített video egészét kéne adatforgalom szempontjából figyelembe venni, de ez még mindig jobb megoldás mintha bizonyos eszközökön nem tudna minden optimalizációs lépés végigftuni.
-Ez esetben viszont az authentikáló alkalmazás teljesítménye lesz mérvadó, de még mindig gyorsabban és ellenőrzöttebben kezelhető, pollozható, adott esetben bővíthető a szerver. Mind memória (a felküldött képeket memóriában tárolja a kihívás - válasz sikerességének eldöntéséig), mind sávszélesség szempontjából sok bejelentkezési kérelem egy időben elfogyaszthatja erőforrásainkat. Mind nagyobb memória vagy sávszélesség bitzosítása, mind több szerver üzemelése, és a kérések helyes elosztása (a mobil alkalmazásnakjeleznie kell, hogy minden kérése ugyanoda fusson be) csökkentheti a terhelést.
+A rendszer leggyengébb pontja, a felhasználó mobil alkalmazását futtató eszköz minősége. Rövidtávú megoldás lehet minden képtranszformációt és tömörítést szerver oldalon végezni. Így ugyan a készített video egészét kéne adatforgalom szempontjából figyelembe venni, de ez még mindig jobb megoldás mintha bizonyos eszközökön nem tudna minden optimalizációs lépés végigfutni.
+Ez esetben viszont az authentikáló alkalmazás teljesítménye lesz mérvadó, de még mindig gyorsabban és ellenőrzöttebben kezelhető, pollozható, adott esetben bővíthető a szerver. Mind memória (a felküldött képeket memóriában tárolja a kihívás - válasz sikerességének eldöntéséig), mind sávszélesség szempontjából sok bejelentkezési kérelem egy időben elfogyaszthatja erőforrásainkat. Mind nagyobb memória vagy sávszélesség biztosítása, mind több szerver üzemelése, és a kérések helyes elosztása (a mobil alkalmazásnak jeleznie kell, hogy minden kérése ugyanoda fusson be) csökkentheti a terhelést.
 
 

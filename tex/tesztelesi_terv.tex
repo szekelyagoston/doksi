@@ -121,7 +121,7 @@ Teszteset célja  & Mobil alkalmazás megnyitása hiányzó paraméterekkel \tab
   \hline
 Előfeltétel  & Alkalmazás nem fut, weboldalról indítjuk az applikációt, és hiba van a weboldalon \tabularnewline
   \hline
-Megjegyzés  & Hibát előidézni lehet ha a felhasználónév ellenőrzés után töröljük a felhasználónevet, és úgy nyitjuk meg az alkalmazást \tabularnewline
+Megjegyzés  & Hibát előidézni lehet, ha a felhasználónév ellenőrzés után töröljük a felhasználónevet, és úgy nyitjuk meg az alkalmazást \tabularnewline
   \hline
 Dátum  &  2017.04.27\tabularnewline
   \hline
@@ -216,7 +216,7 @@ Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, NFC nem aktív, 
   \hline
 Előfeltétel  & Alkalmazás nem fut, weboldalról indítjuk az applikációt, NFC ki van kapcsolva a telefonon, azon kívül minden szükséges beállítás meg van adva \tabularnewline
   \hline
-Megjegyzés  & Mivel ebben az esetben az NFC nem aktív, így a kártya megfelelő közelségét sem fogja felismerni, így erről tájékoztatni sem tuduk a felhasználót.\tabularnewline
+Megjegyzés  & Mivel ebben az esetben az NFC nem aktív, így a kártya megfelelő közelségét sem fogja felismerni, így erről tájékoztatni sem tudjuk a felhasználót.\tabularnewline
   \hline
 Dátum  &  2017.04.27\tabularnewline
   \hline
@@ -306,7 +306,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
   \hline
  Teszteset sorszáma  & 6 \tabularnewline
   \hline
-Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, kártyaadatok nincsenek megadva. Ennek ellenére kísérletet teszünk a műveletk folytatására, ezt a hibát fel kell felismerni\tabularnewline
+Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, kártyaadatok nincsenek megadva. Ennek ellenére kísérletet teszünk a műveletek folytatására, ezt a hibát fel kell felismerni\tabularnewline
   \hline
 Érintett rendszerek  &  Mobil alkalmazás, Weboldal \tabularnewline
   \hline
@@ -354,7 +354,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
   \hline
  Teszteset sorszáma  & 7 \tabularnewline
   \hline
-Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, kártyaadatok hiábsan vannak megadva. Ennek ellenére kísérletet teszünk a műveletk folytatására, ezt a hibát fel kell felismerni\tabularnewline
+Teszteset célja  & Mobil alkalmazás megnyitása weboldalról, kártyaadatok hibásan vannak megadva. Ennek ellenére kísérletet teszünk a műveletek folytatására, ezt a hibát fel kell felismerni\tabularnewline
   \hline
 Érintett rendszerek  &  Mobil alkalmazás, Weboldal \tabularnewline
   \hline
@@ -717,7 +717,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
   \hline
  Teszteset sorszáma  & 15 \tabularnewline
   \hline
-Teszteset célja  & Mobil authentikáció teljes kihyagása, ez esetben bejelentkezés megtagadásának ellenőrzése\tabularnewline
+Teszteset célja  & Mobil authentikáció teljes kihagyása, ez esetben bejelentkezés megtagadásának ellenőrzése\tabularnewline
   \hline
 Érintett rendszerek  & Weboldal, IDX szerver, Authentikáló alkalmazás \tabularnewline
   \hline
@@ -785,7 +785,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
  
  1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
   \hline
- 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció után piros üzenet jelzi, hogy az igazolványszám nem helyes\tabularnewline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authentikáció után piros üzenet jelzi, hogy az igazolványszám nem helyes\tabularnewline
   \hline
  3 & Mobil alkalmazás hibaoldal &"Back to login" gombra kattintás & IDX második bejelentkező felület jelenik meg\tabularnewline
   \hline
@@ -807,7 +807,7 @@ Teszteset célja  & Elutasított arcösszehasonlítás esetén bejelentkezés me
   \hline
 Érintett rendszerek  & Weboldal, IDX szerver, Authentikáló alkalmazás, Mobil alkalmazás \tabularnewline
   \hline
-Előfeltétel  & 14. teszteset teljesülése, Mobil alkalmazás helyesen inicializálódva, nem a személyi igazolvány tulajdonosa hajta végre a műveleteket \tabularnewline
+Előfeltétel  & 14. teszteset teljesülése, Mobil alkalmazás helyesen inicializálódva, nem a személyi igazolvány tulajdonosa hajtja végre a műveleteket \tabularnewline
   \hline
 Megjegyzés  &\tabularnewline
   \hline
@@ -830,7 +830,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
  
  1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
   \hline
- 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authentikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
   \hline
  3 & Mobil alkalmazás kihívás oldal & "Start challenge" gombra kattintás & Visszaszámlálás után a megjelenő kihívás végrehajtása\tabularnewline
   \hline
@@ -879,7 +879,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
  
  1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
   \hline
- 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authentikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
   \hline
  3 & Mobil alkalmazás kihívás oldal & "Start challenge" gombra kattintás & Visszaszámlálás után a megjelenő kihívás végrehajtása, de rossz irányba történő fejfordítással\tabularnewline
   \hline
@@ -929,7 +929,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
  
  1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
   \hline
- 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció és személyi igazolvány szám ellenőrzés után piros üzenet jelzi, hogy abejelentkezési időkeretből kiléptünk\tabularnewline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authentikáció és személyi igazolvány szám ellenőrzés után piros üzenet jelzi, hogy a bejelentkezési időkeretből kiléptünk\tabularnewline
  3 & Mobil alkalmazás kihívás oldal & "Return to login page" gombra kattintás & IDX második bejelentkező felülete megjelenik\tabularnewline
   \hline
  4 & IDX második bejelentkező felülete & "Bejelentkezés gombra" kattintás & Bejelentkező főoldal megnyílik, nem vagyunk authentikálva \tabularnewline
@@ -973,7 +973,7 @@ Sorsz. & Felület & Lépés leírása & Várt eredmény \tabularnewline
  
  1 & IDX második bejelentkező felülete & "Open App" gombra kattintás & Mobil alkalmazás megnyílik, zöld szöveg jelzi, hogy a műveletet folytathatjuk\tabularnewline
   \hline
- 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authnetikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
+ 2 & Mobil alkalmazás főoldal & Személyi igazolvány a mobiltelefon hátlapjához tartása & BAC authentikáció és személyi igazolvány szám ellenőrzés után zöld üzenet jelzi, hogy a bejelentkezés első lépése sikeres volt\tabularnewline
   \hline
  3 & Mobil alkalmazás kihívás oldal & "Start challenge" gombra kattintás & Visszaszámlálás után a megjelenő kihívás végrehajtása\tabularnewline
   \hline
