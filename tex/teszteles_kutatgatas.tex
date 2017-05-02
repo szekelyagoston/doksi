@@ -44,7 +44,7 @@ Látható hogy a tömörítés illetve a különböző transzformációk sebess�
 
 Az eredmények alapján megállapítható, hogy a méretek még drasztikusabb mértékben csökkentek. A 100 pontos és a 30 pontos méret között nagyságrendileg 600kb különbség van, ami 15 kép esetén $15*600 = 9000kb$ azaz nagyságrendileg 9MB adatforgalom illetve a kommunikáció sebessége miatti sebesség változást okoz.
 \\Az alkalmazás ezt a megállapítást követő verziója a lehető legkisebbre tömörítette a képeket, ez esetben pedig a megbízhatóság csökkent. Mind a Microsoft Project Oxford, mind a Face++ válaszai nem tűntek elég precíznek, így érdemessé vált megvizsgálni különböző minőségű képekre a válaszok minőségét, illetve gyorsaságát.
-
+Balra fordulás esetén az elfordulások:
 \begin{center}
 	\begin{tabular}{|p{2cm}|p{1,5cm} |p{1,5cm} | p{1,5cm}|p{1,5cm}|p{1,5cm}|p{1,5cm}|}
    	\hline
@@ -134,6 +134,6 @@ Az algoritmus optimalizálásának története:
 
 \subsubsection{Skálázhatóság}
 A rendszer leggyengébb pontja, a felhasználó mobil alkalmazását futtató eszköz minősége. Rövidtávú megoldás lehet minden képtranszformációt és tömörítést szerver oldalon végezni. Így ugyan a készített video egészét kéne adatforgalom szempontjából figyelembe venni, de ez még mindig jobb megoldás mintha bizonyos eszközökön nem tudna minden optimalizációs lépés végigfutni.
-Ez esetben viszont az authentikáló alkalmazás teljesítménye lesz mérvadó, de még mindig gyorsabban és ellenőrzöttebben kezelhető, pollozható, adott esetben bővíthető a szerver. Mind memória (a felküldött képeket memóriában tárolja a kihívás - válasz sikerességének eldöntéséig), mind sávszélesség szempontjából sok bejelentkezési kérelem egy időben elfogyaszthatja erőforrásainkat. Mind nagyobb memória vagy sávszélesség biztosítása, mind több szerver üzemelése, és a kérések helyes elosztása (a mobil alkalmazásnak jeleznie kell, hogy minden kérése ugyanoda fusson be) csökkentheti a terhelést.
+Ez esetben viszont az authentikáló alkalmazás teljesítménye lesz mérvadó, de még mindig gyorsabban és ellenőrzöttebben kezelhető, pollozható, adott esetben bővíthető a szerver. Mind memória (a felküldött képeket memóriában tárolja a kihívás - válasz sikerességének eldöntéséig), mind sávszélesség szempontjából sok bejelentkezési kérelem egy időben elfogyaszthatja erőforrásainkat. Nagyobb memória vagy sávszélesség biztosítása, több szerver üzemelése, és a kérések helyes elosztása (a mobil alkalmazásnak jeleznie kell a célszervert, hogy minden kérése ugyanoda fusson be) csökkentheti a terhelést.
 
 
