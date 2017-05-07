@@ -31,7 +31,7 @@ Ezeket a kérdéseket mindenképp körül kell járni a tesztelés szakaszában,
 	\end{tabular}
 \end{center}
 
-A szakdolgozat keretein belül a második esetet, tehát a felhasználó eszközén történő transzformációt valósítottuk meg. A tesztelés feladata lesz a megfelelő paraméterek beállítása a képtömörítéshez, hogy a minimalizáljuk azt az adatmennyiséget illetve sebességet, ami az adott képfeldolgozó eszköz megbízható működéséhez még szükséges.
+A szakdolgozat keretein belül a második esetet, tehát a felhasználó eszközén történő transzformációt valósítottuk meg. A tesztelés feladata lesz a megfelelő paraméterek beállítása a képtömörítéshez, hogy minimalizáljuk azt az adatmennyiséget illetve sebességet, ami az adott képfeldolgozó eszköz megbízható működéséhez még szükséges.
 
 \subsection{Képfeldolgozó eszközök}
 Több online illetve offline képfeldolgozási lehetőséget vizsgáltunk meg, ezeknek egy része számunkra jelenleg nem használható, vagy használata nem fér bele a szakdolgozat kereteibe. A jelenlegi kihívás - válasz megoldásunk arc jobbra illetve balra fordulását keresi, illetve a két arc összetartozóságát állapítja meg, így elsősorban erre kihegyezve jegyeztük fel a talált lehetőségeket, de a jövőbeni fejlesztéseket szem előtt tartva más kihívás - válasz megoldásokra való használhatóságot is figyeltünk.
@@ -41,7 +41,7 @@ A Google Cloud Vision API \cite{GoogleCloudVision} A Google Cloud Platform Machi
 \begin{itemize}
 \item Különböző tárgyakat, élőlényeket, objektumokat ismer fel a képen és pozícionál
 \item Tartalom moderálásra használható, szűrhet felnőtt, hamisított, erőszakos tartalomra vagy orvosi részleteket tartalmazó részekre (amik szintén rossz hatással lehetnek arra fel nem készült személyek számára)
-\item Hasonló képeket keres az interneten, így például egy arcról eldönthet, hogy melyik celebre hasonlít a legjobban
+\item Hasonló képeket keres az interneten, így például egy arcról eldöntheti, hogy melyik celebre hasonlít a legjobban
 \item Visszaadja a felismert képeket minden tulajdonságukkal (szemöldök, száj pozíciók, stb.), illetve a felismert érzelmeket
 \end{itemize}
 
@@ -53,12 +53,12 @@ Az eredmények (1. ábra, 2. ábra): \\
  \begin{minipage}{.5\textwidth} 
 \centering
     \includegraphics[scale=0.3]{img/cloud_vision_left}
-    \caption{Balra néző kép, 25 fokos elfordulás}
+    \caption{Balra néző kép, 25 fokos becsült elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
 \centering
      \includegraphics[scale=0.3]{img/cloud_vision_very_left}
-     \caption{Balra néző kép, 52 fokos elfordulás}
+     \caption{Balra néző kép, 52 fokos becsült elfordulás}
  \end{minipage}
 \end{figure}
 
@@ -67,12 +67,12 @@ Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb 
  \begin{minipage}{.5\textwidth} 
 \centering
     \includegraphics[scale=0.3]{img/cloud_vision_left_compressed}
-    \caption{Balra néző tömörített kép, 25 fokos elfordulás}
+    \caption{Balra néző tömörített kép, 25 fokos becsült elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
 \centering
      \includegraphics[scale=0.3]{img/cloud_vision_very_left_compressed}
-     \caption{Balra néző tömörített kép, 51 fokos elfordulás}
+     \caption{Balra néző tömörített kép, 51 fokos becsült elfordulás}
  \end{minipage}
 \end{figure}
 
@@ -81,15 +81,15 @@ Az eredmények láttán megállapítható, hogy a Google Cloud Vision széles sk
 \\A probléma, hogy önmagában ez az API kevés lenne az elvárt működés implementálására, mivel arcösszehasonlítást nem tartalmaz. Így ha mégis a használat mellett döntünk, az összehasonlító modult egy másik eszközzel kell megoldani.
 
 \subsubsection{IBM Watson}
-A mesterséges intelligencia témakörében a legtöbb embernek először az IBM Watson ugrik be, úgyhogy érdemes lehet megnézni, hogy a képfeldolgozó modulja (Visual Recognition \cite{IBMWatson}) mit tud adni nekünk a mi témakörünkben. 
+Érdemes megvizsgálni, hogy az IBM Watson képfeldolgozó modulja (Visual Recognition \cite{IBMWatson}) mit tud adni nekünk a mi témakörünkben. 
 \begin{itemize}
 \item megbízhatósági pontszámmal csoportokba sorolja a képeket, ami csoportosításokra használható (pl.: Person, female, bridesmaid)
 \item felismeri az arcokat, és visszaadja a pozíciókat, életkort tippel (minimum és maximum értékkel), illetve a felismert arc nemét állapítja meg.
 \end{itemize}
 
-A dokumentációban\cite{WATSON_DETECT} mélyebbre ásva sem lehet találni semmi olyan visszaadott értéket, ami az arcelforduláshoz segítséget adna, így megállapítható hogy nem lesz segítségünkre ez az API.
+A dokumentációban \cite{WATSON_DETECT} mélyebbre ásva sem lehet találni semmi olyan visszaadott értéket, ami az arcelforduláshoz segítséget adna, így megállapítható hogy nem lesz segítségünkre ez az API.
 
-Arcösszehasonlítás szempontból is érdemes lehet megvizsgálni a Collections BETA\cite{WATSON_COLLECTIONS} verzióban lévő API-ját. A működési mechanizmus nagyon hasonló más collections típusú arcösszehasonlítást tartalmazó szolgáltatásokhoz. Először hozzáadjuk a képet egy általunk választott gyűjteményhez, majd egy már feltöltött képhez hasonlóakat tudunk keresni egy adott gyűjteményben. Ez a megoldás akár segíthet is arcösszehasonlításban, de ez esetben minden regisztráció után a képet egy új gyűjteményben kéne elhelyezni, majd ebben a gyűjteményben keresni később, ám nem erre lett elsősorban létrehozva ez a szolgáltatás. Az alapötlet az, hogy metadata adatokat lehet csatolni a feltöltött képekhez (pl.: név), így például egy visszatérő felhasználót név szerint tudnánk már szólítani. Ráerőltethető valamilyen szinten az összehasonlítás is, de elsősorban olyan szolgáltatást kéne keresni, ami két képről dönti el hogy egyeznek-e, és a képeket se kelljen tárolni harmadik félnél. Ezek alapján az IBM Watson ezen megoldását elvethetjük.
+Arc összehasonlítás szempontból is érdemes lehet megvizsgálni a Collections BETA\cite{WATSON_COLLECTIONS} verzióban lévő API-ját. A működési mechanizmus nagyon hasonló más collections típusú arcösszehasonlítást tartalmazó szolgáltatásokhoz. Először hozzáadjuk a képet egy általunk választott gyűjteményhez, majd egy már feltöltött képhez hasonlóakat tudunk keresni egy adott gyűjteményben. Ez a megoldás akár segíthet is arcösszehasonlításban, de ez esetben minden regisztráció után a képet egy új gyűjteményben kéne elhelyezni, majd ebben a gyűjteményben keresni később, ám nem erre lett elsősorban létrehozva ez a szolgáltatás. Az alapötlet az, hogy metadata adatokat lehet csatolni a feltöltött képekhez (pl.: név), így például egy visszatérő felhasználót név szerint tudnánk már szólítani. Ráerőltethető valamilyen szinten az összehasonlítás is, de elsősorban olyan szolgáltatást kéne keresni, ami két képről dönti el hogy egyeznek-e, és a képeket se kelljen tárolni harmadik félnél. Ezek alapján az IBM Watson ezen megoldását elvethetjük.
 
 \subsubsection{Google Mobile Vision}
 A Google Mobile Vision\cite{GMV} egy offline, iOS illetve Android eszközökön futó arcfelismerő szolgáltatás. Óriási előny hogy offline, viszont hátrány hogy nem portolható át szerveroldalra, így önmagában nem használható a mi céljainkra. Érdemes ugyan megfontolni azt, hogy jelenlegi működés alapján egy több másodperc hosszú videóból kiválasztunk N darab képkockát, és azt továbbítjuk a szervernek. Ha pontosan tudnánk, hogy a felhasználó mikortól, meddig mozdította a fejét, akkor a felküldendő képkockák mennyiségét csökkenteni lehetne, illetve későbbi precízebb felismerést (pl.: pislogás felismeréséhez egy nagyon kicsi intervallumban sok kép szükséges a gesztikuláció gyorsaságából adódóan) is segíthetünk, ha tudjuk hogy a hosszabb intervallumban hol található pontosan a számunkra érdekes részlet.
@@ -115,12 +115,12 @@ A Microsoft Face API-ja minden fontos tulajdonságot biztosít számunkra, már 
  \begin{minipage}{.5\textwidth} 
 \centering
     \includegraphics[scale=0.3]{img/mpo_left}
-    \caption{Balra néző kép, 21.8 fokos \newline elfordulás}
+    \caption{Balra néző kép, 21.8 fokos \newline becsült elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
 \centering
      \includegraphics[scale=0.3]{img/mpo_very_left}
-     \caption{Balra néző kép, 15 fokos elfordulás}
+     \caption{Balra néző kép, 15 fokos becsült elfordulás}
  \end{minipage}
 \end{figure}
 
@@ -129,12 +129,12 @@ Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb 
  \begin{minipage}{.5\textwidth} 
 \centering
     \includegraphics[scale=0.3]{img/mpo_left_compressed}
-    \caption{Balra néző tömörített kép, 21.8 fokos elfordulás}
+    \caption{Balra néző tömörített kép, 21.8 fokos becsült elfordulás}
  \end{minipage}
  \begin{minipage}{.5\textwidth} 
 \centering
      \includegraphics[scale=0.3]{img/mpo_very_left_compressed}
-     \caption{Balra néző tömörített kép, 19.5 fokos elfordulás}
+     \caption{Balra néző tömörített kép, 19.5 fokos becsült elfordulás}
  \end{minipage}
 \end{figure}
 
@@ -158,7 +158,7 @@ A Microsoft Face API-t megvizsgálva megállapítható, hogy minden számunkra s
 
 \subsubsection{Face++}
 Utolsó online megoldásként a Face++ szolgáltatását vizsgáltuk meg, amit többek között a Lenovo is használ saját célra. Mindenképpen pozitívum, hogy nincsen használati limit az ingyenes csomagban sem, viszont nem enged párhuzamos képfeldolgozást. 83 különböző tulajdonságot ad vissza egy felismert arcról, többek között a számunkra fontos "yaw\_angle"-t is \cite{FACEPP}. Ezen kívül a szokásos életkor, nem, különböző testrészek pozícióját az arcon és még sok egyebet ismer fel.
-\\Összehasonlításra szintén használható, a Microsofthoz hasonló módon két képet vár (vagy egy előre felismert képnek az azonosítóját), amire három különböző százalékos értéket kapunk vissza \cite{FACEPP_COMPARE}. Ezek a százalékos értékek különböző hibaszázalék mellett mutatják annak a valószínűségét, hogy a két kép ugyanahhoz a fizikai személyhez tartozik. Ez különösen akkor lehet hasznos, ha különböző érzékenységű adatokat akarunk védeni a szoftverünkkel, és így magas érzékenységű adathoz alacsonyabb hibahatárt várunk. Egy negyedik százalékos érték maga a végeleges valószínűség, nekünk egyelőre elég lesz azzal foglalkozni. Érdemes lehet főleg a limitmentessége és mindkét használható modulja miatt beépíteni a szakdolgozat keretében ezt a szolgáltatást is. 
+\\Összehasonlításra szintén használható, a Microsofthoz hasonló módon két képet vár (vagy egy előre felismert képnek az azonosítóját), amire három különböző százalékos értéket kapunk vissza \cite{FACEPP_COMPARE}. Ezek a százalékos értékek különböző hibaszázalék mellett mutatják annak a valószínűségét, hogy a két kép ugyanahhoz a fizikai személyhez tartozik. Ez különösen akkor lehet hasznos, ha különböző érzékenységű adatokat akarunk védeni a szoftverünkkel, és így magas érzékenységű adathoz alacsonyabb hibahatárt várunk. Egy negyedik százalékos érték maga a végleges valószínűség, nekünk egyelőre elég lesz azzal foglalkozni. Érdemes lehet főleg a limitmentessége és mindkét használható modulja miatt beépíteni a szakdolgozat keretében ezt a szolgáltatást is. 
 
 \subsubsection{Egyéb vizsgált lehetőségek}
 
