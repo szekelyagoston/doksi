@@ -45,11 +45,11 @@ A Google Cloud Vision API \cite{GoogleCloudVision} A Google Cloud Platform Machi
 \item Különböző tárgyakat, élőlényeket, objektumokat ismer fel a képen és pozícionál
 \item Tartalom moderálásra használható, szűrhet felnőtt, hamisított, erőszakos tartalomra vagy orvosi részleteket tartalmazó részekre (amik szintén rossz hatással lehetnek arra fel nem készült személyek számára)
 \item Hasonló képeket keres az interneten, így például egy arcról eldöntheti, hogy melyik celebre hasonlít a legjobban
-\item Visszaadja a felismert képeket minden tulajdonságukkal (szemöldök, száj pozíciók, stb.), illetve a felismert érzelmeket
+\item Visszaadja a felismert képeket minden tulajdonságukkal (szemöldök, száj pozíciók, stb.), illetve a felismert érzelmeket. Ezen felül megbízhatósági értékeket is küld válaszul, mégpedig "detectionConfidence" és "landmarkingConfidence" néven. Előző annak a a százalékos megbízhatósági értéke, hogy a felismert arc tényleg egy emberi arc, második esetben pedig a különböző arcon felismert elemek meghatárzosásának pontossága. Alacsony "landmarkingConfidence" esetén a fej elfordulás megbízhatatlan lehet, ezt kihasználhatjuk hibás eredmények felismerésében és elvetésében.
 \end{itemize}
 
-Az utolsó pontot tudjuk mi ez esetben kihasználni, mégpedig a visszaadaott arc pozícióját, ami a Roll, Tilt, Pan hármasból a Pan.
-\\Nagyon fontos a különböző API-k vizsgálatakor, hogy mekkora elfordulásig ismerik fel az arcokat a képen. Első tesztnek 3 képet használtam, egy kamera felé nézőt, egy picit elfordítottat és egy nagyon elfordítottat (ebben az esetben csak 1 szem látszódik).
+Az utolsó pontot tudjuk mi ez esetben kihasználni, mégpedig a visszaadott arc pozícióját, ami a Roll, Tilt, Pan hármasból a Pan (A szokásos fejelfordulás esetén használt megnevezés a "yaw", amit az API leírása szerint itt a Pan érték ad vissza).
+\\Nagyon fontos a különböző API-k vizsgálatakor, hogy mekkora elfordulásig ismerik fel az arcokat a képen. Első tesztnek 2 képet használtam, egy picit elfordítottat és egy nagyon elfordítottat (ebben az esetben csak 1 szem látszódik).
 Az eredmények (1. ábra, 2. ábra): \\
 
 \begin{figure}[h]
@@ -79,7 +79,7 @@ Vizsgáljuk meg külön mi történik a feldolgozás eredményével a komolyabb 
  \end{minipage}
 \end{figure}
 
-Jól látható, hogy jelentős méretcsökkentésre a feldolgozás megbízhatósága 95\%-ról 93\%-ra változott abban az esetben, amikor a célszemély csak egyik szeme látszódik, a visszaadaott tulajdonságok pedig nagyvonalakban megegyeznek. 
+Jól látható, hogy jelentős méretcsökkentésre a feldolgozás megbízhatósága (a kék sávval jelzett "confidence" érték, ami a visszaadott "detectionConfidence" tulajdonság) 95\%-ról 93\%-ra változott abban az esetben, amikor a célszemély csak egyik szeme látszódik, a visszaadaott tulajdonságok pedig nagyvonalakban megegyeznek. 
 Az eredmények láttán megállapítható, hogy a Google Cloud Vision széles skálán érzékeli az elfordulást, még akkor is, amikor a célszemély egyik szeme látszódik csak (ugyan ilyenkor az arc tulajdonságainak illesztése nem pontos, de az elfordulás mértéke hasonló), és tömörítésre sem érzékeny.
 \\A probléma, hogy önmagában ez az API kevés lenne az elvárt működés implementálására, mivel arcösszehasonlítást nem tartalmaz. Így ha mégis a használat mellett döntünk, az összehasonlító modult egy másik eszközzel kell megoldani.
 
